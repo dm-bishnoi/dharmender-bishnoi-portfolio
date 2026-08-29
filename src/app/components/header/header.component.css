@@ -1,0 +1,160 @@
+:host {
+  display: block;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(251, 250, 247, 0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 0 var(--side);
+  height: 64px;
+}
+
+.header-name {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 17px;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  padding: 10px 0;
+}
+
+.header-name__last {
+  font-weight: 500;
+  color: var(--ink-muted);
+}
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  font-size: 14px;
+}
+
+.site-nav a {
+  position: relative;
+  color: var(--ink-light);
+  padding: 4px 0;
+  transition: color 0.2s;
+}
+
+.site-nav a:hover {
+  color: var(--ink);
+}
+
+.site-nav a.active {
+  color: var(--ink);
+}
+
+.site-nav a.active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: var(--accent);
+}
+
+.header-cta {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  padding: 12px 18px;
+  border-radius: 6px;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+}
+
+.header-cta:hover {
+  background: var(--accent);
+  color: white;
+}
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  z-index: 10;
+}
+
+.hamburger span {
+  display: block;
+  width: 20px;
+  height: 1.5px;
+  background: var(--ink);
+  transition: transform 0.3s, opacity 0.2s;
+  transform-origin: center;
+}
+
+.hamburger.open span:first-child {
+  transform: translateY(3.25px) rotate(45deg);
+}
+
+.hamburger.open span:last-child {
+  transform: translateY(-3.25px) rotate(-45deg);
+}
+
+.nav-cta {
+  display: none;
+}
+
+@media (max-width: 700px) {
+  .hamburger {
+    display: flex;
+  }
+
+  .header-cta {
+    display: none;
+  }
+
+  .nav-cta {
+    display: inline-block;
+    margin-top: 16px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 10px 22px !important;
+    border-radius: 6px;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .nav-cta:hover {
+    background: var(--accent);
+    color: white;
+  }
+
+  .site-nav {
+    position: fixed;
+    inset: 0;
+    background: rgba(251, 250, 247, 0.98);
+    backdrop-filter: blur(20px);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    font-size: 22px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+    z-index: 5;
+  }
+
+  .site-nav.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}

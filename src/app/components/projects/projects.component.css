@@ -1,0 +1,247 @@
+:host {
+  display: block;
+}
+
+.projects {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 80px var(--side);
+  border-top: 1px solid var(--border);
+}
+
+/* Section head — full-width editorial lede, breaks the
+   heading-left/content-right monotony. */
+.projects-head {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 60px;
+  align-items: start;
+  margin-bottom: 56px;
+}
+
+h2 {
+  font-family: var(--font-heading);
+  font-size: clamp(28px, 3.5vw, 40px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  margin: 0;
+}
+
+.projects-lede {
+  font-size: 18px;
+  line-height: 1.65;
+  color: var(--ink-light);
+  margin: 0;
+  max-width: 540px;
+}
+
+/* Featured project — visual first, copy reads beside it. */
+.project-featured {
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 48px 0;
+  margin-bottom: 48px;
+}
+
+.project-featured-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  gap: 64px;
+  align-items: start;
+}
+
+.project-featured-copy {
+  min-width: 0;
+}
+
+.project-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 12px;
+  font-family: var(--font-mono);
+  color: var(--ink-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 12px;
+}
+
+.project-featured h3 {
+  font-family: var(--font-heading);
+  font-size: clamp(24px, 3vw, 34px);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  margin: 0 0 16px;
+}
+
+.project-desc {
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--ink-light);
+  margin: 0 0 20px;
+  max-width: 540px;
+}
+
+.project-context {
+  border-left: 2px solid var(--accent);
+  padding-left: 16px;
+  margin: 0 0 20px;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--ink-light);
+}
+
+.project-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-muted);
+  margin-bottom: 4px;
+}
+
+.project-highlights {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.project-highlights li {
+  position: relative;
+  padding-left: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--ink-light);
+  margin-bottom: 8px;
+}
+
+.project-highlights li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 10px;
+  width: 5px;
+  height: 1px;
+  background: var(--accent);
+}
+
+/* Screenshot placeholder — a clean box to swap for a real <img> later. */
+.visual-frame--project {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  background: #f5f4f0;
+}
+
+.visual-frame--project .visual-frame__label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-muted);
+  border-bottom: 1px solid var(--border);
+  padding: 10px 16px;
+  background: #fff;
+}
+
+.visual-frame--project .visual-frame__box {
+  min-height: 280px;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.visual-frame--project .visual-frame__hint {
+  font-size: 13px;
+  color: var(--ink-muted);
+  font-family: var(--font-mono);
+}
+
+.visual-frame--project .visual-frame__note {
+  display: block;
+  font-size: 12px;
+  color: var(--ink-muted);
+  border-top: 1px solid var(--border);
+  padding: 10px 16px;
+  background: #fff;
+  font-family: var(--font-mono);
+}
+
+/* Secondary project — smaller, quieter. */
+.project--secondary {
+  margin-bottom: 0;
+}
+
+.project--secondary h3 {
+  font-family: var(--font-heading);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin: 0 0 10px;
+}
+
+.project--secondary .project-desc {
+  margin-bottom: 12px;
+}
+
+.project-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.project-links li {
+  margin-bottom: 10px;
+}
+
+.project-links a {
+  display: inline-block;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ink);
+  padding: 12px 0;
+  transition: color 0.2s;
+}
+
+.project-links a:hover {
+  color: var(--accent);
+}
+
+.project-link-desc {
+  font-weight: 400;
+  color: var(--ink-muted);
+}
+
+@media (max-width: 980px) {
+  .project-featured-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+
+@media (max-width: 700px) {
+  .projects {
+    padding-top: 50px;
+    padding-bottom: 50px;
+  }
+
+  .projects-head {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+
+  .project-featured {
+    padding: 32px 0;
+  }
+
+  .visual-frame--project .visual-frame__box {
+    min-height: 200px;
+  }
+}
