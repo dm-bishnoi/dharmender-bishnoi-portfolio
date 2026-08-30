@@ -78,8 +78,14 @@
 }
 
 @keyframes center-breathe {
-  0%, 100% { box-shadow: var(--shadow-sm), 0 0 0 0 rgba(59, 130, 246, 0); }
-  50% { box-shadow: var(--shadow-md), 0 0 0 8px rgba(59, 130, 246, 0.035); }
+  0%, 100% {
+    box-shadow: var(--shadow-sm), 0 0 0 0 rgba(59, 130, 246, 0);
+    transform: translateZ(60px) scale(1);
+  }
+  50% {
+    box-shadow: var(--shadow-md), 0 0 0 10px rgba(59, 130, 246, 0.05);
+    transform: translateZ(63px) scale(1.03);
+  }
 }
 
 .panel:hover {
@@ -176,10 +182,10 @@
 .flow--4 { animation-delay: 2.85s; }
 
 @keyframes data-flow {
-  0%, 12% { opacity: 0; transform: translate(0, 0); }
-  22% { opacity: 0.9; }
-  78% { opacity: 0.9; }
-  100% { opacity: 0; transform: translate(0, 0); }
+  0%, 12% { opacity: 0.1; transform: translate(0, 0); }
+  22% { opacity: 0.4; }
+  78% { opacity: 0.4; }
+  100% { opacity: 0.1; transform: translate(0, 0); }
 }
 
 /* ── Floating particles ── */
@@ -353,3 +359,85 @@
     margin-top: -100px;
   }
 }
+
+/* ── Pulsing travel dots on connection lines ── */
+.flow-travel {
+  opacity: 0;
+  animation: travel-pulse 7s ease-in-out infinite;
+}
+
+.flow-travel--2 { animation-delay: 1.75s; }
+.flow-travel--3 { animation-delay: 3.5s; }
+.flow-travel--4 { animation-delay: 5.25s; }
+
+@keyframes travel-pulse {
+  0%, 10%, 90%, 100% {
+    opacity: 0;
+    offset-distance: 0%;
+  }
+  25% {
+    opacity: 0.8;
+  }
+  70% {
+    opacity: 0.15;
+    offset-distance: 100%;
+  }
+}
+
+/* ── Continuous idle orbiting/floating for panels ── */
+@keyframes orbit-a {
+  0%, 100% { transform: translate(-80px, -60px) translateZ(30px) translate3d(-6px, -5px, 4px); }
+  33% { transform: translate(-80px, -60px) translateZ(30px) translate3d(5px, -2px, -3px); }
+  66% { transform: translate(-80px, -60px) translateZ(30px) translate3d(-2px, 6px, 2px); }
+}
+
+@keyframes orbit-c {
+  0%, 100% { transform: translate(80px, -60px) translateZ(30px) translate3d(6px, -5px, -3px); }
+  33% { transform: translate(80px, -60px) translateZ(30px) translate3d(-5px, 2px, 4px); }
+  66% { transform: translate(80px, -60px) translateZ(30px) translate3d(2px, 6px, -2px); }
+}
+
+@keyframes orbit-d {
+  0%, 100% { transform: translate(-80px, 60px) translateZ(30px) translate3d(-6px, 5px, -3px); }
+  33% { transform: translate(-80px, 60px) translateZ(30px) translate3d(5px, -2px, 2px); }
+  66% { transform: translate(-80px, 60px) translateZ(30px) translate3d(-2px, -6px, 4px); }
+}
+
+@keyframes orbit-p {
+  0%, 100% { transform: translate(80px, 60px) translateZ(30px) translate3d(6px, 5px, 4px); }
+  33% { transform: translate(80px, 60px) translateZ(30px) translate3d(-5px, -2px, -3px); }
+  66% { transform: translate(80px, 60px) translateZ(30px) translate3d(2px, -6px, 2px); }
+}
+
+@keyframes orbit-r {
+  0%, 100% { transform: translate(0px, -110px) translateZ(0px) translate3d(0px, -4px, 3px); }
+  33% { transform: translate(0px, -110px) translateZ(0px) translate3d(-4px, 2px, -2px); }
+  66% { transform: translate(0px, -110px) translateZ(0px) translate3d(4px, 1px, 2px); }
+}
+
+@keyframes orbit-x {
+  0%, 100% { transform: translate(110px, 0px) translateZ(0px) translate3d(4px, 0px, -3px); }
+  33% { transform: translate(110px, 0px) translateZ(0px) translate3d(-3px, -3px, 2px); }
+  66% { transform: translate(110px, 0px) translateZ(0px) translate3d(2px, 3px, 2px); }
+}
+
+@keyframes orbit-f {
+  0%, 100% { transform: translate(-110px, 0px) translateZ(0px) translate3d(-4px, 0px, 3px); }
+  33% { transform: translate(-110px, 0px) translateZ(0px) translate3d(3px, 3px, -2px); }
+  66% { transform: translate(-110px, 0px) translateZ(0px) translate3d(-2px, -3px, 2px); }
+}
+
+@keyframes orbit-t {
+  0%, 100% { transform: translate(0px, 110px) translateZ(0px) translate3d(0px, 4px, -3px); }
+  33% { transform: translate(0px, 110px) translateZ(0px) translate3d(4px, -2px, 2px); }
+  66% { transform: translate(0px, 110px) translateZ(0px) translate3d(-4px, -1px, 2px); }
+}
+
+.panel--component { animation: orbit-a 9s ease-in-out infinite; }
+.panel--service { animation: orbit-c 10.5s ease-in-out infinite; }
+.panel--directive { animation: orbit-d 11s ease-in-out infinite; }
+.panel--pipe { animation: orbit-p 8.5s ease-in-out infinite; }
+.panel--routing { animation: orbit-r 12s ease-in-out infinite; }
+.panel--rxjs { animation: orbit-x 9.5s ease-in-out infinite; }
+.panel--forms { animation: orbit-f 11.5s ease-in-out infinite; }
+.panel--testing { animation: orbit-t 10s ease-in-out infinite; }
