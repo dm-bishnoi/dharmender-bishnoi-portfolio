@@ -31,7 +31,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     if (!prefersReduced) {
-      const revealEls = document.querySelectorAll('.reveal');
+      const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale, .reveal-stagger');
       this.observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
@@ -45,7 +45,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
       );
       revealEls.forEach((el) => this.observer!.observe(el));
     } else {
-      document.querySelectorAll('.reveal').forEach((el) => {
+      document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale, .reveal-stagger').forEach((el) => {
         el.classList.add('is-visible');
       });
     }
@@ -54,4 +54,4 @@ export class AppComponent implements AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     this.observer?.disconnect();
   }
-}
+}

@@ -1,0 +1,43 @@
+[1m[33mPrebundling has been configured but will not be used because scripts optimization is enabled.[39m[22m
+[1m[33m
+Warning: This is a simple server for use in testing or debugging Angular applications
+locally. It hasn't been reviewed for security issues.
+
+Binding this server to an open connection can result in compromising your application or
+computer. Using a different host than the one passed to the "--host" flag might result in
+websocket connection issues. You might need to use "--disable-host-check" if that's the
+case.
+    [39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG8001: 'app-hero-visual' is not a known element:
+1. If 'app-hero-visual' is an Angular component, then verify that it is included in the '@Component.imports' of this component.
+2. If 'app-hero-visual' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@Component.schemas' of this component to suppress this message.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/components/hero/hero.component.html:22:6:
+[37m      22 │       [32m<app-hero-visual />[37m
+         ╵       [32m~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component HeroComponent.
+
+    src/app/components/hero/hero.component.ts:6:15:
+[37m      6 │   templateUrl: [32m'./hero.component.html'[37m,
+        ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'isScrolled' does not exist on type 'HeaderComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/components/header/header.component.html:3:46:
+[37m      3 │ <header class="site-header" [class.scrolled]="[32misScrolled[37m">
+        ╵                                               [32m~~~~~~~~~~[0m
+
+  Error occurs in the template of component HeaderComponent.
+
+    src/app/components/header/header.component.ts:6:15:
+[37m      6 │   templateUrl: [32m'./header.component.html'[37m,
+        ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+npm notice
+npm notice New minor version of npm available! 11.11.0 -> 11.19.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.19.1
+npm notice To update run: npm install -g npm@11.19.1
+npm notice

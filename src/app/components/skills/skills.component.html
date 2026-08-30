@@ -1,20 +1,55 @@
 <section id="skills" class="skills reveal">
   <div class="skills-inner">
-    <div class="skills-left">
+    <div class="skills-left reveal-left">
       <h2>What I work with</h2>
       <p class="skills-summary">
         The core of how I build —
         Angular, TypeScript, and RxJS.
       </p>
     </div>
-    <div class="skills-right">
-      <div class="skills-core">
-        <span class="skills-core-item">Angular</span>
-        <span class="skills-core-item">TypeScript</span>
-        <span class="skills-core-item">RxJS</span>
+    <div class="skills-right reveal-right">
+      <!-- Connected nodes diagram -->
+      <div class="skills-diagram">
+        <svg class="skills-svg" viewBox="0 0 400 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Connection lines -->
+          <line x1="200" y1="80" x2="80" y2="180" stroke="var(--accent)" stroke-width="1.5" opacity="0.3" />
+          <line x1="200" y1="80" x2="320" y2="180" stroke="var(--accent)" stroke-width="1.5" opacity="0.3" />
+          <line x1="200" y1="80" x2="200" y2="220" stroke="var(--accent)" stroke-width="1.5" opacity="0.3" />
+          <line x1="80" y1="180" x2="200" y2="220" stroke="var(--accent)" stroke-width="1" opacity="0.2" />
+          <line x1="320" y1="180" x2="200" y2="220" stroke="var(--accent)" stroke-width="1" opacity="0.2" />
+
+          <!-- Angular node (center top) -->
+          <g class="skill-node skill-node--primary">
+            <circle cx="200" cy="80" r="28" fill="var(--accent)" opacity="0.1" />
+            <circle cx="200" cy="80" r="28" fill="none" stroke="var(--accent)" stroke-width="1.5" />
+            <text x="200" y="85" text-anchor="middle" font-family="var(--font-heading)" font-size="13" font-weight="600" fill="var(--ink)">Angular</text>
+          </g>
+
+          <!-- TypeScript node (left) -->
+          <g class="skill-node">
+            <circle cx="80" cy="180" r="24" fill="var(--accent)" opacity="0.08" />
+            <circle cx="80" cy="180" r="24" fill="none" stroke="var(--accent)" stroke-width="1" opacity="0.6" />
+            <text x="80" y="185" text-anchor="middle" font-family="var(--font-heading)" font-size="12" font-weight="600" fill="var(--ink-light)">TypeScript</text>
+          </g>
+
+          <!-- RxJS node (right) -->
+          <g class="skill-node">
+            <circle cx="320" cy="180" r="24" fill="var(--accent)" opacity="0.08" />
+            <circle cx="320" cy="180" r="24" fill="none" stroke="var(--accent)" stroke-width="1" opacity="0.6" />
+            <text x="320" y="185" text-anchor="middle" font-family="var(--font-heading)" font-size="12" font-weight="600" fill="var(--ink-light)">RxJS</text>
+          </g>
+
+          <!-- Supporting node (bottom) -->
+          <g class="skill-node">
+            <circle cx="200" cy="220" r="22" fill="var(--accent)" opacity="0.05" />
+            <circle cx="200" cy="220" r="22" fill="none" stroke="var(--accent)" stroke-width="1" opacity="0.4" />
+            <text x="200" y="225" text-anchor="middle" font-family="var(--font-heading)" font-size="11" font-weight="600" fill="var(--ink-muted)">Testing</text>
+          </g>
+        </svg>
       </div>
 
-      <div class="skills-grid">
+      <!-- Skills grid -->
+      <div class="skills-grid reveal-stagger">
         <div class="skill-group">
           <h3>Frameworks &amp; Languages</h3>
           <p>Angular, Angular CLI, TypeScript, JavaScript (ES6+), HTML5, CSS3</p>

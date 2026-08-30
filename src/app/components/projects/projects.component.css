@@ -129,46 +129,72 @@ h2 {
   background: var(--accent);
 }
 
-/* Screenshot placeholder — a clean box to swap for a real <img> later. */
-.visual-frame--project {
+/* ── Project Visual Container (3D perspective) ── */
+.project-visual-container {
+  perspective: var(--perspective);
+}
+
+.project-visual-frame {
+  position: relative;
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: var(--radius-lg);
   overflow: hidden;
-  background: #f5f4f0;
+  background: linear-gradient(135deg, #f8f9fa, #f1f3f5);
+  box-shadow: var(--shadow-lg);
+  transition: transform var(--duration-base) var(--ease-out),
+              box-shadow var(--duration-base) var(--ease-out);
+  transform: rotateY(-2deg) rotateX(1deg);
 }
 
-.visual-frame--project .visual-frame__label {
-  display: block;
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--ink-muted);
-  border-bottom: 1px solid var(--border);
-  padding: 10px 16px;
-  background: #fff;
+.project-visual-frame:hover {
+  transform: rotateY(0deg) rotateX(0deg) translateZ(8px);
+  box-shadow: var(--shadow-xl);
 }
 
-.visual-frame--project .visual-frame__box {
-  min-height: 280px;
-  display: grid;
-  place-items: center;
+.project-visual-inner {
   padding: 24px;
 }
 
-.visual-frame--project .visual-frame__hint {
+.project-visual-placeholder {
+  min-height: 280px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.placeholder-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  width: 100%;
+  max-width: 280px;
+}
+
+.placeholder-bar {
+  height: 24px;
+  background: var(--border);
+  border-radius: var(--radius-sm);
+}
+
+.placeholder-bar--short {
+  height: 16px;
+}
+
+.placeholder-text {
   font-size: 13px;
   color: var(--ink-muted);
   font-family: var(--font-mono);
 }
 
-.visual-frame--project .visual-frame__note {
+.project-visual-note {
   display: block;
   font-size: 12px;
   color: var(--ink-muted);
   border-top: 1px solid var(--border);
-  padding: 10px 16px;
-  background: #fff;
+  padding: 10px 0;
+  margin-top: 12px;
   font-family: var(--font-mono);
 }
 
@@ -241,7 +267,15 @@ h2 {
     padding: 32px 0;
   }
 
-  .visual-frame--project .visual-frame__box {
+  .project-visual-placeholder {
     min-height: 200px;
+  }
+
+  .project-visual-frame {
+    transform: none;
+  }
+
+  .project-visual-frame:hover {
+    transform: translateZ(4px);
   }
 }

@@ -9,6 +9,7 @@ import { Component, HostListener, AfterViewInit, OnDestroy } from '@angular/core
 export class HeaderComponent implements AfterViewInit, OnDestroy {
   menuOpen = false;
   activeSection = '';
+  isScrolled = false;
 
   private observer: IntersectionObserver | null = null;
 
@@ -53,6 +54,11 @@ export class HeaderComponent implements AfterViewInit, OnDestroy {
     if (this.menuOpen) {
       this.closeMenu();
     }
+  }
+
+  @HostListener('window:scroll')
+  onScroll(): void {
+    this.isScrolled = window.scrollY > 20;
   }
 
   toggleMenu(): void {

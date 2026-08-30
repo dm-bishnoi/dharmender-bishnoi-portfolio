@@ -33,35 +33,40 @@ h2 {
   margin: 0;
 }
 
-/* Core strengths lead the section — no bars, no scores. */
-.skills-core {
-  display: flex;
-  align-items: center;
-  gap: 14px;
+/* ── Skills Diagram ── */
+.skills-diagram {
   margin-bottom: 40px;
   padding-bottom: 28px;
   border-bottom: 1px solid var(--border);
 }
 
-.skills-core-item {
-  font-family: var(--font-heading);
-  font-size: 28px;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  color: var(--ink);
+.skills-svg {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  margin: 0 auto;
+  display: block;
 }
 
-.skills-core-item + .skills-core-item::before {
-  content: "";
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--accent);
-  margin-right: 14px;
-  vertical-align: middle;
+.skill-node {
+  cursor: default;
+  transition: transform 0.3s var(--ease-out);
 }
 
+.skill-node:hover {
+  transform: scale(1.05);
+}
+
+.skill-node--primary {
+  animation: pulse-node 3s ease-in-out infinite;
+}
+
+@keyframes pulse-node {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+/* ── Skills Grid ── */
 .skills-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -106,12 +111,7 @@ h2 {
     padding-bottom: 50px;
   }
 
-  .skills-core {
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-
-  .skills-core-item {
-    font-size: 24px;
+  .skills-diagram {
+    margin-bottom: 32px;
   }
 }

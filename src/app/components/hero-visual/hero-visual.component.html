@@ -1,0 +1,82 @@
+<div class="hero-visual" [class.mobile]="isMobile" [class.reduced]="prefersReducedMotion">
+  <div class="hero-visual-scene">
+    <!-- Central hub -->
+    <div class="panel panel--center" [style.transform]="'translateZ(60px)'">
+      <span class="panel-label">Angular Core</span>
+      <span class="panel-sub">Component Architecture</span>
+    </div>
+
+    <!-- Layer 1 panels -->
+    <div class="panel panel--component" [style.transform]="'translateZ(30px) translateX(-80px) translateY(-60px)'">
+      <span class="panel-label">Components</span>
+      <span class="panel-dot"></span>
+    </div>
+
+    <div class="panel panel--service" [style.transform]="'translateZ(30px) translateX(80px) translateY(-60px)'">
+      <span class="panel-label">Services</span>
+      <span class="panel-dot"></span>
+    </div>
+
+    <div class="panel panel--directive" [style.transform]="'translateZ(30px) translateX(-80px) translateY(60px)'">
+      <span class="panel-label">Directives</span>
+      <span class="panel-dot"></span>
+    </div>
+
+    <div class="panel panel--pipe" [style.transform]="'translateZ(30px) translateX(80px) translateY(60px)'">
+      <span class="panel-label">Pipes</span>
+      <span class="panel-dot"></span>
+    </div>
+
+    <!-- Layer 2 panels (deeper) -->
+    <div class="panel panel--routing" [style.transform]="'translateZ(0px) translateX(0px) translateY(-110px)'">
+      <span class="panel-label">Routing</span>
+      <span class="panel-dot"></span>
+    </div>
+
+    <div class="panel panel--rxjs" [style.transform]="'translateZ(0px) translateX(110px) translateY(0px)'">
+      <span class="panel-label">RxJS</span>
+      <span class="panel-dot"></span>
+    </div>
+
+    <div class="panel panel--forms" [style.transform]="'translateZ(0px) translateX(-110px) translateY(0px)'">
+      <span class="panel-label">Forms</span>
+      <span class="panel-dot"></span>
+    </div>
+
+    <div class="panel panel--testing" [style.transform]="'translateZ(0px) translateX(0px) translateY(110px)'">
+      <span class="panel-label">Testing</span>
+      <span class="panel-dot"></span>
+    </div>
+
+    <!-- Connection lines and restrained data-flow accents -->
+    <svg class="connections" viewBox="-150 -150 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle class="flow flow--1" cx="-42" cy="-31" r="2.5" fill="var(--accent)" />
+      <circle class="flow flow--2" cx="43" cy="-31" r="2.5" fill="var(--accent)" />
+      <circle class="flow flow--3" cx="-43" cy="31" r="2.5" fill="var(--accent)" />
+      <circle class="flow flow--4" cx="43" cy="31" r="2.5" fill="var(--accent)" />
+      <!-- Lines from center to layer 1 -->
+      <line x1="0" y1="0" x2="-80" y2="-60" stroke="var(--accent)" stroke-width="1" opacity="0.3" />
+      <line x1="0" y1="0" x2="80" y2="-60" stroke="var(--accent)" stroke-width="1" opacity="0.3" />
+      <line x1="0" y1="0" x2="-80" y2="60" stroke="var(--accent)" stroke-width="1" opacity="0.3" />
+      <line x1="0" y1="0" x2="80" y2="60" stroke="var(--accent)" stroke-width="1" opacity="0.3" />
+
+      <!-- Lines from center to layer 2 -->
+      <line x1="0" y1="0" x2="0" y2="-110" stroke="var(--accent)" stroke-width="1" opacity="0.2" />
+      <line x1="0" y1="0" x2="110" y2="0" stroke="var(--accent)" stroke-width="1" opacity="0.2" />
+      <line x1="0" y1="0" x2="-110" y2="0" stroke="var(--accent)" stroke-width="1" opacity="0.2" />
+      <line x1="0" y1="0" x2="0" y2="110" stroke="var(--accent)" stroke-width="1" opacity="0.2" />
+
+      <!-- Cross connections -->
+      <line x1="-80" y1="-60" x2="0" y2="-110" stroke="var(--accent)" stroke-width="0.5" opacity="0.15" />
+      <line x1="80" y1="-60" x2="110" y2="0" stroke="var(--accent)" stroke-width="0.5" opacity="0.15" />
+      <line x1="80" y1="60" x2="0" y2="110" stroke="var(--accent)" stroke-width="0.5" opacity="0.15" />
+      <line x1="-80" y1="60" x2="-110" y2="0" stroke="var(--accent)" stroke-width="0.5" opacity="0.15" />
+    </svg>
+
+    <!-- Floating particles -->
+    <div class="particle particle--1"></div>
+    <div class="particle particle--2"></div>
+    <div class="particle particle--3"></div>
+    <div class="particle particle--4"></div>
+  </div>
+</div>

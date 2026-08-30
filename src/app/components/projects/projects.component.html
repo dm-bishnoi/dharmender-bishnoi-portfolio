@@ -1,9 +1,9 @@
 <section id="projects" class="projects reveal">
   <div class="projects-head">
-    <div class="projects-head-left">
+    <div class="projects-head-left reveal-left">
       <h2>What I've built</h2>
     </div>
-    <div class="projects-head-right">
+    <div class="projects-head-right reveal-right">
       <p class="projects-lede">
         The work I do most day to day is enterprise Angular in production.
         Flexschema is that work. Card-Play is the work I build on my own
@@ -12,7 +12,7 @@
     </div>
   </div>
 
-  <article class="project-featured">
+  <article class="project-featured reveal-scale">
     <div class="project-featured-grid">
       <div class="project-featured-copy">
         <div class="project-meta">
@@ -32,7 +32,7 @@
           configurable components, route guards, API integration —
           shipping with unit tests and working inside an Agile team.
         </p>
-        <ul class="project-highlights">
+        <ul class="project-highlights reveal-stagger">
           <li>Reusable Angular components for configurable UI modules</li>
           <li>Role-based access control across application features</li>
           <li>Lazy-loaded routes with RxJS subscription management</li>
@@ -41,19 +41,30 @@
         </ul>
       </div>
 
-      <div class="visual-frame visual-frame--project">
-        <span class="visual-frame__label">Screenshot</span>
-        <div class="visual-frame__box" role="img" aria-label="Flexschema application screenshot placeholder">
-          <span class="visual-frame__hint">Flexschema UI preview will appear here</span>
+      <div class="project-visual-container">
+        <div class="project-visual-frame">
+          <div class="project-visual-inner">
+            <div class="project-visual-placeholder">
+              <div class="placeholder-grid">
+                <div class="placeholder-bar"></div>
+                <div class="placeholder-bar placeholder-bar--short"></div>
+                <div class="placeholder-bar"></div>
+                <div class="placeholder-bar placeholder-bar--short"></div>
+                <div class="placeholder-bar"></div>
+                <div class="placeholder-bar placeholder-bar--short"></div>
+                <div class="placeholder-bar"></div>
+                <div class="placeholder-bar placeholder-bar--short"></div>
+              </div>
+              <span class="placeholder-text">Flexschema UI preview will appear here</span>
+            </div>
+          </div>
         </div>
-        <span class="visual-frame__note">
-          Replace with a real screenshot of the Flexschema interface.
-        </span>
+        <span class="project-visual-note">Replace with a real screenshot of the Flexschema interface.</span>
       </div>
     </div>
   </article>
 
-  <article class="project project--secondary">
+  <article class="project project--secondary reveal">
     <div class="project-meta">
       <span>Open source</span>
       <span>GitHub</span>
@@ -65,7 +76,7 @@
     </p>
     <ul class="project-links">
       <li>
-        <a href="https://github.com/dm-bishnoi/Card-Play" target="_blank" rel="noopener noreferrer">
+        <a href="https://github.com/dm-bishnoi/Card-Play" target="_blank" rel="noopener noreferrer" class="link-underline">
           Card-Play on GitHub
           <span class="project-link-desc">— github.com/dm-bishnoi/Card-Play</span>
         </a>

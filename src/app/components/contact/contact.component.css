@@ -30,20 +30,30 @@ h2 {
   margin: 0 0 36px;
 }
 
+/* ── Contact Action ── */
 .contact-action {
   display: flex;
   flex-direction: column;
   gap: 6px;
   padding: 20px 24px;
   border: 1px solid var(--border-strong);
-  border-radius: 8px;
+  border-radius: var(--radius-lg);
   margin-bottom: 16px;
-  transition: border-color 0.2s, background 0.2s;
+  transition: border-color var(--duration-base) var(--ease-out),
+              background var(--duration-base) var(--ease-out),
+              transform var(--duration-base) var(--ease-out),
+              box-shadow var(--duration-base) var(--ease-out);
 }
 
 .contact-action:hover {
-  border-color: var(--ink);
-  background: #f5f4f0;
+  border-color: var(--accent);
+  background: var(--accent-subtle);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-accent);
+}
+
+.contact-action:active {
+  transform: translateY(0);
 }
 
 .contact-action-label {
@@ -60,6 +70,7 @@ h2 {
   color: var(--ink);
 }
 
+/* ── Contact Channels ── */
 .contact-channels {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -72,13 +83,18 @@ h2 {
   gap: 4px;
   padding: 16px 20px;
   border: 1px solid var(--border);
-  border-radius: 8px;
-  transition: border-color 0.2s, background 0.2s;
+  border-radius: var(--radius-lg);
+  transition: border-color var(--duration-base) var(--ease-out),
+              background var(--duration-base) var(--ease-out),
+              transform var(--duration-base) var(--ease-out),
+              box-shadow var(--duration-base) var(--ease-out);
 }
 
 .contact-channel:hover {
   border-color: var(--border-strong);
-  background: #f5f4f0;
+  background: var(--surface);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
 }
 
 .contact-channel-label {

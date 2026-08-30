@@ -1,13 +1,25 @@
 <a class="skip-link" href="#main-content">Skip to content</a>
 
-<header class="site-header">
+<header class="site-header" [class.scrolled]="isScrolled">
   <a class="header-name" href="#home">Dharmender<span class="header-name__last"> Bishnoi</span></a>
 
   <nav class="site-nav" [class.open]="menuOpen" aria-label="Primary navigation">
-    <a href="#experience" (click)="closeMenu()" [class.active]="activeSection === 'experience'">Experience</a>
-    <a href="#skills" (click)="closeMenu()" [class.active]="activeSection === 'skills'">Skills</a>
-    <a href="#projects" (click)="closeMenu()" [class.active]="activeSection === 'projects'">Projects</a>
-    <a href="#contact" (click)="closeMenu()" [class.active]="activeSection === 'contact'">Contact</a>
+    <a href="#experience" (click)="closeMenu()" [class.active]="activeSection === 'experience'" class="nav-link">
+      <span class="nav-link-text">Experience</span>
+      <span class="nav-link-indicator"></span>
+    </a>
+    <a href="#skills" (click)="closeMenu()" [class.active]="activeSection === 'skills'" class="nav-link">
+      <span class="nav-link-text">Skills</span>
+      <span class="nav-link-indicator"></span>
+    </a>
+    <a href="#projects" (click)="closeMenu()" [class.active]="activeSection === 'projects'" class="nav-link">
+      <span class="nav-link-text">Projects</span>
+      <span class="nav-link-indicator"></span>
+    </a>
+    <a href="#contact" (click)="closeMenu()" [class.active]="activeSection === 'contact'" class="nav-link">
+      <span class="nav-link-text">Contact</span>
+      <span class="nav-link-indicator"></span>
+    </a>
     <a class="nav-cta" href="mailto:bishnoid770@gmail.com?subject=Opportunity%20for%20Dharmender%20Bishnoi" (click)="closeMenu()">Get in touch</a>
   </nav>
 
