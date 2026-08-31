@@ -41,14 +41,25 @@ export class HeroVisualComponent implements AfterViewInit, OnDestroy {
     this.mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
   }
 
+  private resizeObserver: ResizeObserver | null = null;
+
   ngAfterViewInit(): void {
     this.prefersReducedMotion = this.mediaQuery.matches;
-    this.isMobile = window.matchMedia('(max-width: 767px)').matches;
+    this.isMobile = window.innerWidth <= 767;
     this.scene = this.host.querySelector<HTMLElement>('.hero-visual-scene');
 
     this.mediaQuery.addEventListener('change', this.onMotionPreferenceChange);
     this.host.addEventListener('pointermove', this.handlePointerMove, { passive: true });
     this.host.addEventListener('pointerleave', this.handlePointerLeave, { passive: true });
+
+    if (typeof ResizeObserver !== 'undefined') {
+      this.resizeObserver = new ResizeObserver((entries) => {
+        for (const entry of entries) {
+          this.isMobile = entry.contentRect.width <= 480;
+        }
+      });
+      this.resizeObserver.observe(this.host);
+    }
 
     this.observer = new IntersectionObserver(([entry]) => {
       this.isVisible = entry.isIntersecting;
@@ -57,7 +68,7 @@ export class HeroVisualComponent implements AfterViewInit, OnDestroy {
       } else {
         this.stopAnimation();
       }
-    }, { threshold: 0.1 });
+    }, { threshold: 0.05 });
 
     this.observer.observe(this.host);
   }
@@ -65,13 +76,14 @@ export class HeroVisualComponent implements AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     this.stopAnimation();
     this.observer?.disconnect();
+    this.resizeObserver?.disconnect();
     this.mediaQuery.removeEventListener('change', this.onMotionPreferenceChange);
     this.host.removeEventListener('pointermove', this.handlePointerMove);
     this.host.removeEventListener('pointerleave', this.handlePointerLeave);
   }
 
   onNodeHover(_label: string): void {
-    // Micro-interaction trigger if needed
+    // Micro-interaction
   }
 
   onNodeLeave(): void {
@@ -85,9 +97,9 @@ export class HeroVisualComponent implements AfterViewInit, OnDestroy {
     const normalizedX = (event.clientX - rect.left) / rect.width - 0.5;
     const normalizedY = (event.clientY - rect.top) / rect.height - 0.5;
 
-    this.targetX = normalizedY * -6.5;
-    this.targetY = normalizedX * 8.5;
-    this.targetScale = 1.01;
+    this.targetX = normalizedY * -7.5;
+    this.targetY = normalizedX * 9.5;
+    this.targetScale = 1.015;
   };
 
   private handlePointerLeave = (): void => {
@@ -113,21 +125,25 @@ export class HeroVisualComponent implements AfterViewInit, OnDestroy {
         }
         this.lastFrame = timestamp;
 
-        // Smooth interpolation
-        this.currentX += (this.targetX - this.currentX) * 0.08;
-        this.currentY += (this.targetY - this.currentY) * 0.08;
-        this.currentScale += (this.targetScale - this.currentScale) * 0.08;
+        // Smooth damping towards pointer target
+        this.currentX += (this.targetX - this.currentX) * 0.06;
+        this.currentY += (this.targetY - this.currentY) * 0.06;
+        this.currentScale += (this.targetScale - this.currentScale) * 0.06;
 
-        // Continuous subtle idle motion (alive when mouse is completely still)
-        const time = timestamp * 0.0004;
-        const idleX = Math.sin(time) * 1.8;
-        const idleY = Math.cos(time * 0.85) * 1.4;
-        const idleLift = Math.sin(time * 0.6) * 1.5;
+        // Multi-frequency continuous subtle idle physics (always alive when mouse is stationary)
+        const t = timestamp * 0.00045;
+        const idleRotX = Math.sin(t) * 2.2 + Math.sin(t * 1.7) * 0.7;
+        const idleRotY = Math.cos(t * 0.8) * 2.5 + Math.cos(t * 1.5) * 0.8;
+        const idleLift = Math.sin(t * 0.6) * 2.2;
+        const idleZ = Math.cos(t * 0.45) * 3.0;
 
-        const rotX = this.currentX + idleX;
-        const rotY = this.currentY + idleY;
+        const totalRotX = (this.currentX + idleRotX).toFixed(2);
+        const totalRotY = (this.currentY + idleRotY).toFixed(2);
+        const totalLift = idleLift.toFixed(2);
+        const totalZ = idleZ.toFixed(2);
 
-        this.scene.style.transform = `perspective(${this.isMobile ? 800 : 1200}px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateY(${idleLift}px) scale(${this.currentScale})`;
+        const persp = this.isMobile ? 850 : 1200;
+        this.scene.style.transform = `perspective(${persp}px) rotateX(${totalRotX}deg) rotateY(${totalRotY}deg) translateY(${totalLift}px) translateZ(${totalZ}px) scale(${this.currentScale.toFixed(3)})`;
 
         this.animationFrameId = requestAnimationFrame(animate);
       };

@@ -162,8 +162,15 @@
   font-size: 16px;
   line-height: 1.7;
   color: var(--ink-light);
-  margin: 0 0 24px;
+  margin: 0 0 20px;
   max-width: 64ch;
+}
+
+.role-tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 28px;
 }
 
 .role-evidence {

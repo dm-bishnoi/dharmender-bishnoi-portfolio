@@ -447,6 +447,11 @@
   margin: 0;
 }
 
+.project-highlights-header {
+  margin-top: 24px;
+  margin-bottom: 12px;
+}
+
 .project-highlights {
   list-style: none;
   padding: 0;

@@ -1,6 +1,7 @@
 import {
   Component,
   HostListener,
+  HostBinding,
   AfterViewInit,
   OnDestroy,
 } from '@angular/core';
@@ -36,16 +37,18 @@ export class HeaderComponent implements AfterViewInit, OnDestroy {
     return map[id] ?? '';
   }
 
-  menuOpen = false;
+  @HostBinding('class.menu-open') menuOpen = false;
+  @HostBinding('class.scrolled') isScrolled = false;
   activeSection = '';
-  isScrolled = false;
 
   private observer: IntersectionObserver | null = null;
   private rafId = 0;
 
+  private allSections = ['home', 'about', 'experience', 'skills', 'projects', 'contact'];
+
   ngAfterViewInit(): void {
-    const targets = this.navLinks
-      .map((link) => document.getElementById(link.id))
+    const targets = this.allSections
+      .map((id) => document.getElementById(id))
       .filter((el): el is HTMLElement => el !== null);
 
     if (!targets.length) return;
@@ -54,11 +57,16 @@ export class HeaderComponent implements AfterViewInit, OnDestroy {
       (entries) => {
         for (const entry of entries) {
           if (entry.isIntersecting) {
-            this.activeSection = entry.target.id;
+            const id = entry.target.id;
+            if (id === 'home' || id === 'about') {
+              this.activeSection = '';
+            } else {
+              this.activeSection = id;
+            }
           }
         }
       },
-      { rootMargin: '-40% 0px -55% 0px', threshold: 0 }
+      { rootMargin: '-30% 0px -55% 0px', threshold: 0 }
     );
 
     targets.forEach((el) => this.observer!.observe(el));
@@ -91,6 +99,9 @@ export class HeaderComponent implements AfterViewInit, OnDestroy {
     if (this.rafId) return;
     this.rafId = requestAnimationFrame(() => {
       this.isScrolled = window.scrollY > 20;
+      if (window.scrollY < 80) {
+        this.activeSection = '';
+      }
       this.rafId = 0;
     });
   }
