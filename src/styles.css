@@ -8,37 +8,39 @@
   --max-wide: 1240px;
   --side: clamp(20px, 4vw, 36px);
 
-  /* Palette — warm off-white paper with a subtle cool undertone */
-  --bg: #f5f3ee;
-  --bg-pure: #fbfaf7;
-  --surface: #efece5;
-  --surface-soft: #ece8df;
-  --border: #e2ddd1;
-  --border-strong: #cdc6b3;
-  --border-faint: #ece8de;
+  /* Palette — warm off-white paper with refined tonal depth */
+  --bg: #f7f5f0;
+  --bg-pure: #ffffff;
+  --surface: #eeebe3;
+  --surface-soft: #e7e3da;
+  --border: #ddd7cb;
+  --border-strong: #bcb5a4;
+  --border-faint: #e8e4db;
 
-  /* Ink — professional, editorial */
-  --ink: #16161a;
-  --ink-soft: #2a2a31;
-  --ink-light: #4a4a52;
-  --ink-muted: #8b887e;
-  --ink-faint: #b8b4a8;
+  /* Ink — editorial hierarchy */
+  --ink: #14151a;
+  --ink-soft: #282932;
+  --ink-light: #474853;
+  --ink-muted: #6f6c64;
+  --ink-faint: #9c988c;
 
-  /* Accent — sophisticated tech blue (used selectively) */
-  --accent: #1f3a8a;
-  --accent-hover: #1a3175;
-  --accent-soft: #2c49a8;
-  --accent-light: #e5ebf7;
-  --accent-tint: #d3dcef;
-  --accent-subtle: rgba(31, 58, 138, 0.06);
-  --accent-glow: rgba(31, 58, 138, 0.18);
-  --accent-ink: #1f3a8a;
+  /* Accent — sophisticated tailored tech blue (used selectively) */
+  --accent: #1d3b8a;
+  --accent-hover: #162e70;
+  --accent-soft: #2c4ea8;
+  --accent-light: #e8effb;
+  --accent-tint: #c9d7f2;
+  --accent-subtle: rgba(29, 59, 138, 0.07);
+  --accent-glow: rgba(29, 59, 138, 0.16);
+  --accent-ink: #1d3b8a;
 
-  /* Dark surfaces for hero visual depth */
-  --dark: #0c111f;
-  --dark-2: #131a2c;
-  --dark-3: #1c2540;
-  --dark-line: #2a3556;
+  /* Dark surfaces for hero visual, project frame, and contact card */
+  --dark: #0c101c;
+  --dark-2: #121727;
+  --dark-3: #182036;
+  --dark-line: #222c4a;
+  --dark-text: #f1f4fb;
+  --dark-muted: rgba(235, 240, 255, 0.65);
 
   /* Typography */
   --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;

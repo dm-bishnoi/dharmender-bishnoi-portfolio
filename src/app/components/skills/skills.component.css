@@ -153,14 +153,30 @@
   transition: transform var(--duration-base) var(--ease-out),
               border-color var(--duration-base) var(--ease-out),
               color var(--duration-base) var(--ease-out),
+              background var(--duration-base) var(--ease-out),
               box-shadow var(--duration-base) var(--ease-out);
 }
 
 .skill-orbit-marker:hover {
-  transform: scale(1.08) translateY(-2px);
-  border-color: var(--accent);
-  color: var(--accent);
+  transform: scale(1.06) translateY(-2px);
+  border-color: var(--ink);
+  color: var(--ink);
   box-shadow: var(--shadow-sm);
+}
+
+.skill-orbit-marker--priority {
+  font-weight: 600;
+  color: var(--accent);
+  border-color: var(--accent-tint);
+  background: var(--accent-light);
+  box-shadow: 0 1px 3px rgba(29, 59, 138, 0.08);
+}
+
+.skill-orbit-marker--priority:hover {
+  background: var(--accent);
+  color: #ffffff;
+  border-color: var(--accent);
+  box-shadow: var(--shadow-accent);
 }
 
 .skill-orbit-marker--1 { top: 10%; left: 8%; }

@@ -81,9 +81,9 @@
 }
 
 @keyframes heroPulse {
-  0%   { box-shadow: 0 0 0 0 rgba(31, 58, 138, 0.55); }
-  70%  { box-shadow: 0 0 0 8px rgba(31, 58, 138, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(31, 58, 138, 0); }
+  0%   { box-shadow: 0 0 0 0 rgba(29, 59, 138, 0.45); }
+  70%  { box-shadow: 0 0 0 7px rgba(29, 59, 138, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(29, 59, 138, 0); }
 }
 
 h1 {

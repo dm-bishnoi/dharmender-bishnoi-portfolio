@@ -40,13 +40,14 @@
   align-items: center;
   gap: 20px;
   padding: 24px 26px;
-  background: var(--ink);
+  background: var(--dark-2);
   color: white;
-  border: 1px solid var(--ink);
+  border: 1px solid var(--dark-line);
   border-radius: var(--radius-lg);
   transition: transform var(--duration-base) var(--ease-out),
               box-shadow var(--duration-base) var(--ease-out),
-              background var(--duration-base) var(--ease-out);
+              background var(--duration-base) var(--ease-out),
+              border-color var(--duration-base) var(--ease-out);
   overflow: hidden;
 }
 
@@ -56,7 +57,7 @@
   inset: 0;
   background: radial-gradient(
     circle at top right,
-    rgba(31, 58, 138, 0.35),
+    rgba(29, 59, 138, 0.3),
     transparent 60%
   );
   pointer-events: none;
@@ -66,7 +67,8 @@
 
 .contact-action:hover {
   transform: translateY(-3px);
-  background: var(--ink-soft);
+  background: var(--dark-3);
+  border-color: var(--accent);
   box-shadow: var(--shadow-xl);
 }
 

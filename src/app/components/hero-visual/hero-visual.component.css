@@ -17,7 +17,7 @@
   aspect-ratio: 6 / 5;
   max-width: 540px;
   margin: 0 auto;
-  background: linear-gradient(155deg, #0c111f 0%, #131a2c 45%, #1c2540 100%);
+  background: linear-gradient(155deg, var(--dark) 0%, var(--dark-2) 45%, var(--dark-3) 100%);
   border-radius: var(--radius-2xl);
   border: 1px solid var(--dark-line);
   overflow: hidden;

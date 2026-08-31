@@ -3,7 +3,7 @@
   position: sticky;
   top: 0;
   z-index: var(--z-header);
-  background: rgba(245, 243, 238, 0.78);
+  background: rgba(247, 245, 240, 0.82);
   -webkit-backdrop-filter: saturate(180%) blur(16px);
   backdrop-filter: saturate(180%) blur(16px);
   border-bottom: 1px solid transparent;
@@ -13,7 +13,7 @@
 }
 
 :host(.scrolled) {
-  background: rgba(245, 243, 238, 0.94);
+  background: rgba(247, 245, 240, 0.96);
   box-shadow: 0 1px 0 var(--border);
   border-bottom-color: var(--border);
 }
@@ -227,8 +227,10 @@
   border-radius: var(--radius-md);
   cursor: pointer;
   padding: 0;
-  z-index: 10;
-  transition: border-color var(--duration-base) var(--ease-out);
+  position: relative;
+  z-index: 101;
+  transition: border-color var(--duration-base) var(--ease-out),
+              background var(--duration-base) var(--ease-out);
 }
 
 .hamburger:hover {
@@ -279,7 +281,7 @@
     width: 100vw;
     height: 100vh;
     height: 100dvh;
-    background: rgba(245, 243, 238, 0.98);
+    background: rgba(247, 245, 240, 0.98);
     -webkit-backdrop-filter: blur(24px);
     backdrop-filter: blur(24px);
     flex-direction: column;

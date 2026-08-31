@@ -5,7 +5,7 @@
 
 .site-footer {
   position: relative;
-  background: linear-gradient(180deg, transparent 0%, rgba(31, 58, 138, 0.025) 50%, rgba(31, 58, 138, 0.045) 100%);
+  background: linear-gradient(180deg, transparent 0%, rgba(29, 59, 138, 0.02) 50%, rgba(29, 59, 138, 0.035) 100%);
   padding: 0 0 32px;
   font-family: var(--font-body);
   color: var(--ink);
