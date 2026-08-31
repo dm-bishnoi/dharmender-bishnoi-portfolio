@@ -1,37 +1,53 @@
 <a class="skip-link" href="#main-content">Skip to content</a>
 
-<header class="site-header" [class.scrolled]="isScrolled">
-  <a class="header-name" href="#home">Dharmender<span class="header-name__last"> Bishnoi</span></a>
+<header class="site-header" [class.scrolled]="isScrolled" [class.menu-open]="menuOpen">
+  <a class="header-name" href="#home" aria-label="Dharmender Bishnoi — home">
+    <span class="header-name-mark">DB</span>
+    <span class="header-name-text">
+      Dharmender<span class="header-name__last"> Bishnoi</span>
+    </span>
+  </a>
 
-  <nav class="site-nav" [class.open]="menuOpen" aria-label="Primary navigation">
-    <a href="#experience" (click)="closeMenu()" [class.active]="activeSection === 'experience'" class="nav-link">
-      <span class="nav-link-text">Experience</span>
-      <span class="nav-link-indicator"></span>
+  <nav class="site-nav"
+       [class.open]="menuOpen"
+       aria-label="Primary navigation"
+       id="primary-nav">
+    <ol class="nav-list">
+      <li *ngFor="let link of navLinks">
+        <a [href]="'#' + link.id"
+           (click)="closeMenu()"
+           [class.active]="activeSection === link.id"
+           class="nav-link">
+          <span class="nav-link-num">{{ navNumber(link.id) }}</span>
+          <span class="nav-link-text">{{ link.label }}</span>
+          <span class="nav-link-indicator" aria-hidden="true"></span>
+        </a>
+      </li>
+    </ol>
+
+    <a class="nav-cta"
+       href="mailto:bishnoid770&#64;gmail.com?subject=Opportunity%20for%20Dharmender%20Bishnoi"
+       (click)="closeMenu()">
+      <span class="nav-cta-dot"></span>
+      Get in touch
     </a>
-    <a href="#skills" (click)="closeMenu()" [class.active]="activeSection === 'skills'" class="nav-link">
-      <span class="nav-link-text">Skills</span>
-      <span class="nav-link-indicator"></span>
-    </a>
-    <a href="#projects" (click)="closeMenu()" [class.active]="activeSection === 'projects'" class="nav-link">
-      <span class="nav-link-text">Projects</span>
-      <span class="nav-link-indicator"></span>
-    </a>
-    <a href="#contact" (click)="closeMenu()" [class.active]="activeSection === 'contact'" class="nav-link">
-      <span class="nav-link-text">Contact</span>
-      <span class="nav-link-indicator"></span>
-    </a>
-    <a class="nav-cta" href="mailto:bishnoid770@gmail.com?subject=Opportunity%20for%20Dharmender%20Bishnoi" (click)="closeMenu()">Get in touch</a>
   </nav>
 
-  <a class="header-cta" href="mailto:bishnoid770@gmail.com?subject=Opportunity%20for%20Dharmender%20Bishnoi">Get in touch</a>
+  <a class="header-cta"
+     href="mailto:bishnoid770&#64;gmail.com?subject=Opportunity%20for%20Dharmender%20Bishnoi">
+    <span class="header-cta-dot"></span>
+    Get in touch
+  </a>
 
-  <button
-    type="button"
-    class="hamburger"
-    [class.open]="menuOpen"
-    (click)="toggleMenu()"
-    [attr.aria-expanded]="menuOpen"
-    aria-label="Toggle navigation menu">
-    <span></span><span></span>
+  <button type="button"
+          class="hamburger"
+          [class.open]="menuOpen"
+          (click)="toggleMenu()"
+          [attr.aria-expanded]="menuOpen"
+          aria-controls="primary-nav"
+          aria-label="Toggle navigation menu">
+    <span></span>
+    <span></span>
+    <span></span>
   </button>
 </header>

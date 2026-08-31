@@ -1,75 +1,112 @@
-<section id="skills" class="skills reveal">
-  <div class="skills-inner">
-    <div class="skills-left reveal-left">
-      <h2>What I work with</h2>
-      <p class="skills-summary">
-        The core of how I build —
-        Angular, TypeScript, and RxJS.
+<section id="skills" class="skills sec reveal">
+  <div class="skills-divider sec-divider"></div>
+
+  <div class="skills-grid">
+    <header class="skills-head">
+      <span class="eyebrow reveal-left"><span class="sec-number">04</span> Skills</span>
+      <h2 class="sec-head reveal-left">
+        The <em>core</em> of how I build.
+      </h2>
+      <p class="sec-lede reveal-left">
+        Angular, TypeScript, and RxJS form the spine.
+        The rest is supporting cast.
       </p>
-    </div>
-    <div class="skills-right reveal-right">
-      <!-- Connected nodes diagram -->
-      <div class="skills-diagram">
-        <svg class="skills-svg" viewBox="0 0 400 280" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <!-- Connection lines -->
-          <line x1="200" y1="80" x2="80" y2="180" stroke="var(--accent)" stroke-width="1.5" opacity="0.3" />
-          <line x1="200" y1="80" x2="320" y2="180" stroke="var(--accent)" stroke-width="1.5" opacity="0.3" />
-          <line x1="200" y1="80" x2="200" y2="220" stroke="var(--accent)" stroke-width="1.5" opacity="0.3" />
-          <line x1="80" y1="180" x2="200" y2="220" stroke="var(--accent)" stroke-width="1" opacity="0.2" />
-          <line x1="320" y1="180" x2="200" y2="220" stroke="var(--accent)" stroke-width="1" opacity="0.2" />
+    </header>
 
-          <!-- Angular node (center top) -->
-          <g class="skill-node skill-node--primary">
-            <circle cx="200" cy="80" r="28" fill="var(--accent)" opacity="0.1" />
-            <circle cx="200" cy="80" r="28" fill="none" stroke="var(--accent)" stroke-width="1.5" />
-            <text x="200" y="85" text-anchor="middle" font-family="var(--font-heading)" font-size="13" font-weight="600" fill="var(--ink)">Angular</text>
-          </g>
+    <div class="skills-body">
+      <!-- Hero constellation: Angular as the anchor node -->
+      <div class="skills-constellation reveal-stagger">
+        <div class="skill-anchor">
+          <div class="skill-anchor-glow"></div>
+          <div class="skill-anchor-card">
+            <span class="skill-anchor-tag">Primary</span>
+            <h3>Angular</h3>
+            <p>Standalone APIs · v20 · CLI</p>
+          </div>
+        </div>
 
-          <!-- TypeScript node (left) -->
-          <g class="skill-node">
-            <circle cx="80" cy="180" r="24" fill="var(--accent)" opacity="0.08" />
-            <circle cx="80" cy="180" r="24" fill="none" stroke="var(--accent)" stroke-width="1" opacity="0.6" />
-            <text x="80" y="185" text-anchor="middle" font-family="var(--font-heading)" font-size="12" font-weight="600" fill="var(--ink-light)">TypeScript</text>
-          </g>
-
-          <!-- RxJS node (right) -->
-          <g class="skill-node">
-            <circle cx="320" cy="180" r="24" fill="var(--accent)" opacity="0.08" />
-            <circle cx="320" cy="180" r="24" fill="none" stroke="var(--accent)" stroke-width="1" opacity="0.6" />
-            <text x="320" y="185" text-anchor="middle" font-family="var(--font-heading)" font-size="12" font-weight="600" fill="var(--ink-light)">RxJS</text>
-          </g>
-
-          <!-- Supporting node (bottom) -->
-          <g class="skill-node">
-            <circle cx="200" cy="220" r="22" fill="var(--accent)" opacity="0.05" />
-            <circle cx="200" cy="220" r="22" fill="none" stroke="var(--accent)" stroke-width="1" opacity="0.4" />
-            <text x="200" y="225" text-anchor="middle" font-family="var(--font-heading)" font-size="11" font-weight="600" fill="var(--ink-muted)">Testing</text>
-          </g>
-        </svg>
+        <div class="skill-orbit">
+          <div class="skill-orbit-track"></div>
+          <span class="skill-orbit-marker skill-orbit-marker--1">TypeScript</span>
+          <span class="skill-orbit-marker skill-orbit-marker--2">RxJS</span>
+          <span class="skill-orbit-marker skill-orbit-marker--3">NgRx</span>
+          <span class="skill-orbit-marker skill-orbit-marker--4">Forms</span>
+          <span class="skill-orbit-marker skill-orbit-marker--5">Routing</span>
+          <span class="skill-orbit-marker skill-orbit-marker--6">DI</span>
+        </div>
       </div>
 
-      <!-- Skills grid -->
-      <div class="skills-grid reveal-stagger">
-        <div class="skill-group">
-          <h3>Frameworks &amp; Languages</h3>
-          <p>Angular, Angular CLI, TypeScript, JavaScript (ES6+), HTML5, CSS3</p>
-        </div>
-        <div class="skill-group">
-          <h3>Architecture &amp; State</h3>
-          <p>RxJS, Observables, Subjects, dependency injection, component-based architecture, lazy loading, route guards</p>
-        </div>
-        <div class="skill-group">
-          <h3>APIs &amp; Forms</h3>
-          <p>RESTful APIs, HttpClient, reactive forms, template-driven forms, JSON</p>
-        </div>
-        <div class="skill-group">
-          <h3>Testing &amp; Quality</h3>
-          <p>Jasmine, Karma, ESLint, Prettier, SonarQube</p>
-        </div>
-        <div class="skill-group">
-          <h3>Tools &amp; Workflow</h3>
-          <p>Git, GitHub, Jira, Angular Material, VS Code</p>
-        </div>
+      <!-- Capability clusters -->
+      <div class="skill-clusters reveal-stagger">
+        <article class="skill-cluster">
+          <header class="skill-cluster-head">
+            <span class="skill-cluster-num">A</span>
+            <h3>Frameworks &amp; Languages</h3>
+          </header>
+          <ul class="skill-cluster-items">
+            <li>Angular <span class="skill-cluster-meta">v17–v20</span></li>
+            <li>Angular CLI</li>
+            <li>TypeScript</li>
+            <li>JavaScript <span class="skill-cluster-meta">ES6+</span></li>
+            <li>HTML5 · CSS3 · SCSS</li>
+          </ul>
+        </article>
+
+        <article class="skill-cluster">
+          <header class="skill-cluster-head">
+            <span class="skill-cluster-num">B</span>
+            <h3>Architecture &amp; State</h3>
+          </header>
+          <ul class="skill-cluster-items">
+            <li>RxJS · Observables · Subjects</li>
+            <li>Signals &amp; computed</li>
+            <li>Standalone components</li>
+            <li>Lazy loading · Route guards</li>
+            <li>Dependency injection</li>
+          </ul>
+        </article>
+
+        <article class="skill-cluster">
+          <header class="skill-cluster-head">
+            <span class="skill-cluster-num">C</span>
+            <h3>APIs &amp; Forms</h3>
+          </header>
+          <ul class="skill-cluster-items">
+            <li>HttpClient · Interceptors</li>
+            <li>Reactive forms</li>
+            <li>Template-driven forms</li>
+            <li>REST · JSON contracts</li>
+            <li>Auth · RBAC patterns</li>
+          </ul>
+        </article>
+
+        <article class="skill-cluster">
+          <header class="skill-cluster-head">
+            <span class="skill-cluster-num">D</span>
+            <h3>Testing &amp; Quality</h3>
+          </header>
+          <ul class="skill-cluster-items">
+            <li>Jasmine · Karma</li>
+            <li>TestBed harnesses</li>
+            <li>ESLint · Prettier</li>
+            <li>SonarQube</li>
+            <li>Cross-browser debugging</li>
+          </ul>
+        </article>
+
+        <article class="skill-cluster">
+          <header class="skill-cluster-head">
+            <span class="skill-cluster-num">E</span>
+            <h3>UI &amp; Tooling</h3>
+          </header>
+          <ul class="skill-cluster-items">
+            <li>Angular Material</li>
+            <li>CSS Grid · Flexbox</li>
+            <li>Responsive design</li>
+            <li>Git · GitHub</li>
+            <li>Jira · Agile / Scrum</li>
+          </ul>
+        </article>
       </div>
     </div>
   </div>

@@ -1,88 +1,142 @@
 <div class="hero-visual" [class.mobile]="isMobile" [class.reduced]="prefersReducedMotion">
   <div class="hero-visual-scene">
-    <!-- Central hub -->
-    <div class="panel panel--center" [style.transform]="'translateZ(60px)'">
-      <span class="panel-label">Angular Core</span>
-      <span class="panel-sub">Component Architecture</span>
-    </div>
 
-    <!-- Layer 1 panels -->
-    <div class="panel panel--component" [style.transform]="'translateZ(30px) translateX(-80px) translateY(-60px)'">
-      <span class="panel-label">Components</span>
-      <span class="panel-dot"></span>
-    </div>
+    <!-- Background technical grid + orbit rings (SVG) -->
+    <svg class="hero-visual-grid" viewBox="0 0 600 460" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <pattern id="tech-dots" x="0" y="0" width="22" height="22" patternUnits="userSpaceOnUse">
+          <circle cx="1" cy="1" r="0.9" fill="rgba(255,255,255,0.18)" />
+        </pattern>
+        <radialGradient id="center-halo" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="rgba(31,58,138,0.22)" />
+          <stop offset="60%" stop-color="rgba(31,58,138,0.06)" />
+          <stop offset="100%" stop-color="rgba(0,0,0,0)" />
+        </radialGradient>
+      </defs>
 
-    <div class="panel panel--service" [style.transform]="'translateZ(30px) translateX(80px) translateY(-60px)'">
-      <span class="panel-label">Services</span>
-      <span class="panel-dot"></span>
-    </div>
+      <!-- Dot field -->
+      <rect x="70" y="50" width="460" height="360" fill="url(#tech-dots)" opacity="0.75" />
 
-    <div class="panel panel--directive" [style.transform]="'translateZ(30px) translateX(-80px) translateY(60px)'">
-      <span class="panel-label">Directives</span>
-      <span class="panel-dot"></span>
-    </div>
+      <!-- Concentric orbital rings -->
+      <g class="orbit-group">
+        <circle cx="300" cy="230" r="175" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1" />
+        <circle cx="300" cy="230" r="125" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1" stroke-dasharray="2 4" />
+        <circle cx="300" cy="230" r="65" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1" />
+      </g>
 
-    <div class="panel panel--pipe" [style.transform]="'translateZ(30px) translateX(80px) translateY(60px)'">
-      <span class="panel-label">Pipes</span>
-      <span class="panel-dot"></span>
-    </div>
+      <!-- Soft center glow -->
+      <circle cx="300" cy="230" r="100" fill="url(#center-halo)" />
 
-    <!-- Layer 2 panels (deeper) -->
-    <div class="panel panel--routing" [style.transform]="'translateZ(0px) translateX(0px) translateY(-110px)'">
-      <span class="panel-label">Routing</span>
-      <span class="panel-dot"></span>
-    </div>
+      <!-- Connection lines from Center to Layer 1 -->
+      <g class="connections" stroke="rgba(255,255,255,0.22)" stroke-width="1" fill="none">
+        <line class="conn conn--1" x1="300" y1="230" x2="220" y2="165" />
+        <line class="conn conn--2" x1="300" y1="230" x2="380" y2="165" />
+        <line class="conn conn--3" x1="300" y1="230" x2="220" y2="295" />
+        <line class="conn conn--4" x1="300" y1="230" x2="380" y2="295" />
 
-    <div class="panel panel--rxjs" [style.transform]="'translateZ(0px) translateX(110px) translateY(0px)'">
-      <span class="panel-label">RxJS</span>
-      <span class="panel-dot"></span>
-    </div>
+        <!-- Connection lines from Center to Layer 2 -->
+        <line class="conn conn--5" x1="300" y1="230" x2="300" y2="105" stroke-dasharray="3 3" opacity="0.7" />
+        <line class="conn conn--6" x1="300" y1="230" x2="435" y2="230" stroke-dasharray="3 3" opacity="0.7" />
+        <line class="conn conn--7" x1="300" y1="230" x2="300" y2="355" stroke-dasharray="3 3" opacity="0.7" />
+        <line class="conn conn--8" x1="300" y1="230" x2="165" y2="230" stroke-dasharray="3 3" opacity="0.7" />
 
-    <div class="panel panel--forms" [style.transform]="'translateZ(0px) translateX(-110px) translateY(0px)'">
-      <span class="panel-label">Forms</span>
-      <span class="panel-dot"></span>
-    </div>
+        <!-- Outer link arcs / mesh -->
+        <line x1="220" y1="165" x2="300" y2="105" stroke="rgba(255,255,255,0.10)" stroke-width="0.75" />
+        <line x1="380" y1="165" x2="300" y2="105" stroke="rgba(255,255,255,0.10)" stroke-width="0.75" />
+        <line x1="380" y1="165" x2="435" y2="230" stroke="rgba(255,255,255,0.10)" stroke-width="0.75" />
+        <line x1="380" y1="295" x2="435" y2="230" stroke="rgba(255,255,255,0.10)" stroke-width="0.75" />
+        <line x1="380" y1="295" x2="300" y2="355" stroke="rgba(255,255,255,0.10)" stroke-width="0.75" />
+        <line x1="220" y1="295" x2="300" y2="355" stroke="rgba(255,255,255,0.10)" stroke-width="0.75" />
+        <line x1="220" y1="295" x2="165" y2="230" stroke="rgba(255,255,255,0.10)" stroke-width="0.75" />
+        <line x1="220" y1="165" x2="165" y2="230" stroke="rgba(255,255,255,0.10)" stroke-width="0.75" />
+      </g>
 
-    <div class="panel panel--testing" [style.transform]="'translateZ(0px) translateX(0px) translateY(110px)'">
-      <span class="panel-label">Testing</span>
-      <span class="panel-dot"></span>
-    </div>
+      <!-- Corner coordinate framing -->
+      <g class="corner-frame" stroke="rgba(255,255,255,0.32)" stroke-width="1">
+        <path d="M 80 60 L 80 75 M 65 75 L 80 75" />
+        <path d="M 520 60 L 520 75 M 535 75 L 520 75" />
+        <path d="M 80 400 L 80 385 M 65 385 L 80 385" />
+        <path d="M 520 400 L 520 385 M 535 385 L 520 385" />
+      </g>
 
-    <!-- Connection lines and restrained data-flow accents -->
-    <svg class="connections" viewBox="-150 -150 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle class="flow flow--1" cx="-42" cy="-31" r="2.5" fill="var(--accent)" />
-      <circle class="flow flow--2" cx="43" cy="-31" r="2.5" fill="var(--accent)" />
-      <circle class="flow flow--3" cx="-43" cy="31" r="2.5" fill="var(--accent)" />
-      <circle class="flow flow--4" cx="43" cy="31" r="2.5" fill="var(--accent)" />
-      <!-- Lines from center to layer 1 -->
-      <line x1="0" y1="0" x2="-80" y2="-60" stroke="var(--accent)" stroke-width="1" opacity="0.3" />
-      <line x1="0" y1="0" x2="80" y2="-60" stroke="var(--accent)" stroke-width="1" opacity="0.3" />
-      <line x1="0" y1="0" x2="-80" y2="60" stroke="var(--accent)" stroke-width="1" opacity="0.3" />
-      <line x1="0" y1="0" x2="80" y2="60" stroke="var(--accent)" stroke-width="1" opacity="0.3" />
-
-      <!-- Lines from center to layer 2 -->
-      <line x1="0" y1="0" x2="0" y2="-110" stroke="var(--accent)" stroke-width="1" opacity="0.2" />
-      <line x1="0" y1="0" x2="110" y2="0" stroke="var(--accent)" stroke-width="1" opacity="0.2" />
-      <line x1="0" y1="0" x2="-110" y2="0" stroke="var(--accent)" stroke-width="1" opacity="0.2" />
-      <line x1="0" y1="0" x2="0" y2="110" stroke="var(--accent)" stroke-width="1" opacity="0.2" />
-
-      <!-- Cross connections -->
-      <line x1="-80" y1="-60" x2="0" y2="-110" stroke="var(--accent)" stroke-width="0.5" opacity="0.15" />
-      <line x1="80" y1="-60" x2="110" y2="0" stroke="var(--accent)" stroke-width="0.5" opacity="0.15" />
-      <line x1="80" y1="60" x2="0" y2="110" stroke="var(--accent)" stroke-width="0.5" opacity="0.15" />
-      <line x1="-80" y1="60" x2="-110" y2="0" stroke="var(--accent)" stroke-width="0.5" opacity="0.15" />
-
-      <!-- Travel pulses along main connections -->
-      <circle class="flow-travel flow-travel--1" cx="0" cy="0" r="2.5" fill="var(--accent)" style="offset-path: path('M 0 0 L -80 -60');" />
-      <circle class="flow-travel flow-travel--2" cx="0" cy="0" r="2.5" fill="var(--accent)" style="offset-path: path('M 0 0 L 80 -60');" />
-      <circle class="flow-travel flow-travel--3" cx="0" cy="0" r="2.5" fill="var(--accent)" style="offset-path: path('M 0 0 L -80 60');" />
-      <circle class="flow-travel flow-travel--4" cx="0" cy="0" r="2.5" fill="var(--accent)" style="offset-path: path('M 0 0 L 0 -110');" />
+      <!-- Technical labels -->
+      <text x="90" y="52" fill="rgba(255,255,255,0.4)" font-family="var(--font-mono)" font-size="9" letter-spacing="0.14em">
+        SYS.ARCH // ANGULAR
+      </text>
+      <text x="510" y="52" text-anchor="end" fill="rgba(255,255,255,0.4)" font-family="var(--font-mono)" font-size="9" letter-spacing="0.14em">
+        v20.2 · STANDALONE
+      </text>
+      <text x="90" y="416" fill="rgba(255,255,255,0.35)" font-family="var(--font-mono)" font-size="9" letter-spacing="0.12em">
+        ENTERPRISE RUNTIME
+      </text>
+      <text x="510" y="416" text-anchor="end" fill="rgba(255,255,255,0.35)" font-family="var(--font-mono)" font-size="9" letter-spacing="0.12em">
+        PRODUCTION READY
+      </text>
     </svg>
 
-    <!-- Floating particles -->
-    <div class="particle particle--1"></div>
-    <div class="particle particle--2"></div>
-    <div class="particle particle--3"></div>
-    <div class="particle particle--4"></div>
+    <!-- Center node — Angular Core (highest Z depth) -->
+    <div class="node node--core">
+      <div class="node-glow"></div>
+      <div class="node-core-card">
+        <div class="node-icon">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round">
+            <path d="M12 2 L21 6.5 V17.5 L12 22 L3 17.5 V6.5 Z" />
+            <path d="M3 6.5 L12 11 L21 6.5 M12 11 V22" />
+          </svg>
+        </div>
+        <div class="node-text">
+          <span class="node-title">Angular Core</span>
+          <span class="node-meta">Component Architecture</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Layer 1: 4 Primary Nodes (Z = +24px) -->
+    <div class="node node--chip node--nw" (mouseenter)="onNodeHover('Components')" (mouseleave)="onNodeLeave()">
+      <span class="chip-pulse"></span>
+      <span class="chip-label">Components</span>
+    </div>
+    <div class="node node--chip node--ne" (mouseenter)="onNodeHover('Services')" (mouseleave)="onNodeLeave()">
+      <span class="chip-pulse"></span>
+      <span class="chip-label">Services</span>
+    </div>
+    <div class="node node--chip node--sw" (mouseenter)="onNodeHover('Directives')" (mouseleave)="onNodeLeave()">
+      <span class="chip-pulse"></span>
+      <span class="chip-label">Directives</span>
+    </div>
+    <div class="node node--chip node--se" (mouseenter)="onNodeHover('Pipes')" (mouseleave)="onNodeLeave()">
+      <span class="chip-pulse"></span>
+      <span class="chip-label">Pipes</span>
+    </div>
+
+    <!-- Layer 2: 4 Supporting Nodes (Z = 0px) -->
+    <div class="node node--chip-sub node--n" (mouseenter)="onNodeHover('Routing')" (mouseleave)="onNodeLeave()">
+      <span class="chip-dot"></span>
+      <span class="chip-label">Routing</span>
+    </div>
+    <div class="node node--chip-sub node--e" (mouseenter)="onNodeHover('RxJS')" (mouseleave)="onNodeLeave()">
+      <span class="chip-dot"></span>
+      <span class="chip-label">RxJS</span>
+    </div>
+    <div class="node node--chip-sub node--s" (mouseenter)="onNodeHover('Testing')" (mouseleave)="onNodeLeave()">
+      <span class="chip-dot"></span>
+      <span class="chip-label">Testing</span>
+    </div>
+    <div class="node node--chip-sub node--w" (mouseenter)="onNodeHover('Forms')" (mouseleave)="onNodeLeave()">
+      <span class="chip-dot"></span>
+      <span class="chip-label">Forms</span>
+    </div>
+
+    <!-- Ambient floating elements for subtle depth -->
+    <div class="depth-particle particle--1"></div>
+    <div class="depth-particle particle--2"></div>
+    <div class="depth-particle particle--3"></div>
+    <div class="depth-particle particle--4"></div>
+
+    <!-- Editorial status footer -->
+    <div class="hero-visual-footer">
+      <span class="live-beacon"></span>
+      <span class="footer-text">State &amp; Component Graph Active</span>
+    </div>
   </div>
 </div>

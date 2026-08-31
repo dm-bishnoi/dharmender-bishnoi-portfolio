@@ -1,76 +1,140 @@
 :host {
   display: block;
+  background: var(--bg);
 }
 
 .contact {
-  max-width: var(--max);
-  margin: 0 auto;
-  padding: 100px var(--side);
-  border-top: 1px solid var(--border);
+  position: relative;
+  border-bottom: 1px solid var(--border);
 }
 
-.contact-inner {
-  max-width: 560px;
+.contact-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
+  gap: clamp(40px, 6vw, 80px);
+  align-items: start;
 }
 
-h2 {
-  font-family: var(--font-heading);
-  font-size: clamp(28px, 3.5vw, 40px);
-  font-weight: 700;
-  line-height: 1.1;
-  letter-spacing: -0.03em;
-  color: var(--ink);
-  margin: 0 0 16px;
+.contact-head {
+  position: sticky;
+  top: 96px;
+  align-self: start;
 }
 
-.contact-intro {
-  font-size: 18px;
-  line-height: 1.7;
-  color: var(--ink-light);
-  margin: 0 0 36px;
+.contact-head .eyebrow {
+  margin-bottom: 22px;
 }
 
-/* ── Contact Action ── */
-.contact-action {
+.contact-body {
+  min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  padding: 20px 24px;
-  border: 1px solid var(--border-strong);
+  gap: 14px;
+}
+
+/* ── Primary email action ────────────────────────────── */
+.contact-action {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 20px;
+  padding: 24px 26px;
+  background: var(--ink);
+  color: white;
+  border: 1px solid var(--ink);
   border-radius: var(--radius-lg);
-  margin-bottom: 16px;
-  transition: border-color var(--duration-base) var(--ease-out),
-              background var(--duration-base) var(--ease-out),
-              transform var(--duration-base) var(--ease-out),
-              box-shadow var(--duration-base) var(--ease-out);
+  transition: transform var(--duration-base) var(--ease-out),
+              box-shadow var(--duration-base) var(--ease-out),
+              background var(--duration-base) var(--ease-out);
+  overflow: hidden;
+}
+
+.contact-action::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at top right,
+    rgba(31, 58, 138, 0.35),
+    transparent 60%
+  );
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--duration-base) var(--ease-out);
 }
 
 .contact-action:hover {
-  border-color: var(--accent);
-  background: var(--accent-subtle);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-accent);
+  transform: translateY(-3px);
+  background: var(--ink-soft);
+  box-shadow: var(--shadow-xl);
+}
+
+.contact-action:hover::before {
+  opacity: 1;
 }
 
 .contact-action:active {
   transform: translateY(0);
 }
 
+.contact-action-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-md);
+  color: rgba(255, 255, 255, 0.85);
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.contact-action-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  position: relative;
+  z-index: 1;
+}
+
 .contact-action-label {
-  font-size: 12px;
-  font-weight: 600;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--ink-muted);
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.55);
 }
 
 .contact-action-value {
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--ink);
+  font-family: var(--font-heading);
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: white;
+  word-break: break-all;
 }
 
-/* ── Contact Channels ── */
+.contact-action-arrow {
+  font-size: 22px;
+  color: rgba(255, 255, 255, 0.7);
+  transition: transform var(--duration-base) var(--ease-out);
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.contact-action:hover .contact-action-arrow {
+  transform: translateX(4px);
+  color: white;
+}
+
+/* ── LinkedIn / GitHub channels ──────────────────────── */
 .contact-channels {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -78,10 +142,12 @@ h2 {
 }
 
 .contact-channel {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  padding: 16px 20px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 20px;
+  background: var(--bg-pure);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   transition: border-color var(--duration-base) var(--ease-out),
@@ -91,17 +157,43 @@ h2 {
 }
 
 .contact-channel:hover {
-  border-color: var(--border-strong);
-  background: var(--surface);
+  border-color: var(--ink);
+  background: var(--bg-pure);
   transform: translateY(-2px);
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-md);
+}
+
+.contact-channel-icon {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+  color: var(--ink);
+  transition: background var(--duration-base) var(--ease-out),
+              color var(--duration-base) var(--ease-out);
+}
+
+.contact-channel:hover .contact-channel-icon {
+  background: var(--ink);
+  color: white;
+}
+
+.contact-channel-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
 }
 
 .contact-channel-label {
-  font-size: 12px;
-  font-weight: 600;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.1em;
   color: var(--ink-muted);
 }
 
@@ -109,15 +201,83 @@ h2 {
   font-size: 14px;
   color: var(--ink);
   overflow-wrap: anywhere;
+  line-height: 1.4;
 }
 
-@media (max-width: 700px) {
-  .contact {
-    padding-top: 50px;
-    padding-bottom: 50px;
+.contact-channel-arrow {
+  font-size: 16px;
+  color: var(--ink-muted);
+  transition: transform var(--duration-base) var(--ease-out),
+              color var(--duration-base) var(--ease-out);
+}
+
+.contact-channel:hover .contact-channel-arrow {
+  transform: translate(2px, -2px);
+  color: var(--accent);
+}
+
+/* ── Footnote ────────────────────────────────────────── */
+.contact-footnote {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--ink-muted);
+  margin: 14px 4px 0;
+}
+
+.contact-footnote-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #60c97f;
+  box-shadow: 0 0 0 3px rgba(96, 201, 127, 0.18);
+  animation: fn-pulse 2s ease-in-out infinite;
+}
+
+@keyframes fn-pulse {
+  0%, 100% { box-shadow: 0 0 0 3px rgba(96, 201, 127, 0.18); }
+  50% { box-shadow: 0 0 0 6px rgba(96, 201, 127, 0); }
+}
+
+/* ── Responsive ──────────────────────────────────────── */
+@media (max-width: 980px) {
+  .contact-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .contact-head {
+    position: static;
   }
 
   .contact-channels {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .contact-action {
+    grid-template-columns: auto 1fr;
+    gap: 14px;
+    padding: 20px;
+  }
+
+  .contact-action-arrow {
+    grid-column: 1 / -1;
+    text-align: right;
+    font-size: 16px;
+  }
+
+  .contact-action-value {
+    font-size: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contact-footnote-dot {
+    animation: none;
   }
 }

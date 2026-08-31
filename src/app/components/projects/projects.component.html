@@ -1,86 +1,192 @@
-<section id="projects" class="projects reveal">
-  <div class="projects-head">
+<section id="projects" class="projects sec sec--wide reveal">
+  <div class="projects-divider sec-divider"></div>
+
+  <header class="projects-head">
     <div class="projects-head-left reveal-left">
-      <h2>What I've built</h2>
+      <span class="eyebrow"><span class="sec-number">05</span> Selected work</span>
+      <h2 class="sec-head">
+        What I've <em>built</em>.
+      </h2>
     </div>
     <div class="projects-head-right reveal-right">
-      <p class="projects-lede">
-        The work I do most day to day is enterprise Angular in production.
-        Flexschema is that work. Card-Play is the work I build on my own
-        time.
+      <p class="sec-lede">
+        The work I do most day to day is enterprise Angular in
+        production. <strong>Flexschema</strong> is that work.
+        <strong>Card-Play</strong> is what I build on my own time.
       </p>
     </div>
-  </div>
+  </header>
 
-  <article class="project-featured reveal-scale">
-    <div class="project-featured-grid">
-      <div class="project-featured-copy">
-        <div class="project-meta">
-          <span>Enterprise CRM</span>
-          <span>Angular · .NET · SQL Server</span>
+  <!-- Featured: Flexschema case study -->
+  <article class="project-featured reveal-scale" aria-labelledby="flexschema-title">
+
+    <!-- Visual first: frame with mock CRM UI -->
+    <div class="project-visual">
+      <div class="project-visual-frame hover-tilt">
+        <!-- Browser chrome -->
+        <div class="project-visual-chrome">
+          <span class="project-visual-dot" style="background:#e76060"></span>
+          <span class="project-visual-dot" style="background:#e7c060"></span>
+          <span class="project-visual-dot" style="background:#60c97f"></span>
+          <span class="project-visual-url">app.flexschema.com / customers</span>
+          <span class="project-visual-status">
+            <span class="status-dot"></span> Live
+          </span>
         </div>
-        <h3>Flexschema</h3>
-        <p class="project-desc">
-          Frontend development for an enterprise CRM platform used
-          by business teams to manage customers, workflows, and
-          permissions. I built and maintained the Angular frontend
-          for configurable UI modules and role-based access control.
-        </p>
-        <p class="project-context">
-          <span class="project-label">My contribution</span>
+
+        <!-- Mock UI: sidebar + main content -->
+        <div class="project-visual-screen">
+          <aside class="mock-sidebar">
+            <div class="mock-logo">
+              <span class="mock-logo-mark">F</span>
+              <span class="mock-logo-text">Flexschema</span>
+            </div>
+            <ul class="mock-nav">
+              <li class="mock-nav-item mock-nav-item--active">Dashboard</li>
+              <li class="mock-nav-item">Customers</li>
+              <li class="mock-nav-item">Workflows</li>
+              <li class="mock-nav-item">Permissions</li>
+              <li class="mock-nav-item">Reports</li>
+            </ul>
+            <div class="mock-user">
+              <span class="mock-avatar">DB</span>
+              <span class="mock-user-meta">
+                <span class="mock-user-name">D. Bishnoi</span>
+                <span class="mock-user-role">Admin</span>
+              </span>
+            </div>
+          </aside>
+
+          <main class="mock-main">
+            <div class="mock-page-head">
+              <h4>Customer records</h4>
+              <span class="mock-page-count">2,184 results</span>
+            </div>
+
+            <div class="mock-toolbar">
+              <span class="mock-search">Search customers…</span>
+              <span class="mock-filter">+ Filter</span>
+            </div>
+
+            <ul class="mock-table">
+              <li class="mock-row mock-row--head">
+                <span>Name</span><span>Status</span><span>Region</span>
+              </li>
+              <li class="mock-row">
+                <span>Acme Corp.</span>
+                <span class="mock-pill mock-pill--green">Active</span>
+                <span>EU-W</span>
+              </li>
+              <li class="mock-row">
+                <span>Northwind Ltd.</span>
+                <span class="mock-pill mock-pill--amber">Pending</span>
+                <span>NA-E</span>
+              </li>
+              <li class="mock-row">
+                <span>Initech Inc.</span>
+                <span class="mock-pill mock-pill--green">Active</span>
+                <span>NA-W</span>
+              </li>
+              <li class="mock-row">
+                <span>Hooli Group</span>
+                <span class="mock-pill mock-pill--gray">Archived</span>
+                <span>EU-C</span>
+              </li>
+              <li class="mock-row">
+                <span>Stark Industries</span>
+                <span class="mock-pill mock-pill--green">Active</span>
+                <span>APAC</span>
+              </li>
+            </ul>
+          </main>
+        </div>
+      </div>
+
+      <span class="project-visual-caption">
+        <span class="project-visual-caption-tag">Visualization</span>
+        Editorial mock of the Flexschema customer-records screen.
+        Real production UI sits behind authentication.
+      </span>
+    </div>
+
+    <!-- Copy -->
+    <div class="project-copy">
+      <div class="project-meta">
+        <span class="mono-chip mono-chip--accent">Enterprise CRM</span>
+        <span class="mono-chip">Angular · .NET · SQL Server</span>
+      </div>
+
+      <h3 id="flexschema-title" class="project-title">Flexschema</h3>
+
+      <p class="project-desc">
+        Frontend development for an enterprise CRM platform used by
+        business teams to manage customers, workflows, and
+        permissions. I built and maintained the Angular frontend for
+        configurable UI modules and role-based access control.
+      </p>
+
+      <div class="project-context">
+        <span class="project-context-label">My contribution</span>
+        <p>
           Built and maintained the Angular features end to end —
           configurable components, route guards, API integration —
           shipping with unit tests and working inside an Agile team.
         </p>
-        <ul class="project-highlights reveal-stagger">
-          <li>Reusable Angular components for configurable UI modules</li>
-          <li>Role-based access control across application features</li>
-          <li>Lazy-loaded routes with RxJS subscription management</li>
-          <li>Responsive cross-browser interface</li>
-          <li>Unit tests with Jasmine and Karma</li>
-        </ul>
       </div>
 
-      <div class="project-visual-container">
-        <div class="project-visual-frame">
-          <div class="project-visual-inner">
-            <div class="project-visual-placeholder">
-              <div class="placeholder-grid">
-                <div class="placeholder-bar"></div>
-                <div class="placeholder-bar placeholder-bar--short"></div>
-                <div class="placeholder-bar"></div>
-                <div class="placeholder-bar placeholder-bar--short"></div>
-                <div class="placeholder-bar"></div>
-                <div class="placeholder-bar placeholder-bar--short"></div>
-                <div class="placeholder-bar"></div>
-                <div class="placeholder-bar placeholder-bar--short"></div>
-              </div>
-              <span class="placeholder-text">Flexschema UI preview will appear here</span>
-            </div>
-          </div>
-        </div>
-        <span class="project-visual-note">Replace with a real screenshot of the Flexschema interface.</span>
-      </div>
+      <ul class="project-highlights reveal-stagger">
+        <li>
+          <span class="project-highlight-mark">→</span>
+          Reusable Angular components for configurable UI modules
+        </li>
+        <li>
+          <span class="project-highlight-mark">→</span>
+          Role-based access control across application features
+        </li>
+        <li>
+          <span class="project-highlight-mark">→</span>
+          Lazy-loaded routes with RxJS subscription management
+        </li>
+        <li>
+          <span class="project-highlight-mark">→</span>
+          Responsive cross-browser interface
+        </li>
+        <li>
+          <span class="project-highlight-mark">→</span>
+          Unit tests with Jasmine and Karma
+        </li>
+      </ul>
     </div>
   </article>
 
-  <article class="project project--secondary reveal">
-    <div class="project-meta">
-      <span>Open source</span>
-      <span>GitHub</span>
-    </div>
-    <h3>Card-Play</h3>
-    <p class="project-desc">
-      A TypeScript card-game logic library — a small, focused
-      open-source experiment outside of enterprise contexts.
-    </p>
-    <ul class="project-links">
-      <li>
-        <a href="https://github.com/dm-bishnoi/Card-Play" target="_blank" rel="noopener noreferrer" class="link-underline">
-          Card-Play on GitHub
-          <span class="project-link-desc">— github.com/dm-bishnoi/Card-Play</span>
+  <!-- Secondary: Card-Play -->
+  <article class="project-secondary reveal" aria-labelledby="cardplay-title">
+    <div class="project-secondary-inner">
+      <div class="project-secondary-copy">
+        <div class="project-meta">
+          <span class="mono-chip">Open source</span>
+          <span class="mono-chip">TypeScript</span>
+        </div>
+        <h3 id="cardplay-title" class="project-secondary-title">Card-Play</h3>
+        <p class="project-secondary-desc">
+          A TypeScript card-game logic library — a small, focused
+          open-source experiment outside of enterprise contexts.
+          Hand-rolled state machine, immutable hands, and
+          deterministic round resolution.
+        </p>
+      </div>
+
+      <div class="project-secondary-links">
+        <a class="btn btn-ghost"
+           href="https://github.com/dm-bishnoi/Card-Play"
+           target="_blank" rel="noopener noreferrer">
+          View on GitHub
+          <span class="btn-arrow">→</span>
         </a>
-      </li>
-    </ul>
+        <span class="project-secondary-handle">
+          github.com/dm-bishnoi/Card-Play
+        </span>
+      </div>
+    </div>
   </article>
 </section>

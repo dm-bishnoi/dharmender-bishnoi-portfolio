@@ -1,4 +1,44 @@
-<footer class="site-footer">
-  <span>&copy; {{ year }} Dharmender Bishnoi</span>
-  <span>Built with Angular</span>
+<footer class="site-footer" aria-labelledby="footer-heading">
+  <h2 id="footer-heading" class="sr-only">Site footer</h2>
+
+  <div class="sec sec--wide">
+    <div class="footer-divider" aria-hidden="true"></div>
+
+    <div class="footer-grid">
+      <div class="footer-mark">
+        <div class="footer-logo" aria-hidden="true">
+          <span class="footer-logo__dot"></span>
+          <span class="footer-logo__line"></span>
+        </div>
+        <div class="footer-mark__meta">
+          <p class="footer-mark__name">Dharmender Bishnoi</p>
+          <p class="footer-mark__role">Senior Frontend Engineer · Angular</p>
+        </div>
+      </div>
+
+      <nav class="footer-nav" aria-label="Footer">
+        <a href="#top" class="footer-link">↑ Back to top</a>
+        <a href="https://github.com/dm-bishnoi" target="_blank" rel="noopener" class="footer-link">GitHub</a>
+        <a href="https://www.linkedin.com/in/dharmender-bishnoi" target="_blank" rel="noopener" class="footer-link">LinkedIn</a>
+        <a href="mailto:hi@dharmenderbishnoi.dev" class="footer-link">Email</a>
+      </nav>
+
+      <div class="footer-built">
+        <p class="footer-built__line">
+          <span class="mono-chip mono-chip--ghost">Angular 20</span>
+          <span class="mono-chip mono-chip--ghost">Standalone</span>
+          <span class="mono-chip mono-chip--ghost">SSR-ready</span>
+        </p>
+        <p class="footer-built__note">No trackers · No analytics · Hand-built.</p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p class="footer-bottom__copy">© {{ year }} Dharmender Bishnoi. All rights reserved.</p>
+      <p class="footer-bottom__lat">
+        <span class="footer-bottom__pulse" aria-hidden="true"></span>
+        <span>Jaipur · IN · {{ year }}</span>
+      </p>
+    </div>
+  </div>
 </footer>

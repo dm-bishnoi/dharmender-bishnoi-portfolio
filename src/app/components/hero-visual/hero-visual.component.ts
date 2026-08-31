@@ -15,6 +15,17 @@ export class HeroVisualComponent implements AfterViewInit, OnDestroy {
   private animationFrameId: number | null = null;
   private observer: IntersectionObserver | null = null;
   private mediaQuery: MediaQueryList;
+  private isVisible = false;
+
+  // Parallax & interactive state
+  private targetX = 0;
+  private targetY = 0;
+  private currentX = 0;
+  private currentY = 0;
+  private currentScale = 1;
+  private targetScale = 1;
+  private lastFrame = 0;
+
   private onMotionPreferenceChange = (event: MediaQueryListEvent): void => {
     this.prefersReducedMotion = event.matches;
     if (this.prefersReducedMotion) {
@@ -24,18 +35,6 @@ export class HeroVisualComponent implements AfterViewInit, OnDestroy {
       this.startAnimation();
     }
   };
-  private isVisible = false;
-  private targetX = 0;
-  private targetY = 0;
-  private currentX = 0;
-  private currentY = 0;
-  private targetScale = 1;
-  private currentScale = 1;
-  private lastFrame = 0;
-  private hoverX = 0; // Hover offset X
-  private hoverY = 0; // Hover offset Y
-  private hoverScale = 1; // Hover scale effect
-  private hoveredElement: HTMLElement | null = null;
 
   constructor(private elementRef: ElementRef<HTMLElement>, private ngZone: NgZone) {
     this.host = this.elementRef.nativeElement;
@@ -50,10 +49,6 @@ export class HeroVisualComponent implements AfterViewInit, OnDestroy {
     this.mediaQuery.addEventListener('change', this.onMotionPreferenceChange);
     this.host.addEventListener('pointermove', this.handlePointerMove, { passive: true });
     this.host.addEventListener('pointerleave', this.handlePointerLeave, { passive: true });
-    this.host.addEventListener('pointerenter', this.handlePointerEnter, { passive: true });
-
-    // Set up hover detection for individual panels
-    this.setupPanelHoverDetection();
 
     this.observer = new IntersectionObserver(([entry]) => {
       this.isVisible = entry.isIntersecting;
@@ -62,68 +57,10 @@ export class HeroVisualComponent implements AfterViewInit, OnDestroy {
       } else {
         this.stopAnimation();
       }
-    }, { threshold: 0.15 });
+    }, { threshold: 0.1 });
 
     this.observer.observe(this.host);
   }
-
-  private setupPanelHoverDetection(): void {
-    // Add mouseenter/mouseleave listeners to each panel for hover effects
-    const panels = this.host.querySelectorAll<HTMLElement>('.panel');
-    panels.forEach(panel => {
-      panel.addEventListener('mouseenter', this.handlePanelHoverEnter);
-      panel.addEventListener('mouseleave', this.handlePanelHoverLeave);
-    });
-  }
-
-  private handlePanelHoverEnter = (event: MouseEvent): void => {
-    if (this.prefersReducedMotion || this.isMobile) return;
-    
-    const target = event.currentTarget as HTMLElement;
-    this.hoveredElement = target;
-    // Add a subtle lift effect with CSS transition
-    target.style.transition = 'transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)';
-    // Add lift to existing transform (preserving CSS animations)
-    const currentTransform = target.style.transform || '';
-    target.style.transform = currentTransform + ' translateZ(12px) scale(1.03)';
-    
-    // Also make the panel label and dot pulse slightly
-    const label = target.querySelector('.panel-label') as HTMLElement | null;
-    const dot = target.querySelector('.panel-dot') as HTMLElement | null;
-    if (label) {
-      label.style.transition = 'color 0.3s ease, transform 0.3s ease';
-      label.style.color = 'var(--color-accent)';
-      label.style.transform = 'scale(1.05)';
-    }
-    if (dot) {
-      dot.style.transition = 'background-color 0.3s ease, transform 0.3s ease';
-      dot.style.backgroundColor = 'var(--color-accent)';
-      dot.style.transform = 'scale(1.2)';
-    }
-  };
-
-  private handlePanelHoverLeave = (event: MouseEvent): void => {
-    if (this.prefersReducedMotion || this.isMobile) return;
-    
-    const target = event.currentTarget as HTMLElement;
-    this.hoveredElement = null;
-    // Remove hover effects smoothly
-    target.style.transition = 'transform 0.5s ease';
-    target.style.transform = ''; // Reset to let CSS animations take over
-    
-    const label = target.querySelector('.panel-label') as HTMLElement | null;
-    const dot = target.querySelector('.panel-dot') as HTMLElement | null;
-    if (label) {
-      label.style.transition = 'color 0.5s ease, transform 0.5s ease';
-      label.style.color = '';
-      label.style.transform = '';
-    }
-    if (dot) {
-      dot.style.transition = 'background-color 0.5s ease, transform 0.5s ease';
-      dot.style.backgroundColor = '';
-      dot.style.transform = '';
-    }
-  };
 
   ngOnDestroy(): void {
     this.stopAnimation();
@@ -131,14 +68,14 @@ export class HeroVisualComponent implements AfterViewInit, OnDestroy {
     this.mediaQuery.removeEventListener('change', this.onMotionPreferenceChange);
     this.host.removeEventListener('pointermove', this.handlePointerMove);
     this.host.removeEventListener('pointerleave', this.handlePointerLeave);
-    this.host.removeEventListener('pointerenter', this.handlePointerEnter);
-    
-    // Remove panel hover listeners
-    const panels = this.host.querySelectorAll<HTMLElement>('.panel');
-    panels.forEach(panel => {
-      panel.removeEventListener('mouseenter', this.handlePanelHoverEnter);
-      panel.removeEventListener('mouseleave', this.handlePanelHoverLeave);
-    });
+  }
+
+  onNodeHover(_label: string): void {
+    // Micro-interaction trigger if needed
+  }
+
+  onNodeLeave(): void {
+    // Micro-interaction reset
   }
 
   private handlePointerMove = (event: PointerEvent): void => {
@@ -148,26 +85,15 @@ export class HeroVisualComponent implements AfterViewInit, OnDestroy {
     const normalizedX = (event.clientX - rect.left) / rect.width - 0.5;
     const normalizedY = (event.clientY - rect.top) / rect.height - 0.5;
 
-    // Mouse movement is ADDITIVE to idle animation
-    this.targetX = normalizedY * -8; // Reduced from -10 for subtlety
-    this.targetY = normalizedX * 10; // Reduced from 12 for subtlety
-    this.targetScale = 1.01; // Reduced from 1.015
+    this.targetX = normalizedY * -6.5;
+    this.targetY = normalizedX * 8.5;
+    this.targetScale = 1.01;
   };
 
   private handlePointerLeave = (): void => {
-    // When pointer leaves, reset interactive targets to zero
-    // but idle animation continues
     this.targetX = 0;
     this.targetY = 0;
     this.targetScale = 1;
-  };
-
-  private handlePointerEnter = (): void => {
-    // Reset hover state when pointer enters
-    this.hoverX = 0;
-    this.hoverY = 0;
-    this.hoverScale = 1;
-    this.hoveredElement = null;
   };
 
   private startAnimation(): void {
@@ -180,7 +106,6 @@ export class HeroVisualComponent implements AfterViewInit, OnDestroy {
           return;
         }
 
-        // Cap updates to roughly 30fps on small screens and avoid unnecessary work.
         const frameInterval = this.isMobile ? 33 : 16;
         if (timestamp - this.lastFrame < frameInterval) {
           this.animationFrameId = requestAnimationFrame(animate);
@@ -188,17 +113,21 @@ export class HeroVisualComponent implements AfterViewInit, OnDestroy {
         }
         this.lastFrame = timestamp;
 
-        this.currentX += (this.targetX - this.currentX) * 0.07;
-        this.currentY += (this.targetY - this.currentY) * 0.07;
+        // Smooth interpolation
+        this.currentX += (this.targetX - this.currentX) * 0.08;
+        this.currentY += (this.targetY - this.currentY) * 0.08;
         this.currentScale += (this.targetScale - this.currentScale) * 0.08;
 
-        const time = timestamp * 0.00035;
-        const idleX = Math.sin(time) * 2.4;
-        const idleY = Math.cos(time * 0.78) * 1.8;
-        const lift = Math.sin(time * 0.6) * 2;
+        // Continuous subtle idle motion (alive when mouse is completely still)
+        const time = timestamp * 0.0004;
+        const idleX = Math.sin(time) * 1.8;
+        const idleY = Math.cos(time * 0.85) * 1.4;
+        const idleLift = Math.sin(time * 0.6) * 1.5;
 
-        this.scene.style.transform = `perspective(${this.isMobile ? 700 : 1200}px) rotateX(${this.currentX + idleX}deg) rotateY(${this.currentY + idleY}deg) translateY(${lift}px) scale(${this.currentScale})`;
-        this.scene.style.setProperty('--scene-progress', `${(Math.sin(time) + 1) / 2}`);
+        const rotX = this.currentX + idleX;
+        const rotY = this.currentY + idleY;
+
+        this.scene.style.transform = `perspective(${this.isMobile ? 800 : 1200}px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateY(${idleLift}px) scale(${this.currentScale})`;
 
         this.animationFrameId = requestAnimationFrame(animate);
       };
@@ -223,7 +152,6 @@ export class HeroVisualComponent implements AfterViewInit, OnDestroy {
     this.targetScale = 1;
     if (this.scene) {
       this.scene.style.transform = 'none';
-      this.scene.style.removeProperty('--scene-progress');
     }
   }
 }
