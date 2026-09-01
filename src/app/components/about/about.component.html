@@ -1,64 +1,81 @@
 <section id="about" class="about sec reveal">
   <div class="about-divider sec-divider"></div>
 
-  <div class="about-grid">
-    <header class="about-head">
-      <span class="eyebrow reveal-left"><span class="sec-number">02</span> About</span>
-      <h2 class="sec-head reveal-left">
-        Angular, in <em>production</em> — not in theory.
+  <div class="about-layout">
+    <!-- Left: editorial statement -->
+    <div class="about-editorial">
+      <span class="eyebrow reveal-left">
+        <span class="sec-number">02</span> About
+      </span>
+
+      <h2 class="about-headline reveal-left">
+        Angular, in<br /><em>production.</em>
       </h2>
-      <p class="sec-lede reveal-left">
-        Five years building and maintaining enterprise applications
-        that real teams rely on for day-to-day operations.
-      </p>
-    </header>
 
+      <p class="about-lede reveal-left">
+        Five years building and maintaining enterprise applications that
+        real teams rely on every day. Not experiments — working software.
+      </p>
+
+      <!-- Editorial mark -->
+      <div class="about-mark reveal-left" aria-hidden="true">
+        <span class="about-mark-line"></span>
+        <span class="about-mark-text">A</span>
+        <span class="about-mark-line"></span>
+      </div>
+    </div>
+
+    <!-- Right: capability rows -->
     <div class="about-body reveal-right">
-      <p class="about-lede">
-        I develop and maintain Angular applications for enterprise
-        business operations. That means building reusable components
-        and services, integrating REST APIs, implementing routing
-        and access control, and keeping interfaces responsive
-        across browsers.
+      <p class="about-intro">
+        I develop and maintain Angular applications for enterprise business
+        operations — building reusable components and services, integrating
+        REST APIs, implementing routing and access control, and keeping
+        interfaces responsive across browsers.
       </p>
 
-      <div class="about-cards reveal-stagger">
-        <div class="about-card hover-lift">
-          <span class="about-card-mark">A.</span>
-          <h3>Architecture</h3>
+      <div class="about-capabilities reveal-stagger">
+        <div class="capability">
+          <div class="capability-head">
+            <span class="capability-mark">A</span>
+            <h3>Architecture</h3>
+          </div>
           <p>
-            Standalone components, lazy-loaded feature modules, route
-            guards, and DI boundaries. Code that's easier to ship and
-            easier to revisit.
+            Standalone components, lazy-loaded feature modules, route guards,
+            and DI boundaries. Code that's easier to ship and easier to revisit.
           </p>
         </div>
 
-        <div class="about-card hover-lift">
-          <span class="about-card-mark">B.</span>
-          <h3>Reactive data</h3>
+        <div class="capability">
+          <div class="capability-head">
+            <span class="capability-mark">B</span>
+            <h3>Reactive data</h3>
+          </div>
           <p>
-            RxJS as the spine: subjects, multicasting, async pipe
-            templates, and clean subscription lifecycles through
-            takeUntilDestroyed.
+            RxJS as the spine: subjects, multicasting, async pipe templates,
+            and clean subscription lifecycles through takeUntilDestroyed.
           </p>
         </div>
 
-        <div class="about-card hover-lift">
-          <span class="about-card-mark">C.</span>
-          <h3>API integration</h3>
+        <div class="capability">
+          <div class="capability-head">
+            <span class="capability-mark">C</span>
+            <h3>API integration</h3>
+          </div>
           <p>
-            HttpClient with typed services, interceptors for auth and
-            errors, and reactive forms wired to backend contracts.
+            HttpClient with typed services, interceptors for auth and errors,
+            and reactive forms wired to backend contracts.
           </p>
         </div>
 
-        <div class="about-card hover-lift">
-          <span class="about-card-mark">D.</span>
-          <h3>Testing &amp; quality</h3>
+        <div class="capability">
+          <div class="capability-head">
+            <span class="capability-mark">D</span>
+            <h3>Testing &amp; quality</h3>
+          </div>
           <p>
-            Jasmine specs, TestBed harnesses, ESLint, Prettier,
-            SonarQube. Confidence that the next change doesn't
-            regress the last.
+            Jasmine specs, TestBed harnesses, ESLint, Prettier, SonarQube.
+            Confidence that the next change doesn't regress the last.
           </p>
         </div>
       </div>

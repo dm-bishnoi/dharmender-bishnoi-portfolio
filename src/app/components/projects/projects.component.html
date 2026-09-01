@@ -1,33 +1,36 @@
 <section id="projects" class="projects sec sec--wide reveal">
   <div class="projects-divider sec-divider"></div>
 
-  <header class="projects-head">
-    <div class="projects-head-left reveal-left">
+  <!-- Section header -->
+  <div class="projects-head reveal-fade">
+    <div class="projects-head-left">
       <span class="eyebrow"><span class="sec-number">05</span> Selected work</span>
       <h2 class="sec-head">
-        What I've <em>built</em>.
+        What I've <em>built.</em>
       </h2>
     </div>
-    <div class="projects-head-right reveal-right">
+    <div class="projects-head-right">
       <p class="sec-lede">
-        The work I do most day to day is enterprise Angular in
-        production. <strong>Flexschema</strong> is that work.
+        The work I do most day to day is enterprise Angular in production.
+        <strong>Flexschema</strong> is that work.
         <strong>Card-Play</strong> is what I build on my own time.
       </p>
     </div>
-  </header>
+  </div>
 
   <!-- Featured: Flexschema case study -->
   <article class="project-featured reveal-scale" aria-labelledby="flexschema-title">
 
-    <!-- Visual first: frame with mock CRM UI -->
+    <!-- Visual first: large cinematic frame -->
     <div class="project-visual">
-      <div class="project-visual-frame hover-tilt">
+      <div class="project-visual-frame">
         <!-- Browser chrome -->
         <div class="project-visual-chrome">
-          <span class="project-visual-dot" style="background:#e76060"></span>
-          <span class="project-visual-dot" style="background:#e7c060"></span>
-          <span class="project-visual-dot" style="background:#60c97f"></span>
+          <div class="project-visual-dots">
+            <span class="project-visual-dot" style="background:#e76060"></span>
+            <span class="project-visual-dot" style="background:#e7c060"></span>
+            <span class="project-visual-dot" style="background:#60c97f"></span>
+          </div>
           <span class="project-visual-url">app.flexschema.com / customers</span>
           <span class="project-visual-status">
             <span class="status-dot"></span> Live
@@ -102,29 +105,39 @@
         </div>
       </div>
 
-      <span class="project-visual-caption">
-        <span class="project-visual-caption-tag">Case Study Demo</span>
-        Anonymized architectural visualization of the customer-records interface. Production CRM operates behind enterprise authentication.
-      </span>
+      <div class="project-visual-caption">
+        <span class="project-visual-caption-tag">Case Study</span>
+        <span>
+          Anonymized architectural visualization of the customer-records
+          interface. Production CRM operates behind enterprise authentication.
+        </span>
+      </div>
     </div>
 
     <!-- Copy -->
     <div class="project-copy">
       <div class="project-meta">
         <span class="mono-chip mono-chip--accent">Enterprise CRM</span>
-        <span class="mono-chip">Angular · TypeScript · RxJS · REST</span>
+        <span class="mono-chip">Angular · TypeScript</span>
+        <span class="mono-chip">RxJS · REST</span>
       </div>
 
-      <h3 id="flexschema-title" class="project-title">Flexschema</h3>
+      <h3 id="flexschema-title" class="project-title">
+        Flexschema
+      </h3>
 
       <p class="project-desc">
-        Frontend architecture and feature engineering for an enterprise CRM platform used by business teams to manage customer workflows, role permissions, and operational records.
+        Frontend architecture and feature engineering for an enterprise
+        CRM platform used by business teams to manage customer workflows,
+        role permissions, and operational records.
       </p>
 
       <div class="project-context">
         <span class="project-context-label">My contribution</span>
         <p>
-          Built and maintained the Angular frontend end-to-end — architecting configurable UI components, route access guards, and reactive API services — shipping with Jasmine unit tests in an Agile delivery workflow.
+          Built and maintained the Angular frontend end-to-end — architecting
+          configurable UI components, route access guards, and reactive API
+          services — shipping with Jasmine unit tests in an Agile delivery workflow.
         </p>
       </div>
 
@@ -175,7 +188,7 @@
       </div>
 
       <div class="project-secondary-links">
-        <a class="btn btn-ghost"
+        <a class="btn btn-outline"
            href="https://github.com/dm-bishnoi/Card-Play"
            target="_blank" rel="noopener noreferrer">
           View on GitHub

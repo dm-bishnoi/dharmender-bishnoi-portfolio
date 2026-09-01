@@ -1,92 +1,113 @@
 <div class="hero-visual" [class.mobile]="isMobile" [class.reduced]="prefersReducedMotion">
+  <!-- Atmospheric glow layers -->
+  <div class="hv-glow hv-glow--primary" aria-hidden="true"></div>
+  <div class="hv-glow hv-glow--secondary" aria-hidden="true"></div>
+  <div class="hv-glow hv-glow--gold" aria-hidden="true"></div>
+
   <div class="hero-visual-scene">
 
-    <!-- Background technical grid + orbit rings (SVG) -->
+    <!-- Background: tech grid + orbital rings -->
     <svg class="hero-visual-grid" viewBox="0 0 600 460" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <pattern id="tech-dots" x="0" y="0" width="22" height="22" patternUnits="userSpaceOnUse">
-          <circle cx="1" cy="1" r="0.9" fill="rgba(255,255,255,0.18)" />
+        <pattern id="atm-dots" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+          <circle cx="1" cy="1" r="0.8" fill="rgba(240, 237, 232, 0.1)" />
         </pattern>
-        <radialGradient id="center-halo" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stop-color="rgba(31,58,138,0.22)" />
-          <stop offset="60%" stop-color="rgba(31,58,138,0.06)" />
-          <stop offset="100%" stop-color="rgba(0,0,0,0)" />
+        <radialGradient id="atm-halo" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="rgba(212, 98, 26, 0.18)" />
+          <stop offset="50%" stop-color="rgba(212, 98, 26, 0.05)" />
+          <stop offset="100%" stop-color="rgba(0, 0, 0, 0)" />
         </radialGradient>
+        <radialGradient id="gold-halo" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="rgba(200, 169, 110, 0.12)" />
+          <stop offset="100%" stop-color="rgba(0, 0, 0, 0)" />
+        </radialGradient>
+        <filter id="glow-filter" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="3" result="blur"/>
+          <feMerge>
+            <feMergeNode in="blur"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
       </defs>
 
       <!-- Dot field -->
-      <rect x="70" y="50" width="460" height="360" fill="url(#tech-dots)" opacity="0.75" />
+      <rect x="70" y="50" width="460" height="360" fill="url(#atm-dots)" opacity="0.65" />
 
-      <!-- Concentric orbital rings -->
+      <!-- Concentric orbital rings (slowly rotating) -->
       <g class="orbit-group">
-        <circle cx="300" cy="230" r="175" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1" />
-        <circle cx="300" cy="230" r="125" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1" stroke-dasharray="2 4" />
-        <circle cx="300" cy="230" r="65" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1" />
+        <circle cx="300" cy="230" r="170" fill="none" stroke="rgba(240, 237, 232, 0.06)" stroke-width="1" />
+        <circle cx="300" cy="230" r="120" fill="none" stroke="rgba(240, 237, 232, 0.09)" stroke-width="1" stroke-dasharray="3 5" />
+        <circle cx="300" cy="230" r="62" fill="none" stroke="rgba(240, 237, 232, 0.11)" stroke-width="1" />
       </g>
 
       <!-- Soft center glow -->
-      <circle cx="300" cy="230" r="100" fill="url(#center-halo)" />
+      <circle cx="300" cy="230" r="110" fill="url(#atm-halo)" />
 
-      <!-- Connection lines from Center to Layer 1 (Static Base) -->
-      <g class="connections" stroke="rgba(255,255,255,0.18)" stroke-width="1" fill="none">
-        <line class="conn conn--1" x1="300" y1="230" x2="220" y2="165" />
-        <line class="conn conn--2" x1="300" y1="230" x2="380" y2="165" />
-        <line class="conn conn--3" x1="300" y1="230" x2="220" y2="295" />
-        <line class="conn conn--4" x1="300" y1="230" x2="380" y2="295" />
-
-        <!-- Connection lines from Center to Layer 2 -->
-        <line class="conn conn--5" x1="300" y1="230" x2="300" y2="105" stroke-dasharray="3 3" opacity="0.6" />
-        <line class="conn conn--6" x1="300" y1="230" x2="435" y2="230" stroke-dasharray="3 3" opacity="0.6" />
-        <line class="conn conn--7" x1="300" y1="230" x2="300" y2="355" stroke-dasharray="3 3" opacity="0.6" />
-        <line class="conn conn--8" x1="300" y1="230" x2="165" y2="230" stroke-dasharray="3 3" opacity="0.6" />
-
-        <!-- Outer link arcs / mesh -->
-        <line x1="220" y1="165" x2="300" y2="105" stroke="rgba(255,255,255,0.08)" stroke-width="0.75" />
-        <line x1="380" y1="165" x2="300" y2="105" stroke="rgba(255,255,255,0.08)" stroke-width="0.75" />
-        <line x1="380" y1="165" x2="435" y2="230" stroke="rgba(255,255,255,0.08)" stroke-width="0.75" />
-        <line x1="380" y1="295" x2="435" y2="230" stroke="rgba(255,255,255,0.08)" stroke-width="0.75" />
-        <line x1="380" y1="295" x2="300" y2="355" stroke="rgba(255,255,255,0.08)" stroke-width="0.75" />
-        <line x1="220" y1="295" x2="300" y2="355" stroke="rgba(255,255,255,0.08)" stroke-width="0.75" />
-        <line x1="220" y1="295" x2="165" y2="230" stroke="rgba(255,255,255,0.08)" stroke-width="0.75" />
-        <line x1="220" y1="165" x2="165" y2="230" stroke="rgba(255,255,255,0.08)" stroke-width="0.75" />
+      <!-- Connection lines from center to primary nodes -->
+      <g class="connections" stroke="rgba(240, 237, 232, 0.12)" stroke-width="1" fill="none">
+        <line class="conn conn--1" x1="300" y1="230" x2="215" y2="162" />
+        <line class="conn conn--2" x1="300" y1="230" x2="385" y2="162" />
+        <line class="conn conn--3" x1="300" y1="230" x2="215" y2="298" />
+        <line class="conn conn--4" x1="300" y1="230" x2="385" y2="298" />
+        <!-- Secondary connections -->
+        <line class="conn conn--5" x1="300" y1="230" x2="300" y2="100" stroke-dasharray="3 4" opacity="0.5" />
+        <line class="conn conn--6" x1="300" y1="230" x2="440" y2="230" stroke-dasharray="3 4" opacity="0.5" />
+        <line class="conn conn--7" x1="300" y1="230" x2="300" y2="360" stroke-dasharray="3 4" opacity="0.5" />
+        <line class="conn conn--8" x1="300" y1="230" x2="160" y2="230" stroke-dasharray="3 4" opacity="0.5" />
+        <!-- Outer mesh -->
+        <line x1="215" y1="162" x2="385" y2="162" stroke="rgba(240, 237, 232, 0.05)" stroke-width="0.75" />
+        <line x1="385" y1="162" x2="440" y2="230" stroke="rgba(240, 237, 232, 0.05)" stroke-width="0.75" />
+        <line x1="385" y1="298" x2="440" y2="230" stroke="rgba(240, 237, 232, 0.05)" stroke-width="0.75" />
+        <line x1="385" y1="298" x2="300" y2="360" stroke="rgba(240, 237, 232, 0.05)" stroke-width="0.75" />
+        <line x1="215" y1="298" x2="300" y2="360" stroke="rgba(240, 237, 232, 0.05)" stroke-width="0.75" />
+        <line x1="215" y1="298" x2="160" y2="230" stroke="rgba(240, 237, 232, 0.05)" stroke-width="0.75" />
+        <line x1="215" y1="162" x2="160" y2="230" stroke="rgba(240, 237, 232, 0.05)" stroke-width="0.75" />
+        <line x1="215" y1="162" x2="300" y2="100" stroke="rgba(240, 237, 232, 0.05)" stroke-width="0.75" />
+        <line x1="385" y1="162" x2="300" y2="100" stroke="rgba(240, 237, 232, 0.05)" stroke-width="0.75" />
+        <line x1="215" y1="298" x2="300" y2="360" stroke="rgba(240, 237, 232, 0.05)" stroke-width="0.75" />
+        <line x1="385" y1="298" x2="300" y2="360" stroke="rgba(240, 237, 232, 0.05)" stroke-width="0.75" />
+        <line x1="215" y1="162" x2="160" y2="230" stroke="rgba(240, 237, 232, 0.04)" stroke-width="0.5" />
+        <line x1="385" y1="162" x2="440" y2="230" stroke="rgba(240, 237, 232, 0.04)" stroke-width="0.5" />
+        <line x1="215" y1="298" x2="160" y2="230" stroke="rgba(240, 237, 232, 0.04)" stroke-width="0.5" />
+        <line x1="385" y1="298" x2="440" y2="230" stroke="rgba(240, 237, 232, 0.04)" stroke-width="0.5" />
       </g>
 
-      <!-- Animated Data Flow Pulses (Travelling energy streams) -->
-      <g class="pulse-streams" stroke="rgba(147, 197, 253, 0.85)" stroke-width="1.5" stroke-linecap="round" fill="none">
-        <line class="pulse-line pulse-line--1" x1="300" y1="230" x2="220" y2="165" stroke-dasharray="8 95" />
-        <line class="pulse-line pulse-line--2" x1="300" y1="230" x2="380" y2="165" stroke-dasharray="8 95" />
-        <line class="pulse-line pulse-line--3" x1="300" y1="230" x2="220" y2="295" stroke-dasharray="8 95" />
-        <line class="pulse-line pulse-line--4" x1="300" y1="230" x2="380" y2="295" stroke-dasharray="8 95" />
-        <line class="pulse-line pulse-line--5" x1="300" y1="230" x2="300" y2="105" stroke-dasharray="6 120" />
-        <line class="pulse-line pulse-line--6" x1="300" y1="230" x2="435" y2="230" stroke-dasharray="6 130" />
-        <line class="pulse-line pulse-line--7" x1="300" y1="230" x2="300" y2="355" stroke-dasharray="6 120" />
-        <line class="pulse-line pulse-line--8" x1="300" y1="230" x2="165" y2="230" stroke-dasharray="6 130" />
+      <!-- Animated data flow pulses -->
+      <g class="pulse-streams" stroke="rgba(212, 98, 26, 0.9)" stroke-width="1.5" stroke-linecap="round" fill="none">
+        <line class="pulse-line pulse-line--1" x1="300" y1="230" x2="215" y2="162" stroke-dasharray="8 90" />
+        <line class="pulse-line pulse-line--2" x1="300" y1="230" x2="385" y2="162" stroke-dasharray="8 90" />
+        <line class="pulse-line pulse-line--3" x1="300" y1="230" x2="215" y2="298" stroke-dasharray="8 90" />
+        <line class="pulse-line pulse-line--4" x1="300" y1="230" x2="385" y2="298" stroke-dasharray="8 90" />
+        <line class="pulse-line pulse-line--5" x1="300" y1="230" x2="300" y2="100" stroke-dasharray="6 110" />
+        <line class="pulse-line pulse-line--6" x1="300" y1="230" x2="440" y2="230" stroke-dasharray="6 120" />
+        <line class="pulse-line pulse-line--7" x1="300" y1="230" x2="300" y2="360" stroke-dasharray="6 110" />
+        <line class="pulse-line pulse-line--8" x1="300" y1="230" x2="160" y2="230" stroke-dasharray="6 120" />
       </g>
 
       <!-- Corner coordinate framing -->
-      <g class="corner-frame" stroke="rgba(255,255,255,0.32)" stroke-width="1">
-        <path d="M 80 60 L 80 75 M 65 75 L 80 75" />
-        <path d="M 520 60 L 520 75 M 535 75 L 520 75" />
-        <path d="M 80 400 L 80 385 M 65 385 L 80 385" />
-        <path d="M 520 400 L 520 385 M 535 385 L 520 385" />
+      <g class="corner-frame" stroke="rgba(240, 237, 232, 0.25)" stroke-width="1">
+        <path d="M 80 58 L 80 72 M 66 72 L 80 72" />
+        <path d="M 520 58 L 520 72 M 534 72 L 520 72" />
+        <path d="M 80 402 L 80 388 M 66 388 L 80 388" />
+        <path d="M 520 402 L 520 388 M 534 388 L 520 388" />
       </g>
 
       <!-- Technical labels -->
-      <text x="90" y="52" fill="rgba(255,255,255,0.4)" font-family="var(--font-mono)" font-size="9" letter-spacing="0.14em">
+      <text x="90" y="50" fill="rgba(240, 237, 232, 0.3)" font-family="var(--font-mono)" font-size="8.5" letter-spacing="0.14em">
         SYS.ARCH // ANGULAR
       </text>
-      <text x="510" y="52" text-anchor="end" fill="rgba(255,255,255,0.4)" font-family="var(--font-mono)" font-size="9" letter-spacing="0.14em">
+      <text x="510" y="50" text-anchor="end" fill="rgba(240, 237, 232, 0.3)" font-family="var(--font-mono)" font-size="8.5" letter-spacing="0.14em">
         v20.2 · STANDALONE
       </text>
-      <text x="90" y="416" fill="rgba(255,255,255,0.35)" font-family="var(--font-mono)" font-size="9" letter-spacing="0.12em">
+      <text x="90" y="420" fill="rgba(240, 237, 232, 0.25)" font-family="var(--font-mono)" font-size="8.5" letter-spacing="0.12em">
         ENTERPRISE RUNTIME
       </text>
-      <text x="510" y="416" text-anchor="end" fill="rgba(255,255,255,0.35)" font-family="var(--font-mono)" font-size="9" letter-spacing="0.12em">
+      <text x="510" y="420" text-anchor="end" fill="rgba(240, 237, 232, 0.25)" font-family="var(--font-mono)" font-size="8.5" letter-spacing="0.12em">
         PRODUCTION READY
       </text>
     </svg>
 
-    <!-- Center node — Angular Core (highest Z depth) -->
+    <!-- Center node: Angular Core (highest elevation) -->
     <div class="node node--core">
       <div class="node-glow"></div>
       <div class="node-core-card">
@@ -103,7 +124,7 @@
       </div>
     </div>
 
-    <!-- Layer 1: 4 Primary Nodes (Z = +24px) -->
+    <!-- Layer 1: 4 primary nodes -->
     <div class="node node--chip node--nw" (mouseenter)="onNodeHover('Components')" (mouseleave)="onNodeLeave()">
       <span class="chip-pulse"></span>
       <span class="chip-label">Components</span>
@@ -121,7 +142,7 @@
       <span class="chip-label">Pipes</span>
     </div>
 
-    <!-- Layer 2: 4 Supporting Nodes (Z = 0px) -->
+    <!-- Layer 2: 4 supporting nodes -->
     <div class="node node--chip-sub node--n" (mouseenter)="onNodeHover('Routing')" (mouseleave)="onNodeLeave()">
       <span class="chip-dot"></span>
       <span class="chip-label">Routing</span>
@@ -139,13 +160,13 @@
       <span class="chip-label">Forms</span>
     </div>
 
-    <!-- Ambient floating elements for subtle depth -->
+    <!-- Floating depth particles -->
     <div class="depth-particle particle--1"></div>
     <div class="depth-particle particle--2"></div>
     <div class="depth-particle particle--3"></div>
     <div class="depth-particle particle--4"></div>
 
-    <!-- Editorial status footer -->
+    <!-- Status footer -->
     <div class="hero-visual-footer">
       <span class="live-beacon"></span>
       <span class="footer-text">State &amp; Component Graph Active</span>

@@ -1,50 +1,55 @@
 <section id="experience" class="experience sec reveal">
   <div class="experience-divider sec-divider"></div>
 
-  <div class="experience-grid">
-    <header class="experience-head">
-      <span class="eyebrow reveal-left"><span class="sec-number">03</span> Experience</span>
+  <div class="experience-layout">
+    <!-- Left: heading -->
+    <div class="experience-editorial">
+      <span class="eyebrow reveal-left">
+        <span class="sec-number">03</span> Experience
+      </span>
       <h2 class="sec-head reveal-left">
-        One role. <em>Five years</em>. Enterprise Angular.
+        One role.<br /><em>Five years.</em>
       </h2>
       <p class="sec-lede reveal-left">
-        A single long-running engagement that gave me real
-        production experience across the full surface area of a
-        large Angular codebase.
+        A single long-running engagement that gave me real production
+        experience across the full surface area of a large Angular codebase.
       </p>
-    </header>
+    </div>
 
+    <!-- Right: timeline -->
     <div class="experience-body">
+
       <article class="role reveal-right">
-        <div class="role-marker">
-          <span class="role-marker-dot"></span>
-          <span class="role-marker-line"></span>
+        <!-- Timeline connector -->
+        <div class="role-connector" aria-hidden="true">
+          <span class="role-dot"></span>
+          <span class="role-line"></span>
         </div>
 
+        <!-- Content -->
         <div class="role-content">
           <div class="role-header">
             <div class="role-meta">
-              <h3>Angular Developer</h3>
-              <span class="role-sep">·</span>
+              <h3 class="role-title">Angular Developer</h3>
               <span class="role-company">Pizone Infotech Pvt. Ltd.</span>
             </div>
-            <span class="role-date">
-              <span class="role-date-mark">2020</span>
-              <span class="role-date-arrow">→</span>
-              <span class="role-date-mark role-date-mark--active">Present</span>
-            </span>
+            <div class="role-period">
+              <span class="role-period-start">2020</span>
+              <span class="role-period-arrow" aria-hidden="true">→</span>
+              <span class="role-period-end">Present</span>
+            </div>
           </div>
 
           <p class="role-summary">
-            Develop and maintain Angular applications that support
-            business operations. Build reusable components, directives,
-            pipes, and services. Integrate REST APIs, implement routing
-            with guards and lazy loading, ship responsive cross-browser
-            interfaces, and maintain unit tests.
+            Develop and maintain Angular applications that support business
+            operations. Build reusable components, directives, pipes, and
+            services. Integrate REST APIs, implement routing with guards and
+            lazy loading, ship responsive cross-browser interfaces, and
+            maintain unit tests.
           </p>
 
           <div class="role-tech">
-            <span class="mono-chip mono-chip--accent">Angular (v17–v20)</span>
+            <span class="mono-chip mono-chip--accent">Angular v17–v20</span>
             <span class="mono-chip">TypeScript</span>
             <span class="mono-chip">RxJS</span>
             <span class="mono-chip">REST APIs</span>
@@ -80,6 +85,7 @@
           </ul>
         </div>
       </article>
+
     </div>
   </div>
 </section>

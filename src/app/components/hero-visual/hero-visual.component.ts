@@ -17,7 +17,7 @@ export class HeroVisualComponent implements AfterViewInit, OnDestroy {
   private mediaQuery: MediaQueryList;
   private isVisible = false;
 
-  // Parallax & interactive state
+  // Parallax & mouse interaction state
   private targetX = 0;
   private targetY = 0;
   private currentX = 0;
@@ -25,6 +25,9 @@ export class HeroVisualComponent implements AfterViewInit, OnDestroy {
   private currentScale = 1;
   private targetScale = 1;
   private lastFrame = 0;
+
+  // Multi-frequency idle phase for organic continuous motion
+  private idlePhase = 0;
 
   private onMotionPreferenceChange = (event: MediaQueryListEvent): void => {
     this.prefersReducedMotion = event.matches;
@@ -82,13 +85,8 @@ export class HeroVisualComponent implements AfterViewInit, OnDestroy {
     this.host.removeEventListener('pointerleave', this.handlePointerLeave);
   }
 
-  onNodeHover(_label: string): void {
-    // Micro-interaction
-  }
-
-  onNodeLeave(): void {
-    // Micro-interaction reset
-  }
+  onNodeHover(_label: string): void {}
+  onNodeLeave(): void {}
 
   private handlePointerMove = (event: PointerEvent): void => {
     if (this.prefersReducedMotion || this.isMobile) return;
@@ -97,9 +95,9 @@ export class HeroVisualComponent implements AfterViewInit, OnDestroy {
     const normalizedX = (event.clientX - rect.left) / rect.width - 0.5;
     const normalizedY = (event.clientY - rect.top) / rect.height - 0.5;
 
-    this.targetX = normalizedY * -7.5;
-    this.targetY = normalizedX * 9.5;
-    this.targetScale = 1.015;
+    this.targetX = normalizedY * -9;
+    this.targetY = normalizedX * 11;
+    this.targetScale = 1.018;
   };
 
   private handlePointerLeave = (): void => {
@@ -126,24 +124,40 @@ export class HeroVisualComponent implements AfterViewInit, OnDestroy {
         this.lastFrame = timestamp;
 
         // Smooth damping towards pointer target
-        this.currentX += (this.targetX - this.currentX) * 0.06;
-        this.currentY += (this.targetY - this.currentY) * 0.06;
-        this.currentScale += (this.targetScale - this.currentScale) * 0.06;
+        this.currentX += (this.targetX - this.currentX) * 0.055;
+        this.currentY += (this.targetY - this.currentY) * 0.055;
+        this.currentScale += (this.targetScale - this.currentScale) * 0.055;
 
-        // Multi-frequency continuous subtle idle physics (always alive when mouse is stationary)
-        const t = timestamp * 0.00045;
-        const idleRotX = Math.sin(t) * 2.2 + Math.sin(t * 1.7) * 0.7;
-        const idleRotY = Math.cos(t * 0.8) * 2.5 + Math.cos(t * 1.5) * 0.8;
-        const idleLift = Math.sin(t * 0.6) * 2.2;
-        const idleZ = Math.cos(t * 0.45) * 3.0;
+        // ── Multi-frequency idle physics ─────────────────────────────
+        // 5 overlapping sine waves at different frequencies create
+        // organic, non-repetitive motion that's visible when mouse is still.
+        // Total RMS amplitude stays within ±3° — alive but never distracting.
+        this.idlePhase += 0.00035;
 
-        const totalRotX = (this.currentX + idleRotX).toFixed(2);
-        const totalRotY = (this.currentY + idleRotY).toFixed(2);
-        const totalLift = idleLift.toFixed(2);
-        const totalZ = idleZ.toFixed(2);
+        const f1 = Math.sin(this.idlePhase * 1.00) * 1.8;   // 28s period
+        const f2 = Math.sin(this.idlePhase * 1.65) * 0.9;   // 17s period
+        const f3 = Math.sin(this.idlePhase * 0.78) * 1.4;   // 36s period
+        const f4 = Math.cos(this.idlePhase * 1.30) * 0.6;   // 22s period
+        const f5 = Math.sin(this.idlePhase * 2.10) * 0.3;   // 13s period
 
-        const persp = this.isMobile ? 850 : 1200;
-        this.scene.style.transform = `perspective(${persp}px) rotateX(${totalRotX}deg) rotateY(${totalRotY}deg) translateY(${totalLift}px) translateZ(${totalZ}px) scale(${this.currentScale.toFixed(3)})`;
+        const idleRotX = f1 + f2 + f3;
+        const idleRotY = (f2 * 0.8) + f4 + f5;
+        const idleLift = Math.sin(this.idlePhase * 0.62) * 2.4;
+        const idleZ    = Math.cos(this.idlePhase * 0.48) * 3.2;
+
+        const totalRotX = (this.currentX + idleRotX).toFixed(3);
+        const totalRotY = (this.currentY + idleRotY).toFixed(3);
+        const totalLift = idleLift.toFixed(3);
+        const totalZ    = idleZ.toFixed(3);
+
+        const persp = this.isMobile ? 800 : 1000;
+        this.scene.style.transform =
+          `perspective(${persp}px) ` +
+          `rotateX(${totalRotX}deg) ` +
+          `rotateY(${totalRotY}deg) ` +
+          `translateY(${totalLift}px) ` +
+          `translateZ(${totalZ}px) ` +
+          `scale(${this.currentScale.toFixed(3)})`;
 
         this.animationFrameId = requestAnimationFrame(animate);
       };
