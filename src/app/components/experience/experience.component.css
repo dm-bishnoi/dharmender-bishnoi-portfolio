@@ -1,228 +1,283 @@
+/* ─────────────────────────────────────────────────────
+   Experience — Editorial timeline. Large role/date.
+   ───────────────────────────────────────────────────── */
+
 :host {
   display: block;
   background: var(--bg);
-}
-
-.experience { position: relative; }
-
-.experience-layout {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
-  gap: clamp(40px, 7vw, 96px);
-  align-items: start;
-}
-
-/* ── Editorial column ─────────────────────────────── */
-.experience-editorial {
-  position: sticky;
-  top: 88px;
-  align-self: start;
-}
-
-.experience-editorial .eyebrow { margin-bottom: 24px; }
-
-/* ── Body column ──────────────────────────────────── */
-.experience-body { min-width: 0; }
-
-/* ── Role ────────────────────────────────────────── */
-.role {
   position: relative;
-  display: grid;
-  grid-template-columns: 28px 1fr;
-  gap: 24px;
 }
 
-/* Timeline connector */
-.role-connector {
-  position: relative;
+/* Subtle background accent — a deep navy wash under the section */
+:host::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 70% 60% at 80% 30%, rgba(43, 108, 255, 0.08) 0%, transparent 70%);
+}
+
+.experience { position: relative; z-index: 1; }
+
+.exp-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas:
+    "mark"
+    "statement"
+    "role";
+  gap: clamp(56px, 7vw, 96px);
+}
+
+@media (min-width: 1024px) {
+  .exp-grid {
+    grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr) minmax(0, 1.5fr);
+    grid-template-areas: "mark statement role";
+    column-gap: clamp(48px, 6vw, 96px);
+  }
+}
+
+/* ── Mark ─────────────────────────────────────────── */
+.exp-mark {
+  grid-area: mark;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  gap: 14px;
+  padding-top: 16px;
 }
 
-.role-dot {
+.exp-mark-num {
+  font-family: var(--font-display);
+  font-size: clamp(72px, 10vw, 160px);
+  font-weight: 600;
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  background: linear-gradient(180deg, var(--blue-2) 0%, rgba(86, 156, 255, 0.25) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.exp-mark-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-light);
+}
+
+/* ── Statement ────────────────────────────────────── */
+.exp-statement { grid-area: statement; }
+
+.exp-headline {
+  margin-bottom: clamp(20px, 2.5vw, 32px);
+}
+
+.exp-lede {
+  max-width: 38ch;
+}
+
+/* ── Role — large editorial ───────────────────────── */
+.exp-role {
+  grid-area: role;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(28px, 3.5vw, 40px);
+  padding: clamp(28px, 3.5vw, 48px);
+  background: linear-gradient(180deg, rgba(13, 19, 34, 0.55) 0%, rgba(7, 10, 20, 0.3) 100%);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-2xl);
   position: relative;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: var(--accent);
-  border: 2px solid var(--bg);
-  box-shadow: 0 0 0 3px var(--accent-glow-2), 0 0 12px var(--accent-glow);
-  margin-top: 6px;
-  z-index: 2;
-  flex-shrink: 0;
-  transition: transform var(--duration-base) var(--ease-spring),
-              box-shadow var(--duration-base) var(--ease-out);
+  overflow: hidden;
 }
 
-.role:hover .role-dot {
-  transform: scale(1.2);
-  box-shadow: 0 0 0 5px var(--accent-glow-2), 0 0 20px var(--accent-glow);
+.exp-role::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent 0%, var(--blue) 50%, transparent 100%);
+  opacity: 0.6;
 }
 
-.role-line {
-  flex: 1;
-  width: 1px;
-  background: linear-gradient(
-    to bottom,
-    var(--border-2) 0%,
-    var(--border) 70%,
-    transparent 100%
-  );
-  margin-top: 8px;
-}
-
-.role-content {
-  padding-bottom: 48px;
-  border-bottom: 1px solid var(--border);
-}
-
-/* ── Header ─────────────────────────────────────── */
-.role-header {
+.exp-role-head {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 12px 24px;
-  margin-bottom: 16px;
+  gap: 16px 24px;
 }
 
-.role-meta {
+.exp-role-meta {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 10px;
 }
 
-.role-title {
-  font-family: var(--font-display);
-  font-size: 22px;
-  font-weight: 600;
-  letter-spacing: -0.015em;
-  color: var(--ink);
-  margin: 0;
-}
-
-.role-company {
-  font-size: 14px;
-  color: var(--ink-light);
-}
-
-.role-period {
+.exp-role-tag {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.05em;
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--blue-2);
+  align-self: flex-start;
+}
+
+.exp-role-tag::before {
+  content: '';
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 8px var(--green-glow);
+  animation: dotPulse 2.4s ease-in-out infinite;
+}
+
+@keyframes dotPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.5; transform: scale(0.7); }
+}
+
+.exp-role-title {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 4.5vw, 64px);
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 1.0;
+  color: var(--ink);
+  margin: 0;
+}
+
+.exp-role-company {
+  font-size: clamp(16px, 1.4vw, 20px);
+  color: var(--ink-light);
+  margin: 0;
+  letter-spacing: -0.005em;
+}
+
+.exp-role-period {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: clamp(13px, 1.1vw, 16px);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--ink);
   flex-shrink: 0;
 }
 
-.role-period-start,
-.role-period-end {
-  padding: 4px 10px;
-  border: 1px solid var(--border-2);
-  border-radius: var(--radius-pill);
-  background: var(--surface);
-  color: var(--ink-light);
+.exp-role-period-start,
+.exp-role-period-end {
+  font-weight: 500;
 }
 
-.role-period-end {
-  color: var(--accent-3);
-  border-color: var(--accent-tint);
-  background: var(--accent-subtle);
+.exp-role-period-arrow {
+  color: var(--blue-2);
+  font-size: 1.1em;
 }
 
-.role-period-arrow {
-  color: var(--ink-muted);
-}
-
-/* ── Summary ────────────────────────────────────── */
-.role-summary {
-  font-size: 15px;
-  line-height: 1.75;
+.exp-role-summary {
+  font-size: clamp(16px, 1.3vw, 19px);
+  line-height: 1.6;
   color: var(--ink-soft);
-  margin: 0 0 20px;
-  max-width: 66ch;
+  margin: 0;
+  max-width: 70ch;
+  letter-spacing: -0.005em;
 }
 
-/* ── Tech chips ─────────────────────────────────── */
-.role-tech {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 32px;
-}
-
-/* ── Evidence rows ──────────────────────────────── */
-.role-evidence {
+/* ── Evidence list — clean, line-separated ───────── */
+.exp-role-evidence {
   list-style: none;
   padding: 0;
   margin: 0;
+  display: flex;
+  flex-direction: column;
   border-top: 1px solid var(--border);
 }
 
-.role-evidence li {
+.exp-role-evidence li {
   display: grid;
-  grid-template-columns: 36px 1fr;
+  grid-template-columns: minmax(0, 56px) minmax(0, 1fr);
   align-items: baseline;
-  gap: 14px;
-  padding: 14px 12px 14px 6px;
+  gap: clamp(16px, 2vw, 28px);
+  padding: clamp(16px, 1.6vw, 22px) 0;
   border-bottom: 1px solid var(--border);
-  font-size: 14px;
-  line-height: 1.65;
+  font-size: clamp(15px, 1.2vw, 18px);
+  line-height: 1.55;
   color: var(--ink-soft);
   transition: color var(--duration-base) var(--ease-out),
-              background var(--duration-base) var(--ease-out),
               padding-left var(--duration-base) var(--ease-out);
-  border-radius: var(--radius-sm);
 }
 
-.role-evidence li:hover {
+.exp-role-evidence li:hover {
   color: var(--ink);
-  background: var(--surface);
   padding-left: 12px;
 }
 
-.role-evidence li:hover .role-evidence-mark {
-  color: var(--accent-3);
-}
-
-.role-evidence-mark {
+.exp-role-evidence-mark {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 500;
   color: var(--ink-muted);
   letter-spacing: 0.08em;
-  text-align: right;
+  text-align: left;
   transition: color var(--duration-base) var(--ease-out);
 }
 
-/* ── Responsive ─────────────────────────────────── */
-@media (max-width: 980px) {
-  .experience-layout {
-    grid-template-columns: 1fr;
-    gap: 40px;
-  }
-  .experience-editorial { position: static; }
+.exp-role-evidence li:hover .exp-role-evidence-mark {
+  color: var(--blue-2);
 }
 
-@media (max-width: 560px) {
-  .role {
-    grid-template-columns: 22px 1fr;
-    gap: 16px;
+/* ── Tech strip ──────────────────────────────────── */
+.exp-role-tech {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 18px;
+  padding-top: 8px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-light);
+}
+
+.exp-role-tech-item {
+  position: relative;
+}
+.exp-role-tech-item + .exp-role-tech-item::before {
+  content: '';
+  position: absolute;
+  left: -10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px; height: 3px;
+  border-radius: 50%;
+  background: var(--ink-faint);
+}
+.exp-role-tech-item:first-child {
+  color: var(--blue-2);
+}
+
+/* ── Responsive ──────────────────────────────────── */
+@media (max-width: 640px) {
+  .exp-role { padding: 24px 20px; }
+  .exp-role-evidence li {
+    grid-template-columns: minmax(0, 32px) minmax(0, 1fr);
+    gap: 12px;
   }
-  .role-dot { width: 10px; height: 10px; }
-  .role-title { font-size: 19px; }
-  .role-evidence li {
-    grid-template-columns: 28px 1fr;
-    gap: 10px;
-    font-size: 13px;
-  }
-  .role-evidence li:hover { padding-left: 8px; }
+  .exp-role-evidence li:hover { padding-left: 6px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .role-evidence li { transition: none; }
-  .role-evidence li:hover { padding-left: 6px; background: transparent; }
-  .role:hover .role-dot { transition: none; transform: none; }
+  .exp-role-tag::before { animation: none; }
+  .exp-role-evidence li { transition: none; }
+  .exp-role-evidence li:hover { padding-left: 0; }
 }

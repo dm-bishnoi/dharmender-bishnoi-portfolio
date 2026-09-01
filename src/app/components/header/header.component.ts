@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common';
 interface NavLink {
   readonly id: string;
   readonly label: string;
+  readonly num: string;
 }
 
 @Component({
@@ -21,25 +22,16 @@ interface NavLink {
 })
 export class HeaderComponent implements AfterViewInit, OnDestroy {
   readonly navLinks: ReadonlyArray<NavLink> = [
-    { id: 'experience', label: 'Experience' },
-    { id: 'skills', label: 'Skills' },
-    { id: 'projects', label: 'Projects' },
-    { id: 'contact', label: 'Contact' },
+    { id: 'home',      label: 'Home',      num: '01' },
+    { id: 'about',     label: 'About',     num: '02' },
+    { id: 'experience', label: 'Experience', num: '03' },
+    { id: 'projects',  label: 'Projects',  num: '04' },
+    { id: 'contact',   label: 'Contact',   num: '05' },
   ];
-
-  navNumber(id: string): string {
-    const map: Record<string, string> = {
-      experience: '03',
-      skills: '04',
-      projects: '05',
-      contact: '06',
-    };
-    return map[id] ?? '';
-  }
 
   @HostBinding('class.menu-open') menuOpen = false;
   @HostBinding('class.scrolled') isScrolled = false;
-  activeSection = '';
+  activeSection = 'home';
 
   private observer: IntersectionObserver | null = null;
   private rafId = 0;
@@ -58,11 +50,9 @@ export class HeaderComponent implements AfterViewInit, OnDestroy {
         for (const entry of entries) {
           if (entry.isIntersecting) {
             const id = entry.target.id;
-            if (id === 'home' || id === 'about') {
-              this.activeSection = '';
-            } else {
-              this.activeSection = id;
-            }
+            // Map sub-sections to nearest nav anchor
+            if (id === 'skills') this.activeSection = 'experience';
+            else this.activeSection = id;
           }
         }
       },
@@ -99,9 +89,6 @@ export class HeaderComponent implements AfterViewInit, OnDestroy {
     if (this.rafId) return;
     this.rafId = requestAnimationFrame(() => {
       this.isScrolled = window.scrollY > 20;
-      if (window.scrollY < 80) {
-        this.activeSection = '';
-      }
       this.rafId = 0;
     });
   }

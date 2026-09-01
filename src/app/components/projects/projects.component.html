@@ -1,203 +1,173 @@
 <section id="projects" class="projects sec sec--wide reveal">
-  <div class="projects-divider sec-divider"></div>
 
-  <!-- Section header -->
-  <div class="projects-head reveal-fade">
-    <div class="projects-head-left">
-      <span class="eyebrow"><span class="sec-number">05</span> Selected work</span>
-      <h2 class="sec-head">
-        What I've <em>built.</em>
-      </h2>
+  <!-- Section header — minimal, editorial -->
+  <div class="projects-head">
+    <div class="projects-mark reveal-fade">
+      <span class="projects-mark-num">05</span>
+      <span class="projects-mark-label">Selected Work</span>
     </div>
-    <div class="projects-head-right">
-      <p class="sec-lede">
-        The work I do most day to day is enterprise Angular in production.
-        <strong>Flexschema</strong> is that work.
-        <strong>Card-Play</strong> is what I build on my own time.
+
+    <div class="projects-statement">
+      <h2 class="display-1 projects-headline reveal-left">
+        Featured<br />
+        <em class="heading-accent">case study.</em>
+      </h2>
+      <p class="lede projects-lede reveal-left">
+        One large enterprise CRM built and maintained end-to-end in
+        Angular. Real production, real users, real architecture decisions.
       </p>
     </div>
   </div>
 
-  <!-- Featured: Flexschema case study -->
-  <article class="project-featured reveal-scale" aria-labelledby="flexschema-title">
+  <!-- The Flexschema case study — large visual presentation -->
+  <article class="case reveal-scale" aria-labelledby="case-title">
+    <div class="case-top">
 
-    <!-- Visual first: large cinematic frame -->
-    <div class="project-visual">
-      <div class="project-visual-frame">
-        <!-- Browser chrome -->
-        <div class="project-visual-chrome">
-          <div class="project-visual-dots">
-            <span class="project-visual-dot" style="background:#e76060"></span>
-            <span class="project-visual-dot" style="background:#e7c060"></span>
-            <span class="project-visual-dot" style="background:#60c97f"></span>
-          </div>
-          <span class="project-visual-url">app.flexschema.com / customers</span>
-          <span class="project-visual-status">
-            <span class="status-dot"></span> Live
-          </span>
+      <!-- Conceptual visual area — large, atmospheric -->
+      <div class="case-visual">
+        <div class="case-visual-bg" aria-hidden="true"></div>
+
+        <!-- The visual: dotted Angular constellation with A symbol -->
+        <svg class="case-visual-svg" viewBox="0 0 1200 720" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <defs>
+            <radialGradient id="caseGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="rgba(86, 156, 255, 0.45)"/>
+              <stop offset="50%" stop-color="rgba(86, 156, 255, 0.10)"/>
+              <stop offset="100%" stop-color="rgba(0, 0, 0, 0)"/>
+            </radialGradient>
+            <radialGradient id="caseGlow2" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="rgba(43, 108, 255, 0.35)"/>
+              <stop offset="100%" stop-color="rgba(43, 108, 255, 0)"/>
+            </radialGradient>
+          </defs>
+
+          <!-- Dotted background grid (sparse) -->
+          <g fill="rgba(126, 177, 255, 0.12)">
+            <ng-container *ngFor="let _ of dotRows; let r = index">
+              <ng-container *ngFor="let _ of dotCols; let c = index">
+                <circle [attr.cx]="80 + c * 80" [attr.cy]="80 + r * 70" r="1.1" />
+              </ng-container>
+            </ng-container>
+          </g>
+
+          <!-- Center radial glow -->
+          <circle cx="600" cy="360" r="340" fill="url(#caseGlow)"/>
+          <circle cx="600" cy="360" r="200" fill="url(#caseGlow2)"/>
+
+          <!-- Orbital rings -->
+          <circle cx="600" cy="360" r="280" fill="none" stroke="rgba(126, 177, 255, 0.18)" stroke-width="1"/>
+          <circle cx="600" cy="360" r="180" fill="none" stroke="rgba(126, 177, 255, 0.28)" stroke-width="1"/>
+          <circle cx="600" cy="360" r="100" fill="none" stroke="rgba(126, 177, 255, 0.40)" stroke-width="1.2"/>
+
+          <!-- Connection lines from center to outer nodes -->
+          <g stroke="rgba(126, 177, 255, 0.3)" stroke-width="1" fill="none">
+            <line x1="600" y1="360" x2="320" y2="160"/>
+            <line x1="600" y1="360" x2="880" y2="160"/>
+            <line x1="600" y1="360" x2="880" y2="560"/>
+            <line x1="600" y1="360" x2="320" y2="560"/>
+            <line x1="600" y1="360" x2="600" y2="80"  stroke-dasharray="3 5" opacity="0.5"/>
+            <line x1="600" y1="360" x2="600" y2="640" stroke-dasharray="3 5" opacity="0.5"/>
+            <line x1="600" y1="360" x2="240" y2="360" stroke-dasharray="3 5" opacity="0.5"/>
+            <line x1="600" y1="360" x2="960" y2="360" stroke-dasharray="3 5" opacity="0.5"/>
+          </g>
+
+          <!-- The Angular A as dotted constellation -->
+          <g fill="#a3c6ff">
+            <ng-container *ngFor="let p of letterA">
+              <circle [attr.cx]="p.x + 300" [attr.cy]="p.y + 180" r="3.4"/>
+            </ng-container>
+          </g>
+
+          <!-- Outer node markers -->
+          <g>
+            <circle cx="320" cy="160" r="6" fill="rgba(86, 156, 255, 0.4)" stroke="rgba(126, 177, 255, 0.8)" stroke-width="1"/>
+            <circle cx="880" cy="160" r="6" fill="rgba(86, 156, 255, 0.4)" stroke="rgba(126, 177, 255, 0.8)" stroke-width="1"/>
+            <circle cx="880" cy="560" r="6" fill="rgba(86, 156, 255, 0.4)" stroke="rgba(126, 177, 255, 0.8)" stroke-width="1"/>
+            <circle cx="320" cy="560" r="6" fill="rgba(86, 156, 255, 0.4)" stroke="rgba(126, 177, 255, 0.8)" stroke-width="1"/>
+            <circle cx="600" cy="80"  r="4" fill="rgba(126, 177, 255, 0.6)"/>
+            <circle cx="600" cy="640" r="4" fill="rgba(126, 177, 255, 0.6)"/>
+            <circle cx="240" cy="360" r="4" fill="rgba(126, 177, 255, 0.6)"/>
+            <circle cx="960" cy="360" r="4" fill="rgba(126, 177, 255, 0.6)"/>
+          </g>
+
+          <!-- Center node (A) -->
+          <circle cx="600" cy="360" r="9" fill="rgba(86, 156, 255, 0.6)" stroke="#7eb1ff" stroke-width="1.5"/>
+        </svg>
+
+        <!-- Visual labels -->
+        <div class="case-visual-label">
+          <span class="case-visual-label-dot" aria-hidden="true"></span>
+          <span>SYS.ARCH // CRM</span>
         </div>
-
-        <!-- Mock UI: sidebar + main content -->
-        <div class="project-visual-screen">
-          <aside class="mock-sidebar">
-            <div class="mock-logo">
-              <span class="mock-logo-mark">F</span>
-              <span class="mock-logo-text">Flexschema</span>
-            </div>
-            <ul class="mock-nav">
-              <li class="mock-nav-item mock-nav-item--active">Dashboard</li>
-              <li class="mock-nav-item">Customers</li>
-              <li class="mock-nav-item">Workflows</li>
-              <li class="mock-nav-item">Permissions</li>
-              <li class="mock-nav-item">Reports</li>
-            </ul>
-            <div class="mock-user">
-              <span class="mock-avatar">DB</span>
-              <span class="mock-user-meta">
-                <span class="mock-user-name">D. Bishnoi</span>
-                <span class="mock-user-role">Admin</span>
-              </span>
-            </div>
-          </aside>
-
-          <main class="mock-main">
-            <div class="mock-page-head">
-              <h4>Customer records</h4>
-              <span class="mock-page-count">2,184 results</span>
-            </div>
-
-            <div class="mock-toolbar">
-              <span class="mock-search">Search customers…</span>
-              <span class="mock-filter">+ Filter</span>
-            </div>
-
-            <ul class="mock-table">
-              <li class="mock-row mock-row--head">
-                <span>Name</span><span>Status</span><span>Region</span>
-              </li>
-              <li class="mock-row">
-                <span>Acme Corp.</span>
-                <span class="mock-pill mock-pill--green">Active</span>
-                <span>EU-W</span>
-              </li>
-              <li class="mock-row">
-                <span>Northwind Ltd.</span>
-                <span class="mock-pill mock-pill--amber">Pending</span>
-                <span>NA-E</span>
-              </li>
-              <li class="mock-row">
-                <span>Initech Inc.</span>
-                <span class="mock-pill mock-pill--green">Active</span>
-                <span>NA-W</span>
-              </li>
-              <li class="mock-row">
-                <span>Hooli Group</span>
-                <span class="mock-pill mock-pill--gray">Archived</span>
-                <span>EU-C</span>
-              </li>
-              <li class="mock-row">
-                <span>Stark Industries</span>
-                <span class="mock-pill mock-pill--green">Active</span>
-                <span>APAC</span>
-              </li>
-            </ul>
-          </main>
+        <div class="case-visual-corner">
+          <span class="case-visual-corner-num">001</span>
         </div>
       </div>
 
-      <div class="project-visual-caption">
-        <span class="project-visual-caption-tag">Case Study</span>
-        <span>
-          Anonymized architectural visualization of the customer-records
-          interface. Production CRM operates behind enterprise authentication.
-        </span>
-      </div>
     </div>
 
-    <!-- Copy -->
-    <div class="project-copy">
-      <div class="project-meta">
-        <span class="mono-chip mono-chip--accent">Enterprise CRM</span>
-        <span class="mono-chip">Angular · TypeScript</span>
-        <span class="mono-chip">RxJS · REST</span>
-      </div>
+    <div class="case-body">
 
-      <h3 id="flexschema-title" class="project-title">
-        Flexschema
-      </h3>
+      <header class="case-head">
+        <div class="case-head-meta">
+          <span class="case-tag">Featured Project</span>
+          <h3 id="case-title" class="case-title">Flexschema</h3>
+          <p class="case-subtitle">Enterprise CRM Platform</p>
+        </div>
+        <div class="case-head-cta">
+          <a class="case-cta" href="https://github.com/dm-bishnoi" target="_blank" rel="noopener noreferrer">
+            <span>Explore Case Study</span>
+            <span class="case-cta-arrow" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14M13 5l7 7-7 7"/>
+              </svg>
+            </span>
+          </a>
+        </div>
+      </header>
 
-      <p class="project-desc">
-        Frontend architecture and feature engineering for an enterprise
-        CRM platform used by business teams to manage customer workflows,
-        role permissions, and operational records.
+      <p class="case-summary lede-soft">
+        A comprehensive CRM solution for modern businesses, built end-to-end
+        in Angular. Configurable module system, role-based access control,
+        and the kind of state architecture that survives years of feature
+        work without becoming spaghetti.
       </p>
 
-      <div class="project-context">
-        <span class="project-context-label">My contribution</span>
-        <p>
-          Built and maintained the Angular frontend end-to-end — architecting
-          configurable UI components, route access guards, and reactive API
-          services — shipping with Jasmine unit tests in an Agile delivery workflow.
-        </p>
-      </div>
-
-      <div class="project-highlights-header">
-        <span class="eyebrow">Technical Highlights</span>
-      </div>
-
-      <ul class="project-highlights reveal-stagger">
-        <li>
-          <span class="project-highlight-mark">→</span>
-          <span>Reusable Angular component architecture for configurable UI modules</span>
-        </li>
-        <li>
-          <span class="project-highlight-mark">→</span>
-          <span>Role-based access control (RBAC) with route guards across features</span>
-        </li>
-        <li>
-          <span class="project-highlight-mark">→</span>
-          <span>Lazy-loaded routing and declarative RxJS stream management</span>
-        </li>
-        <li>
-          <span class="project-highlight-mark">→</span>
-          <span>REST API integration with typed services and auth interceptors</span>
-        </li>
-        <li>
-          <span class="project-highlight-mark">→</span>
-          <span>Comprehensive unit tests with Jasmine harnesses and Karma runner</span>
-        </li>
-      </ul>
-    </div>
-  </article>
-
-  <!-- Secondary: Card-Play -->
-  <article class="project-secondary reveal" aria-labelledby="cardplay-title">
-    <div class="project-secondary-inner">
-      <div class="project-secondary-copy">
-        <div class="project-meta">
-          <span class="mono-chip">Open source</span>
-          <span class="mono-chip">TypeScript</span>
+      <div class="case-detail">
+        <div class="case-detail-item">
+          <span class="case-detail-label">My contribution</span>
+          <p class="case-detail-text">
+            Frontend architecture, reusable component system, RxJS state
+            flow, API integration layer, and unit-test coverage for the
+            core modules.
+          </p>
         </div>
-        <h3 id="cardplay-title" class="project-secondary-title">Card-Play</h3>
-        <p class="project-secondary-desc">
-          A TypeScript card-game logic library — a small, focused
-          open-source experiment outside of enterprise contexts.
-          Hand-rolled state machine, immutable hands, and
-          deterministic round resolution.
-        </p>
+
+        <div class="case-detail-item">
+          <span class="case-detail-label">Stack</span>
+          <p class="case-detail-text case-detail-tech">
+            <span>Angular</span>
+            <span>TypeScript</span>
+            <span>RxJS</span>
+            <span>NgRx</span>
+            <span>REST APIs</span>
+            <span>Jasmine / Karma</span>
+          </p>
+        </div>
+
+        <div class="case-detail-item">
+          <span class="case-detail-label">Technical highlights</span>
+          <ul class="case-detail-list">
+            <li>Standalone components, lazy-loaded feature modules</li>
+            <li>Typed HttpClient services with auth/error interceptors</li>
+            <li>Reactive forms wired to backend contract types</li>
+            <li>RBAC with route guards and feature flag composition</li>
+            <li>TestBed harnesses for shared component specs</li>
+          </ul>
+        </div>
       </div>
 
-      <div class="project-secondary-links">
-        <a class="btn btn-outline"
-           href="https://github.com/dm-bishnoi/Card-Play"
-           target="_blank" rel="noopener noreferrer">
-          View on GitHub
-          <span class="btn-arrow">→</span>
-        </a>
-        <span class="project-secondary-handle">
-          github.com/dm-bishnoi/Card-Play
-        </span>
-      </div>
     </div>
   </article>
+
 </section>

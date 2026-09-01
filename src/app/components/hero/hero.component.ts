@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { HeroVisualComponent } from '../hero-visual/hero-visual.component';
+import { DottedTextComponent } from '../dotted-text/dotted-text.component';
 
 @Component({
   selector: 'app-hero',
   standalone: true,
-  imports: [HeroVisualComponent],
+  imports: [DottedTextComponent],
   templateUrl: './hero.component.html',
   styleUrl: './hero.component.css'
 })

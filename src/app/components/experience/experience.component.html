@@ -1,91 +1,87 @@
-<section id="experience" class="experience sec reveal">
-  <div class="experience-divider sec-divider"></div>
+<section id="experience" class="experience sec sec--wide reveal">
 
-  <div class="experience-layout">
-    <!-- Left: heading -->
-    <div class="experience-editorial">
-      <span class="eyebrow reveal-left">
-        <span class="sec-number">03</span> Experience
-      </span>
-      <h2 class="sec-head reveal-left">
-        One role.<br /><em>Five years.</em>
+  <div class="exp-grid">
+
+    <!-- Editorial mark + number -->
+    <div class="exp-mark reveal-fade">
+      <span class="exp-mark-num">03</span>
+      <span class="exp-mark-label">Experience</span>
+    </div>
+
+    <!-- Big statement -->
+    <div class="exp-statement">
+      <h2 class="display-2 exp-headline reveal-left">
+        One role.<br />
+        <em class="heading-accent">Five years.</em><br />
+        Real production.
       </h2>
-      <p class="sec-lede reveal-left">
-        A single long-running engagement that gave me real production
-        experience across the full surface area of a large Angular codebase.
+      <p class="lede exp-lede reveal-left">
+        A single long-running engagement on an enterprise CRM that gave me
+        the surface area to learn what breaks at scale — and how to keep it
+        from breaking again.
       </p>
     </div>
 
-    <!-- Right: timeline -->
-    <div class="experience-body">
-
-      <article class="role reveal-right">
-        <!-- Timeline connector -->
-        <div class="role-connector" aria-hidden="true">
-          <span class="role-dot"></span>
-          <span class="role-line"></span>
+    <!-- The role — large editorial timeline -->
+    <article class="exp-role reveal-right" aria-labelledby="role-title">
+      <header class="exp-role-head">
+        <div class="exp-role-meta">
+          <span class="exp-role-tag">Current</span>
+          <h3 id="role-title" class="exp-role-title">Angular Developer</h3>
+          <p class="exp-role-company">Pizone Infotech Pvt. Ltd.</p>
         </div>
-
-        <!-- Content -->
-        <div class="role-content">
-          <div class="role-header">
-            <div class="role-meta">
-              <h3 class="role-title">Angular Developer</h3>
-              <span class="role-company">Pizone Infotech Pvt. Ltd.</span>
-            </div>
-            <div class="role-period">
-              <span class="role-period-start">2020</span>
-              <span class="role-period-arrow" aria-hidden="true">→</span>
-              <span class="role-period-end">Present</span>
-            </div>
-          </div>
-
-          <p class="role-summary">
-            Develop and maintain Angular applications that support business
-            operations. Build reusable components, directives, pipes, and
-            services. Integrate REST APIs, implement routing with guards and
-            lazy loading, ship responsive cross-browser interfaces, and
-            maintain unit tests.
-          </p>
-
-          <div class="role-tech">
-            <span class="mono-chip mono-chip--accent">Angular v17–v20</span>
-            <span class="mono-chip">TypeScript</span>
-            <span class="mono-chip">RxJS</span>
-            <span class="mono-chip">REST APIs</span>
-            <span class="mono-chip">Jasmine / Karma</span>
-            <span class="mono-chip">Angular Material</span>
-          </div>
-
-          <ul class="role-evidence reveal-stagger">
-            <li>
-              <span class="role-evidence-mark">01</span>
-              <span>Built configurable Angular components for enterprise CRM modules</span>
-            </li>
-            <li>
-              <span class="role-evidence-mark">02</span>
-              <span>Implemented role-based access control across application features</span>
-            </li>
-            <li>
-              <span class="role-evidence-mark">03</span>
-              <span>Integrated RESTful APIs using HttpClient with RxJS patterns</span>
-            </li>
-            <li>
-              <span class="role-evidence-mark">04</span>
-              <span>Set up lazy-loaded routes and managed subscription lifecycle</span>
-            </li>
-            <li>
-              <span class="role-evidence-mark">05</span>
-              <span>Wrote and maintained unit tests with Jasmine and Karma</span>
-            </li>
-            <li>
-              <span class="role-evidence-mark">06</span>
-              <span>Debugged cross-browser UI issues and performance bottlenecks</span>
-            </li>
-          </ul>
+        <div class="exp-role-period">
+          <span class="exp-role-period-start">2020</span>
+          <span class="exp-role-period-arrow" aria-hidden="true">→</span>
+          <span class="exp-role-period-end">Present</span>
         </div>
-      </article>
+      </header>
 
-    </div>
+      <p class="exp-role-summary">
+        I develop and maintain Angular applications that run daily business
+        operations — building reusable components and services, integrating
+        REST APIs, implementing routing with guards, and shipping
+        responsive cross-browser interfaces.
+      </p>
+
+      <ul class="exp-role-evidence">
+        <li>
+          <span class="exp-role-evidence-mark">01</span>
+          <span>Built configurable Angular components for enterprise CRM modules</span>
+        </li>
+        <li>
+          <span class="exp-role-evidence-mark">02</span>
+          <span>Implemented role-based access control across application features</span>
+        </li>
+        <li>
+          <span class="exp-role-evidence-mark">03</span>
+          <span>Integrated RESTful APIs using HttpClient with RxJS patterns</span>
+        </li>
+        <li>
+          <span class="exp-role-evidence-mark">04</span>
+          <span>Set up lazy-loaded routes and managed subscription lifecycle</span>
+        </li>
+        <li>
+          <span class="exp-role-evidence-mark">05</span>
+          <span>Wrote and maintained unit tests with Jasmine and Karma</span>
+        </li>
+        <li>
+          <span class="exp-role-evidence-mark">06</span>
+          <span>Debugged cross-browser UI issues and performance bottlenecks</span>
+        </li>
+      </ul>
+
+      <div class="exp-role-tech">
+        <span class="exp-role-tech-item">Angular</span>
+        <span class="exp-role-tech-item">v17–v20</span>
+        <span class="exp-role-tech-item">TypeScript</span>
+        <span class="exp-role-tech-item">RxJS</span>
+        <span class="exp-role-tech-item">REST APIs</span>
+        <span class="exp-role-tech-item">Jasmine / Karma</span>
+        <span class="exp-role-tech-item">Angular Material</span>
+      </div>
+    </article>
+
   </div>
+
 </section>

@@ -1,113 +1,131 @@
-<section id="skills" class="skills sec reveal">
-  <div class="skills-divider sec-divider"></div>
+<section id="skills" class="skills sec sec--wide reveal">
 
-  <div class="skills-layout">
-    <div class="skills-editorial">
-      <span class="eyebrow reveal-left"><span class="sec-number">04</span> Skills</span>
-      <h2 class="sec-head reveal-left">
-        The <em>core</em> of how I build.
+  <div class="skills-grid">
+
+    <!-- Editorial mark -->
+    <div class="skills-mark reveal-fade">
+      <span class="skills-mark-num">04</span>
+      <span class="skills-mark-label">Skills</span>
+    </div>
+
+    <!-- Statement -->
+    <div class="skills-statement">
+      <h2 class="display-2 skills-headline reveal-left">
+        The <em class="heading-accent">core</em> of<br />how I build.
       </h2>
-      <p class="sec-lede reveal-left">
+      <p class="lede skills-lede reveal-left">
         Angular, TypeScript, and RxJS form the spine.
-        The rest is supporting cast.
+        Everything else is supporting cast.
       </p>
     </div>
 
-    <div class="skills-body">
-      <!-- Hero constellation: Angular as the anchor node -->
-      <div class="skills-constellation reveal-stagger">
-        <div class="skill-anchor">
-          <div class="skill-anchor-glow"></div>
-          <div class="skill-anchor-card">
-            <span class="skill-anchor-tag">Primary</span>
-            <h3>Angular</h3>
-            <p>Standalone APIs · v20 · CLI</p>
-          </div>
+    <!-- The Angular technical visual — single strong composition -->
+    <div class="skills-anchor-wrap reveal-scale">
+      <div class="skills-anchor">
+        <div class="skills-anchor-glow" aria-hidden="true"></div>
+
+        <!-- The Angular shield mark, sized large -->
+        <svg class="skills-anchor-shield" viewBox="0 0 200 200" aria-hidden="true">
+          <defs>
+            <linearGradient id="shieldGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="rgba(126, 177, 255, 0.95)"/>
+              <stop offset="100%" stop-color="rgba(43, 108, 255, 0.85)"/>
+            </linearGradient>
+            <radialGradient id="shieldGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="rgba(86, 156, 255, 0.3)"/>
+              <stop offset="100%" stop-color="rgba(86, 156, 255, 0)"/>
+            </radialGradient>
+          </defs>
+          <!-- outer glow ring -->
+          <circle cx="100" cy="100" r="98" fill="url(#shieldGlow)"/>
+          <!-- shield outline -->
+          <path d="M100 18 L172 50 L172 110 Q172 162 100 188 Q28 162 28 110 L28 50 Z"
+                fill="none" stroke="url(#shieldGrad)" stroke-width="1.5" opacity="0.7"/>
+          <!-- inner shield outline -->
+          <path d="M100 36 L156 60 L156 110 Q156 148 100 168 Q44 148 44 110 L44 60 Z"
+                fill="rgba(86, 156, 255, 0.04)" stroke="url(#shieldGrad)" stroke-width="0.8" opacity="0.6"/>
+          <!-- angular A -->
+          <path d="M100 64 L62 142 M100 64 L138 142 M82 116 L118 116"
+                fill="none" stroke="url(#shieldGrad)" stroke-width="6"
+                stroke-linecap="round" stroke-linejoin="round"/>
+          <!-- subtle red bar (angular brand accent) -->
+          <line x1="78" y1="142" x2="100" y2="64" stroke="rgba(220, 60, 60, 0.7)" stroke-width="6"
+                stroke-linecap="round" opacity="0.85"/>
+        </svg>
+
+        <div class="skills-anchor-meta">
+          <span class="skills-anchor-tag">Primary</span>
+          <h3 class="skills-anchor-title">Angular</h3>
+          <p class="skills-anchor-sub">Standalone APIs · v20 · Signals · CLI</p>
         </div>
-
-        <div class="skill-orbit">
-          <div class="skill-orbit-track"></div>
-          <span class="skill-orbit-marker skill-orbit-marker--priority skill-orbit-marker--1">TypeScript</span>
-          <span class="skill-orbit-marker skill-orbit-marker--priority skill-orbit-marker--2">RxJS</span>
-          <span class="skill-orbit-marker skill-orbit-marker--3">NgRx</span>
-          <span class="skill-orbit-marker skill-orbit-marker--4">Forms</span>
-          <span class="skill-orbit-marker skill-orbit-marker--5">Routing</span>
-          <span class="skill-orbit-marker skill-orbit-marker--6">DI</span>
-        </div>
-      </div>
-
-      <!-- Capability clusters -->
-      <div class="skill-clusters reveal-stagger">
-        <article class="skill-cluster">
-          <header class="skill-cluster-head">
-            <span class="skill-cluster-num">A</span>
-            <h3>Frameworks &amp; Languages</h3>
-          </header>
-          <ul class="skill-cluster-items">
-            <li>Angular <span class="skill-cluster-meta">v17–v20</span></li>
-            <li>Angular CLI</li>
-            <li>TypeScript</li>
-            <li>JavaScript <span class="skill-cluster-meta">ES6+</span></li>
-            <li>HTML5 · CSS3 · SCSS</li>
-          </ul>
-        </article>
-
-        <article class="skill-cluster">
-          <header class="skill-cluster-head">
-            <span class="skill-cluster-num">B</span>
-            <h3>Architecture &amp; State</h3>
-          </header>
-          <ul class="skill-cluster-items">
-            <li>RxJS · Observables · Subjects</li>
-            <li>Signals &amp; computed</li>
-            <li>Standalone components</li>
-            <li>Lazy loading · Route guards</li>
-            <li>Dependency injection</li>
-          </ul>
-        </article>
-
-        <article class="skill-cluster">
-          <header class="skill-cluster-head">
-            <span class="skill-cluster-num">C</span>
-            <h3>APIs &amp; Forms</h3>
-          </header>
-          <ul class="skill-cluster-items">
-            <li>HttpClient · Interceptors</li>
-            <li>Reactive forms</li>
-            <li>Template-driven forms</li>
-            <li>REST · JSON contracts</li>
-            <li>Auth · RBAC patterns</li>
-          </ul>
-        </article>
-
-        <article class="skill-cluster">
-          <header class="skill-cluster-head">
-            <span class="skill-cluster-num">D</span>
-            <h3>Testing &amp; Quality</h3>
-          </header>
-          <ul class="skill-cluster-items">
-            <li>Jasmine · Karma</li>
-            <li>TestBed harnesses</li>
-            <li>ESLint · Prettier</li>
-            <li>SonarQube</li>
-            <li>Cross-browser debugging</li>
-          </ul>
-        </article>
-
-        <article class="skill-cluster">
-          <header class="skill-cluster-head">
-            <span class="skill-cluster-num">E</span>
-            <h3>UI &amp; Tooling</h3>
-          </header>
-          <ul class="skill-cluster-items">
-            <li>Angular Material</li>
-            <li>CSS Grid · Flexbox</li>
-            <li>Responsive design</li>
-            <li>Git · GitHub</li>
-            <li>Jira · Agile / Scrum</li>
-          </ul>
-        </article>
       </div>
     </div>
+
+    <!-- Grouped skills — large, separated, no card boxes -->
+    <div class="skills-groups reveal-stagger">
+
+      <div class="skills-group">
+        <span class="skills-group-num">A</span>
+        <h4 class="skills-group-title">Frameworks &amp; Languages</h4>
+        <ul class="skills-group-list">
+          <li>Angular <span class="skills-group-meta">v17–v20</span></li>
+          <li>Angular CLI</li>
+          <li>TypeScript</li>
+          <li>JavaScript <span class="skills-group-meta">ES6+</span></li>
+          <li>HTML5 · CSS3 · SCSS</li>
+        </ul>
+      </div>
+
+      <div class="skills-group">
+        <span class="skills-group-num">B</span>
+        <h4 class="skills-group-title">Architecture &amp; State</h4>
+        <ul class="skills-group-list">
+          <li>RxJS · Observables · Subjects</li>
+          <li>Signals &amp; computed</li>
+          <li>Standalone components</li>
+          <li>Lazy loading · Route guards</li>
+          <li>Dependency injection</li>
+        </ul>
+      </div>
+
+      <div class="skills-group">
+        <span class="skills-group-num">C</span>
+        <h4 class="skills-group-title">APIs &amp; Forms</h4>
+        <ul class="skills-group-list">
+          <li>HttpClient · Interceptors</li>
+          <li>Reactive forms</li>
+          <li>Template-driven forms</li>
+          <li>REST · JSON contracts</li>
+          <li>Auth · RBAC patterns</li>
+        </ul>
+      </div>
+
+      <div class="skills-group">
+        <span class="skills-group-num">D</span>
+        <h4 class="skills-group-title">Testing &amp; Quality</h4>
+        <ul class="skills-group-list">
+          <li>Jasmine · Karma</li>
+          <li>TestBed harnesses</li>
+          <li>ESLint · Prettier</li>
+          <li>SonarQube</li>
+          <li>Cross-browser debugging</li>
+        </ul>
+      </div>
+
+      <div class="skills-group">
+        <span class="skills-group-num">E</span>
+        <h4 class="skills-group-title">UI &amp; Tooling</h4>
+        <ul class="skills-group-list">
+          <li>Angular Material</li>
+          <li>CSS Grid · Flexbox</li>
+          <li>Responsive design</li>
+          <li>Git · GitHub</li>
+          <li>Jira · Agile / Scrum</li>
+        </ul>
+      </div>
+
+    </div>
+
   </div>
+
 </section>
