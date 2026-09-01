@@ -114,30 +114,32 @@
   --z-cursor-ring: 9998;
 }
 
-/* ── Custom cursor (desktop only — touch devices use native) */
-.cursor-dot {
+/* ── Custom cursor (desktop only — touch devices use native) ─
+   Positioning is done with transforms in JS (no left/top jitter),
+   so we keep this purely about visual states. The base transform
+   centers the element on the mouse point. */
+.cursor-dot,
+.cursor-ring {
   position: fixed;
-  width: 6px; height: 6px;
-  background: var(--blue-2);
+  top: 0; left: 0;
   border-radius: 50%;
   pointer-events: none;
-  z-index: var(--z-cursor);
-  transform: translate(-50%, -50%);
-  mix-blend-mode: screen;
   will-change: transform;
+}
+
+.cursor-dot {
+  width: 6px; height: 6px;
+  background: var(--blue-2);
+  mix-blend-mode: screen;
+  z-index: var(--z-cursor);
   opacity: 0;
   transition: opacity 0.3s;
 }
 
 .cursor-ring {
-  position: fixed;
   width: 36px; height: 36px;
   border: 1px solid rgba(110, 150, 230, 0.45);
-  border-radius: 50%;
-  pointer-events: none;
   z-index: var(--z-cursor-ring);
-  transform: translate(-50%, -50%);
-  will-change: transform;
   opacity: 0;
   transition:
     opacity 0.3s,
@@ -148,15 +150,21 @@
     box-shadow 0.25s;
 }
 
+/* "Active" = cursor visible (first mouse move seen) */
 .cursor-ring.is-active {
   opacity: 1;
+}
+
+/* "Hover" = mouse is over an interactive element */
+.cursor-ring.is-hover {
   width: 52px;
   height: 52px;
   border-color: rgba(110, 150, 230, 0.7);
+  background: rgba(110, 150, 230, 0.04);
 }
 
+/* "Project" = large editorial project card hover */
 .cursor-ring.is-project {
-  opacity: 1;
   width: 72px;
   height: 72px;
   border-color: rgba(110, 150, 230, 0.4);

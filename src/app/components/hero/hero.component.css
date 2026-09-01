@@ -35,17 +35,20 @@
   border-radius: 50%;
   filter: blur(90px);
   will-change: transform;
+  max-width: 100%;
 }
 
 .hero-atm-glow--a {
-  width: 800px; height: 800px;
+  width: min(800px, 110vw);
+  height: min(800px, 110vw);
   top: -15%; left: -8%;
   background: radial-gradient(circle, rgba(45, 91, 184, 0.28) 0%, transparent 65%);
   animation: glowA 28s ease-in-out infinite alternate;
 }
 
 .hero-atm-glow--b {
-  width: 600px; height: 600px;
+  width: min(600px, 90vw);
+  height: min(600px, 90vw);
   top: 30%; right: 20%;
   background: radial-gradient(circle, rgba(110, 150, 230, 0.14) 0%, transparent 70%);
   animation: glowB 36s ease-in-out infinite alternate;
@@ -224,7 +227,6 @@
 }
 .hero-foot.is-revealed { opacity: 1; transform: translateY(0); }
 
-.hero-foot-left {}
 .hero-foot-right {
   display: flex;
   flex-direction: column;

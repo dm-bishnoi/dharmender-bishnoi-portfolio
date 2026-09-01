@@ -147,6 +147,7 @@ export class DottedTextComponent implements AfterViewInit, OnChanges, OnDestroy 
   private revealStart: number | null = null;
   private reducedMotion = false;
   private motionListener?: (e: MediaQueryListEvent) => void;
+  private motionQuery: MediaQueryList | null = null;
   private visibilityObserver: IntersectionObserver | null = null;
   private hasTriggered = false;
   private rafId: number | null = null;
@@ -189,12 +190,14 @@ export class DottedTextComponent implements AfterViewInit, OnChanges, OnDestroy 
   ngAfterViewInit(): void {
     if (!this.isBrowser) return;
 
-    this.reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    this.motionQuery = motionQuery;
+    this.reducedMotion = motionQuery.matches;
     this.motionListener = (e: MediaQueryListEvent) => {
       this.reducedMotion = e.matches;
       this.applyReducedMotion();
     };
-    window.matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', this.motionListener);
+    motionQuery.addEventListener('change', this.motionListener);
 
     this.buildGrid();
 
@@ -230,8 +233,8 @@ export class DottedTextComponent implements AfterViewInit, OnChanges, OnDestroy 
   ngOnDestroy(): void {
     if (this.rafId !== null) cancelAnimationFrame(this.rafId);
     this.resizeObserver?.disconnect();
-    if (this.motionListener && this.isBrowser) {
-      window.matchMedia('(prefers-reduced-motion: reduce)').removeEventListener('change', this.motionListener);
+    if (this.motionListener && this.motionQuery) {
+      this.motionQuery.removeEventListener('change', this.motionListener);
     }
     this.visibilityObserver?.disconnect();
     if (this.wrapRef?.nativeElement) {

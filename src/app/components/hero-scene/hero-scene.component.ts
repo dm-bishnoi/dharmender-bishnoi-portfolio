@@ -421,7 +421,7 @@ export class HeroSceneComponent implements AfterViewInit, OnDestroy {
       sizeAttenuation: true,
       depthWrite: false,
     });
-    const buildFlowForLine = (lineObj: any, from: any, to: any, perLine: number) => {
+    const buildFlowForLine = (from: any, to: any, perLine: number) => {
       const positions = new Float32Array(perLine * 3);
       const progress = new Float32Array(perLine);
       const speed = new Float32Array(perLine);
@@ -444,9 +444,8 @@ export class HeroSceneComponent implements AfterViewInit, OnDestroy {
       });
     };
     const flowPerLine = this.isMobile ? 1 : 2;
-    for (const line of this.innerLines) {
-      const node = this.innerNodes[this.innerLines.indexOf(line)];
-      buildFlowForLine(line, coreMesh, node, flowPerLine);
+    for (let i = 0; i < this.innerNodes.length; i++) {
+      buildFlowForLine(coreMesh, this.innerNodes[i], flowPerLine);
     }
 
     // ── Ambient drift particles ─────────────────────────
@@ -692,11 +691,6 @@ export class HeroSceneComponent implements AfterViewInit, OnDestroy {
   }
 
   // ── Lifecycle helpers ─────────────────────────────────
-  private revealDuration(): number {
-    // We don't actually use this constant — timings are inlined per element.
-    return 2600;
-  }
-
   private easeOutCubic(t: number): number {
     return 1 - Math.pow(1 - t, 3);
   }
