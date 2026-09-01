@@ -1,0 +1,46 @@
+/* ─────────────────────────────────────────────────────
+   Hero Scene — Three.js canvas + SVG fallback host.
+   Positioned absolutely behind the hero text layer.
+   pointer-events: none so it never blocks text/CTA.
+   ───────────────────────────────────────────────────── */
+
+:host {
+  display: block;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.hero-scene {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.hero-scene canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  opacity: 0;
+  transition: opacity 0.4s ease-out;
+}
+
+.hero-scene canvas.canvas-ready {
+  opacity: 1;
+}
+
+/* On mobile, reduce the scene's visual weight so it doesn't
+   overpower the text. The scene is atmospheric, not central. */
+.hero-scene--mobile canvas {
+  opacity: 0.5 !important;
+}
+
+/* Prevent the fallback from expanding beyond the host bounds. */
+app-hero-visual {
+  display: block;
+  position: absolute;
+  inset: 0;
+}

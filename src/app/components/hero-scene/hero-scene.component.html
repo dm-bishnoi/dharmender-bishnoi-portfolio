@@ -1,0 +1,14 @@
+<div #host
+     class="hero-scene"
+     [class.hero-scene--hidden]="state !== 'idle' && state !== 'ready' && state !== 'revealing' && state !== 'idle-loop' && state !== 'paused' && state !== 'reduced-motion'"
+     [class.hero-scene--mobile]="isMobile"
+     aria-hidden="true">
+  <p class="sr-only">
+    Angular application architecture: a glowing central core connected to
+    component, routing, RxJS, services, and testing nodes. Slow camera drift;
+    responds to pointer movement.
+  </p>
+  <ng-container *ngIf="state === 'fallback'">
+    <app-hero-visual class="hero-visual--3d-fallback"></app-hero-visual>
+  </ng-container>
+</div>

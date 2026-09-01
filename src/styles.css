@@ -45,6 +45,13 @@
   --blue-glow:     rgba(86, 156, 255, 0.35);
   --blue-glow-2:   rgba(86, 156, 255, 0.55);
 
+  /* ── Dot-matrix / trace system ─────────────────────── */
+  --trace:         #3d5a8c;
+  --accent:        #569cff;
+  --accent-2:      #7eb1ff;
+  --accent-subtle: rgba(86, 156, 255, 0.08);
+  --accent-glow:   rgba(86, 156, 255, 0.28);
+
   /* ── Status ───────────────────────────────────────── */
   --green:         #4ade80;
   --green-subtle:  rgba(74, 222, 128, 0.12);

@@ -2,7 +2,7 @@
   <!-- Atmospheric glow layers -->
   <div class="hv-glow hv-glow--primary" aria-hidden="true"></div>
   <div class="hv-glow hv-glow--secondary" aria-hidden="true"></div>
-  <div class="hv-glow hv-glow--gold" aria-hidden="true"></div>
+  <div class="hv-glow hv-glow--blue" aria-hidden="true"></div>
 
   <div class="hero-visual-scene">
 
@@ -10,15 +10,15 @@
     <svg class="hero-visual-grid" viewBox="0 0 600 460" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <pattern id="atm-dots" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
-          <circle cx="1" cy="1" r="0.8" fill="rgba(240, 237, 232, 0.1)" />
+          <circle cx="1" cy="1" r="0.8" fill="rgba(230, 236, 245, 0.1)" />
         </pattern>
         <radialGradient id="atm-halo" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stop-color="rgba(212, 98, 26, 0.18)" />
-          <stop offset="50%" stop-color="rgba(212, 98, 26, 0.05)" />
+          <stop offset="0%" stop-color="rgba(86, 156, 255, 0.22)" />
+          <stop offset="50%" stop-color="rgba(86, 156, 255, 0.06)" />
           <stop offset="100%" stop-color="rgba(0, 0, 0, 0)" />
         </radialGradient>
-        <radialGradient id="gold-halo" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stop-color="rgba(200, 169, 110, 0.12)" />
+        <radialGradient id="blue-halo" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="rgba(126, 177, 255, 0.12)" />
           <stop offset="100%" stop-color="rgba(0, 0, 0, 0)" />
         </radialGradient>
         <filter id="glow-filter" x="-50%" y="-50%" width="200%" height="200%">
@@ -35,16 +35,16 @@
 
       <!-- Concentric orbital rings (slowly rotating) -->
       <g class="orbit-group">
-        <circle cx="300" cy="230" r="170" fill="none" stroke="rgba(240, 237, 232, 0.06)" stroke-width="1" />
-        <circle cx="300" cy="230" r="120" fill="none" stroke="rgba(240, 237, 232, 0.09)" stroke-width="1" stroke-dasharray="3 5" />
-        <circle cx="300" cy="230" r="62" fill="none" stroke="rgba(240, 237, 232, 0.11)" stroke-width="1" />
+        <circle cx="300" cy="230" r="170" fill="none" stroke="rgba(230, 236, 245, 0.06)" stroke-width="1" />
+        <circle cx="300" cy="230" r="120" fill="none" stroke="rgba(230, 236, 245, 0.09)" stroke-width="1" stroke-dasharray="3 5" />
+        <circle cx="300" cy="230" r="62" fill="none" stroke="rgba(230, 236, 245, 0.11)" stroke-width="1" />
       </g>
 
       <!-- Soft center glow -->
       <circle cx="300" cy="230" r="110" fill="url(#atm-halo)" />
 
       <!-- Connection lines from center to primary nodes -->
-      <g class="connections" stroke="rgba(240, 237, 232, 0.12)" stroke-width="1" fill="none">
+      <g class="connections" stroke="rgba(230, 236, 245, 0.12)" stroke-width="1" fill="none">
         <line class="conn conn--1" x1="300" y1="230" x2="215" y2="162" />
         <line class="conn conn--2" x1="300" y1="230" x2="385" y2="162" />
         <line class="conn conn--3" x1="300" y1="230" x2="215" y2="298" />
@@ -55,25 +55,25 @@
         <line class="conn conn--7" x1="300" y1="230" x2="300" y2="360" stroke-dasharray="3 4" opacity="0.5" />
         <line class="conn conn--8" x1="300" y1="230" x2="160" y2="230" stroke-dasharray="3 4" opacity="0.5" />
         <!-- Outer mesh -->
-        <line x1="215" y1="162" x2="385" y2="162" stroke="rgba(240, 237, 232, 0.05)" stroke-width="0.75" />
-        <line x1="385" y1="162" x2="440" y2="230" stroke="rgba(240, 237, 232, 0.05)" stroke-width="0.75" />
-        <line x1="385" y1="298" x2="440" y2="230" stroke="rgba(240, 237, 232, 0.05)" stroke-width="0.75" />
-        <line x1="385" y1="298" x2="300" y2="360" stroke="rgba(240, 237, 232, 0.05)" stroke-width="0.75" />
-        <line x1="215" y1="298" x2="300" y2="360" stroke="rgba(240, 237, 232, 0.05)" stroke-width="0.75" />
-        <line x1="215" y1="298" x2="160" y2="230" stroke="rgba(240, 237, 232, 0.05)" stroke-width="0.75" />
-        <line x1="215" y1="162" x2="160" y2="230" stroke="rgba(240, 237, 232, 0.05)" stroke-width="0.75" />
-        <line x1="215" y1="162" x2="300" y2="100" stroke="rgba(240, 237, 232, 0.05)" stroke-width="0.75" />
-        <line x1="385" y1="162" x2="300" y2="100" stroke="rgba(240, 237, 232, 0.05)" stroke-width="0.75" />
-        <line x1="215" y1="298" x2="300" y2="360" stroke="rgba(240, 237, 232, 0.05)" stroke-width="0.75" />
-        <line x1="385" y1="298" x2="300" y2="360" stroke="rgba(240, 237, 232, 0.05)" stroke-width="0.75" />
-        <line x1="215" y1="162" x2="160" y2="230" stroke="rgba(240, 237, 232, 0.04)" stroke-width="0.5" />
-        <line x1="385" y1="162" x2="440" y2="230" stroke="rgba(240, 237, 232, 0.04)" stroke-width="0.5" />
-        <line x1="215" y1="298" x2="160" y2="230" stroke="rgba(240, 237, 232, 0.04)" stroke-width="0.5" />
-        <line x1="385" y1="298" x2="440" y2="230" stroke="rgba(240, 237, 232, 0.04)" stroke-width="0.5" />
+        <line x1="215" y1="162" x2="385" y2="162" stroke="rgba(230, 236, 245, 0.05)" stroke-width="0.75" />
+        <line x1="385" y1="162" x2="440" y2="230" stroke="rgba(230, 236, 245, 0.05)" stroke-width="0.75" />
+        <line x1="385" y1="298" x2="440" y2="230" stroke="rgba(230, 236, 245, 0.05)" stroke-width="0.75" />
+        <line x1="385" y1="298" x2="300" y2="360" stroke="rgba(230, 236, 245, 0.05)" stroke-width="0.75" />
+        <line x1="215" y1="298" x2="300" y2="360" stroke="rgba(230, 236, 245, 0.05)" stroke-width="0.75" />
+        <line x1="215" y1="298" x2="160" y2="230" stroke="rgba(230, 236, 245, 0.05)" stroke-width="0.75" />
+        <line x1="215" y1="162" x2="160" y2="230" stroke="rgba(230, 236, 245, 0.05)" stroke-width="0.75" />
+        <line x1="215" y1="162" x2="300" y2="100" stroke="rgba(230, 236, 245, 0.05)" stroke-width="0.75" />
+        <line x1="385" y1="162" x2="300" y2="100" stroke="rgba(230, 236, 245, 0.05)" stroke-width="0.75" />
+        <line x1="215" y1="298" x2="300" y2="360" stroke="rgba(230, 236, 245, 0.05)" stroke-width="0.75" />
+        <line x1="385" y1="298" x2="300" y2="360" stroke="rgba(230, 236, 245, 0.05)" stroke-width="0.75" />
+        <line x1="215" y1="162" x2="160" y2="230" stroke="rgba(230, 236, 245, 0.04)" stroke-width="0.5" />
+        <line x1="385" y1="162" x2="440" y2="230" stroke="rgba(230, 236, 245, 0.04)" stroke-width="0.5" />
+        <line x1="215" y1="298" x2="160" y2="230" stroke="rgba(230, 236, 245, 0.04)" stroke-width="0.5" />
+        <line x1="385" y1="298" x2="440" y2="230" stroke="rgba(230, 236, 245, 0.04)" stroke-width="0.5" />
       </g>
 
       <!-- Animated data flow pulses -->
-      <g class="pulse-streams" stroke="rgba(212, 98, 26, 0.9)" stroke-width="1.5" stroke-linecap="round" fill="none">
+      <g class="pulse-streams" stroke="rgba(126, 177, 255, 0.9)" stroke-width="1.5" stroke-linecap="round" fill="none">
         <line class="pulse-line pulse-line--1" x1="300" y1="230" x2="215" y2="162" stroke-dasharray="8 90" />
         <line class="pulse-line pulse-line--2" x1="300" y1="230" x2="385" y2="162" stroke-dasharray="8 90" />
         <line class="pulse-line pulse-line--3" x1="300" y1="230" x2="215" y2="298" stroke-dasharray="8 90" />
@@ -85,25 +85,25 @@
       </g>
 
       <!-- Corner coordinate framing -->
-      <g class="corner-frame" stroke="rgba(240, 237, 232, 0.25)" stroke-width="1">
+      <g class="corner-frame" stroke="rgba(230, 236, 245, 0.25)" stroke-width="1">
         <path d="M 80 58 L 80 72 M 66 72 L 80 72" />
         <path d="M 520 58 L 520 72 M 534 72 L 520 72" />
         <path d="M 80 402 L 80 388 M 66 388 L 80 388" />
         <path d="M 520 402 L 520 388 M 534 388 L 520 388" />
       </g>
 
-      <!-- Technical labels -->
-      <text x="90" y="50" fill="rgba(240, 237, 232, 0.3)" font-family="var(--font-mono)" font-size="8.5" letter-spacing="0.14em">
-        SYS.ARCH // ANGULAR
+      <!-- Technical labels (re-purposed to the real Angular stack) -->
+      <text x="90" y="50" fill="rgba(230, 236, 245, 0.3)" font-family="var(--font-mono)" font-size="8.5" letter-spacing="0.14em">
+        SYS.ARCH // ANGULAR v20
       </text>
-      <text x="510" y="50" text-anchor="end" fill="rgba(240, 237, 232, 0.3)" font-family="var(--font-mono)" font-size="8.5" letter-spacing="0.14em">
-        v20.2 · STANDALONE
+      <text x="510" y="50" text-anchor="end" fill="rgba(230, 236, 245, 0.3)" font-family="var(--font-mono)" font-size="8.5" letter-spacing="0.14em">
+        ENTERPRISE · PRODUCTION
       </text>
-      <text x="90" y="420" fill="rgba(240, 237, 232, 0.25)" font-family="var(--font-mono)" font-size="8.5" letter-spacing="0.12em">
-        ENTERPRISE RUNTIME
+      <text x="90" y="420" fill="rgba(230, 236, 245, 0.25)" font-family="var(--font-mono)" font-size="8.5" letter-spacing="0.12em">
+        STATE · COMPONENTS · DATA
       </text>
-      <text x="510" y="420" text-anchor="end" fill="rgba(240, 237, 232, 0.25)" font-family="var(--font-mono)" font-size="8.5" letter-spacing="0.12em">
-        PRODUCTION READY
+      <text x="510" y="420" text-anchor="end" fill="rgba(230, 236, 245, 0.25)" font-family="var(--font-mono)" font-size="8.5" letter-spacing="0.12em">
+        RXJS · STANDALONE · v20
       </text>
     </svg>
 
@@ -119,45 +119,45 @@
         </div>
         <div class="node-text">
           <span class="node-title">Angular Core</span>
-          <span class="node-meta">Component Architecture</span>
+          <span class="node-meta">Standalone Architecture</span>
         </div>
       </div>
     </div>
 
-    <!-- Layer 1: 4 primary nodes -->
+    <!-- Layer 1: 4 primary nodes (real Angular stack) -->
     <div class="node node--chip node--nw" (mouseenter)="onNodeHover('Components')" (mouseleave)="onNodeLeave()">
       <span class="chip-pulse"></span>
       <span class="chip-label">Components</span>
     </div>
-    <div class="node node--chip node--ne" (mouseenter)="onNodeHover('Services')" (mouseleave)="onNodeLeave()">
+    <div class="node node--chip node--ne" (mouseenter)="onNodeHover('RxJS')" (mouseleave)="onNodeLeave()">
       <span class="chip-pulse"></span>
-      <span class="chip-label">Services</span>
+      <span class="chip-label">RxJS</span>
     </div>
-    <div class="node node--chip node--sw" (mouseenter)="onNodeHover('Directives')" (mouseleave)="onNodeLeave()">
+    <div class="node node--chip node--sw" (mouseenter)="onNodeHover('Routing')" (mouseleave)="onNodeLeave()">
       <span class="chip-pulse"></span>
-      <span class="chip-label">Directives</span>
+      <span class="chip-label">Routing</span>
     </div>
-    <div class="node node--chip node--se" (mouseenter)="onNodeHover('Pipes')" (mouseleave)="onNodeLeave()">
+    <div class="node node--chip node--se" (mouseenter)="onNodeHover('State')" (mouseleave)="onNodeLeave()">
       <span class="chip-pulse"></span>
-      <span class="chip-label">Pipes</span>
+      <span class="chip-label">State</span>
     </div>
 
     <!-- Layer 2: 4 supporting nodes -->
-    <div class="node node--chip-sub node--n" (mouseenter)="onNodeHover('Routing')" (mouseleave)="onNodeLeave()">
-      <span class="chip-dot"></span>
-      <span class="chip-label">Routing</span>
-    </div>
-    <div class="node node--chip-sub node--e" (mouseenter)="onNodeHover('RxJS')" (mouseleave)="onNodeLeave()">
-      <span class="chip-dot"></span>
-      <span class="chip-label">RxJS</span>
-    </div>
-    <div class="node node--chip-sub node--s" (mouseenter)="onNodeHover('Testing')" (mouseleave)="onNodeLeave()">
-      <span class="chip-dot"></span>
-      <span class="chip-label">Testing</span>
-    </div>
-    <div class="node node--chip-sub node--w" (mouseenter)="onNodeHover('Forms')" (mouseleave)="onNodeLeave()">
+    <div class="node node--chip-sub node--n" (mouseenter)="onNodeHover('Forms')" (mouseleave)="onNodeLeave()">
       <span class="chip-dot"></span>
       <span class="chip-label">Forms</span>
+    </div>
+    <div class="node node--chip-sub node--e" (mouseenter)="onNodeHover('APIs')" (mouseleave)="onNodeLeave()">
+      <span class="chip-dot"></span>
+      <span class="chip-label">APIs</span>
+    </div>
+    <div class="node node--chip-sub node--s" (mouseenter)="onNodeHover('Signals')" (mouseleave)="onNodeLeave()">
+      <span class="chip-dot"></span>
+      <span class="chip-label">Signals</span>
+    </div>
+    <div class="node node--chip-sub node--w" (mouseenter)="onNodeHover('Testing')" (mouseleave)="onNodeLeave()">
+      <span class="chip-dot"></span>
+      <span class="chip-label">Testing</span>
     </div>
 
     <!-- Floating depth particles -->
@@ -169,7 +169,7 @@
     <!-- Status footer -->
     <div class="hero-visual-footer">
       <span class="live-beacon"></span>
-      <span class="footer-text">State &amp; Component Graph Active</span>
+      <span class="footer-text">Architecture · Initialized</span>
     </div>
   </div>
 </div>

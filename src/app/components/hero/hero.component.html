@@ -1,5 +1,8 @@
 <section id="home" class="hero" aria-label="Hero — Dharmender Bishnoi, Senior Angular Developer">
 
+  <!-- Three.js 3D scene (or SVG fallback) — background layer -->
+  <app-hero-scene></app-hero-scene>
+
   <!-- Cinematic atmospheric glow — large soft blue light behind text -->
   <div class="hero-atm" aria-hidden="true">
     <div class="hero-atm-glow hero-atm-glow--a"></div>
@@ -36,8 +39,9 @@
       </span>
     </div>
 
-    <!-- The display — the dotted NAME is the dominant visual identity,
-         with solid SENIOR / ANGULAR / DEVELOPER as refined subtitle type above it. -->
+    <!-- The display — the dotted ROLE is the dominant visual identity,
+         with solid SENIOR / ANGULAR / DEVELOPER as refined subtitle type above it.
+         The name appears as a small solid signature below the dotted display. -->
     <div class="hero-display">
       <h1 class="hero-display__title">
         <span class="hero-display__line hero-display__line--solid">
@@ -46,30 +50,31 @@
           <span class="hero-display__line-sub">DEVELOPER</span>
         </span>
         <span class="hero-display__line hero-display__line--name">
-          <span class="hero-display__name-dotted">
-            <app-dotted-text
-              text="DHARMENDER"
-              [pixelSize]="10"
-              [dotRadius]="2.2"
-              [aspectRatio]="0.28"
-              color="#f3f6fc"
-              [revealDelay]="400"
-              [revealDuration]="1400">
-            </app-dotted-text>
-          </span>
-          <span class="hero-display__name-dotted">
-            <app-dotted-text
-              text="BISHNOI"
-              [pixelSize]="10"
-              [dotRadius]="2.2"
-              [aspectRatio]="0.28"
-              color="#f3f6fc"
-              [revealDelay]="620"
-              [revealDuration]="1400">
-            </app-dotted-text>
-          </span>
+          <app-dotted-text
+            class="hero-display__name-dotted"
+            text="SENIOR ANGULAR DEVELOPER"
+            [dotSize]="5"
+            [dotGap]="7"
+            color="#e6ecf5"
+            activeColor="#e6ecf5"
+            traceColor="#3d5a8c"
+            accentColor="#7eb1ff"
+            [revealDelay]="850"
+            [revealDuration]="2200"
+            [charStagger]="40"
+            [wordStagger]="180"
+            [intraCharStagger]="10"
+            [accentRatio]="0.10"
+            [traceOpacity]="0.35">
+          </app-dotted-text>
         </span>
       </h1>
+      <p class="hero-signature">
+        <span class="hero-signature-dash" aria-hidden="true">—</span>
+        Dharmender Bishnoi
+        <span class="hero-signature-sep" aria-hidden="true">/</span>
+        <span class="hero-signature-meta">Jaipur · IST</span>
+      </p>
     </div>
 
     <!-- Bottom: side info + CTA + socials -->
