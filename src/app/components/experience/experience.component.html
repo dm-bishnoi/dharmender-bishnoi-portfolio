@@ -1,21 +1,21 @@
-<section id="experience" class="experience sec sec--wide reveal">
+<section id="experience" class="experience sec sec--wide">
 
   <div class="exp-grid">
 
     <!-- Editorial mark + number -->
-    <div class="exp-mark reveal-fade">
+    <div class="exp-mark" data-reveal-stage data-reveal-delay="0">
       <span class="exp-mark-num">03</span>
       <span class="exp-mark-label">Experience</span>
     </div>
 
     <!-- Big statement -->
     <div class="exp-statement">
-      <h2 class="display-2 exp-headline reveal-left">
+      <h2 class="display-2 exp-headline" data-reveal-stage data-reveal-delay="100">
         One role.<br />
         <em class="heading-accent">Five years.</em><br />
         Real production.
       </h2>
-      <p class="lede exp-lede reveal-left">
+      <p class="lede exp-lede" data-reveal-stage data-reveal-delay="280">
         A single long-running engagement on an enterprise CRM that gave me
         the surface area to learn what breaks at scale — and how to keep it
         from breaking again.
@@ -23,8 +23,18 @@
     </div>
 
     <!-- The role — large editorial timeline -->
-    <article class="exp-role reveal-right" aria-labelledby="role-title">
-      <header class="exp-role-head">
+    <article class="exp-role" aria-labelledby="role-title">
+      <!-- Animated timeline line -->
+      <svg class="exp-timeline-svg" viewBox="0 0 4 520" preserveAspectRatio="none" aria-hidden="true">
+        <line class="exp-timeline-line"
+          x1="2" y1="0" x2="2" y2="520"
+          data-length="520"
+          stroke="var(--blue)" stroke-width="2"
+          stroke-linecap="round"/>
+        <circle class="exp-timeline-marker" cx="2" cy="2" r="6" fill="var(--blue)"/>
+      </svg>
+
+      <header class="exp-role-head" data-reveal-stage data-reveal-delay="500">
         <div class="exp-role-meta">
           <span class="exp-role-tag">Current</span>
           <h3 id="role-title" class="exp-role-title">Angular Developer</h3>
@@ -37,14 +47,14 @@
         </div>
       </header>
 
-      <p class="exp-role-summary">
+      <p class="exp-role-summary" data-reveal-stage data-reveal-delay="700">
         I develop and maintain Angular applications that run daily business
         operations — building reusable components and services, integrating
         REST APIs, implementing routing with guards, and shipping
         responsive cross-browser interfaces.
       </p>
 
-      <ul class="exp-role-evidence">
+      <ul class="exp-role-evidence" data-reveal-stage data-reveal-delay="900">
         <li>
           <span class="exp-role-evidence-mark">01</span>
           <span>Built configurable Angular components for enterprise CRM modules</span>
@@ -71,7 +81,7 @@
         </li>
       </ul>
 
-      <div class="exp-role-tech">
+      <div class="exp-role-tech" data-reveal-stage data-reveal-delay="1680">
         <span class="exp-role-tech-item">Angular</span>
         <span class="exp-role-tech-item">v17–v20</span>
         <span class="exp-role-tech-item">TypeScript</span>

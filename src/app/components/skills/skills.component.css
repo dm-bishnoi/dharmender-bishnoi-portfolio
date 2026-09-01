@@ -28,7 +28,7 @@
     "statement"
     "anchor"
     "groups";
-  gap: clamp(56px, 7vw, 96px);
+  gap: clamp(40px, 5vw, 64px);
   position: relative;
   z-index: 1;
 }
@@ -39,7 +39,7 @@
     grid-template-areas:
       "mark     statement anchor"
       "groups   groups   groups";
-    column-gap: clamp(48px, 6vw, 96px);
+    column-gap: clamp(48px, 6vw, 80px);
   }
 }
 
@@ -219,9 +219,9 @@
   align-items: baseline;
   gap: 12px;
   font-size: clamp(14px, 1.05vw, 16px);
-  line-height: 1.5;
+  line-height: 1.55;
   color: var(--ink-soft);
-  padding: 12px 0;
+  padding: 11px 0;
   border-bottom: 1px solid var(--border);
   transition: color var(--duration-base) var(--ease-out),
               padding-left var(--duration-base) var(--ease-out);
@@ -241,15 +241,119 @@
   letter-spacing: 0.04em;
 }
 
+/* ── Network nodes — orbital labels around the shield ─ */
+.skills-anchor-nodes {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.skills-node {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 10px;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--blue-2);
+  background: rgba(6, 9, 26, 0.85);
+  border: 1px solid var(--blue);
+  border-radius: 999px;
+  opacity: 0;
+  transform: scale(0.6);
+  transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-spring);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+[data-reveal-stage].is-revealed .skills-node {
+  opacity: 1;
+  transform: scale(1);
+}
+
+[data-reveal-stage].is-revealed .skills-node--ts    { transition-delay: 1.0s; }
+[data-reveal-stage].is-revealed .skills-node--rxjs  { transition-delay: 1.15s; }
+[data-reveal-stage].is-revealed .skills-node--arch  { transition-delay: 1.3s; }
+[data-reveal-stage].is-revealed .skills-node--api   { transition-delay: 1.45s; }
+[data-reveal-stage].is-revealed .skills-node--test  { transition-delay: 1.6s; }
+
+.skills-node--ts   { top: 6%;  left: 8%;  animation: nodeOrbit 14s ease-in-out infinite; }
+.skills-node--rxjs { top: 12%; right: 4%; animation: nodeOrbit 16s ease-in-out infinite reverse; }
+.skills-node--arch { bottom: 14%; left: 4%; animation: nodeOrbit 18s ease-in-out infinite; }
+.skills-node--api  { bottom: 8%; right: 8%; animation: nodeOrbit 15s ease-in-out infinite reverse; }
+.skills-node--test { top: 50%; left: -2%; transform-origin: right center; animation: nodeOrbit 20s ease-in-out infinite; }
+
+@keyframes nodeOrbit {
+  0%, 100% { translate: 0 0; }
+  33%      { translate: 4px -3px; }
+  66%      { translate: -3px 4px; }
+}
+
+@media (max-width: 640px) {
+  .skills-anchor-nodes { display: none; }
+}
+
+/* ── Staggered reveal system ─────────────────────────── */
+[data-reveal-stage] {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
+}
+[data-reveal-stage].is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.skills-statement [data-reveal-stage] { transform: translateX(-20px); }
+.skills-statement [data-reveal-stage].is-revealed { transform: translateX(0); }
+
+.skills-anchor-wrap[data-reveal-stage] { transform: scale(0.92); }
+.skills-anchor-wrap[data-reveal-stage].is-revealed { transform: scale(1); }
+
 /* ── Responsive ──────────────────────────────────── */
 @media (max-width: 640px) {
   .skills-groups { grid-template-columns: 1fr; }
+  .skills-group-list li { font-size: 14px; }
   .skills-group-list li:hover { padding-left: 3px; }
+  .skills-anchor-shield {
+    width: 160px;
+  }
+  .skills-anchor-tag { font-size: 10px; }
+  .skills-anchor-title { font-size: 28px; }
+  .skills-anchor-sub { font-size: 10px; }
+}
+
+/* ── Small mobile (430 and below) ── */
+@media (max-width: 430px) {
+  .skills-groups {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .skills-group-title {
+    font-size: 18px;
+  }
+  .skills-group-list li {
+    font-size: 13.5px;
+    padding: 10px 0;
+  }
+  .skills-group-meta {
+    font-size: 10px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .skills-anchor-shield,
-  .skills-anchor-glow { animation: none; }
+  .skills-anchor-glow,
+  .skills-node { animation: none; }
   .skills-group-list li { transition: none; }
   .skills-group-list li:hover { padding-left: 0; }
+  [data-reveal-stage] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }

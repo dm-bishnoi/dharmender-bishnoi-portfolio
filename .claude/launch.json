@@ -2,11 +2,10 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "portfolio-dev",
+      "name": "portfolio-dev-alt",
       "runtimeExecutable": "cmd.exe",
-      "runtimeArgs": ["/c", "npx", "--no-install", "ng", "serve", "--port", "4300"],
-      "port": 4300,
-      "autoPort": true
+      "runtimeArgs": ["/c", "npx", "--no-install", "ng", "serve", "--port", "4310"],
+      "port": 4310
     }
   ]
 }

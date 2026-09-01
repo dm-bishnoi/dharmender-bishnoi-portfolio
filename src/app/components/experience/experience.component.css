@@ -27,14 +27,14 @@
     "mark"
     "statement"
     "role";
-  gap: clamp(56px, 7vw, 96px);
+  gap: clamp(40px, 5vw, 64px);
 }
 
 @media (min-width: 1024px) {
   .exp-grid {
     grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr) minmax(0, 1.5fr);
     grid-template-areas: "mark statement role";
-    column-gap: clamp(48px, 6vw, 96px);
+    column-gap: clamp(48px, 6vw, 80px);
   }
 }
 
@@ -84,13 +84,47 @@
   grid-area: role;
   display: flex;
   flex-direction: column;
-  gap: clamp(28px, 3.5vw, 40px);
+  gap: clamp(24px, 3vw, 36px);
   padding: clamp(28px, 3.5vw, 48px);
   background: linear-gradient(180deg, rgba(13, 19, 34, 0.55) 0%, rgba(7, 10, 20, 0.3) 100%);
   border: 1px solid var(--border);
   border-radius: var(--radius-2xl);
   position: relative;
   overflow: hidden;
+}
+
+/* ── Timeline SVG — left rail that draws on entry ── */
+.exp-timeline-svg {
+  position: absolute;
+  left: 18px;
+  top: 36px;
+  width: 4px;
+  height: calc(100% - 72px);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.exp-timeline-line {
+  filter: drop-shadow(0 0 6px rgba(86, 156, 255, 0.4));
+}
+
+.exp-timeline-marker {
+  filter: drop-shadow(0 0 8px rgba(86, 156, 255, 0.7));
+  animation: markerPulse 2.4s ease-in-out infinite;
+}
+
+@keyframes markerPulse {
+  0%, 100% { transform-origin: center; transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.3); opacity: 0.7; }
+}
+
+@media (max-width: 640px) {
+  .exp-timeline-svg { left: 10px; top: 28px; }
+  .exp-role { padding-left: 38px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .exp-timeline-marker { animation: none; }
 }
 
 .exp-role::before {
@@ -163,18 +197,24 @@
 .exp-role-period {
   display: inline-flex;
   align-items: baseline;
-  gap: 10px;
+  gap: 8px;
   font-family: var(--font-mono);
-  font-size: clamp(13px, 1.1vw, 16px);
+  font-size: clamp(13px, 1.05vw, 15px);
   font-weight: 500;
-  letter-spacing: 0.04em;
-  color: var(--ink);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
   flex-shrink: 0;
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  background: rgba(6, 9, 26, 0.4);
 }
 
 .exp-role-period-start,
 .exp-role-period-end {
   font-weight: 500;
+  color: var(--ink);
 }
 
 .exp-role-period-arrow {
@@ -183,12 +223,12 @@
 }
 
 .exp-role-summary {
-  font-size: clamp(16px, 1.3vw, 19px);
-  line-height: 1.6;
+  font-size: clamp(15px, 1.2vw, 17px);
+  line-height: 1.7;
   color: var(--ink-soft);
   margin: 0;
-  max-width: 70ch;
-  letter-spacing: -0.005em;
+  max-width: 68ch;
+  letter-spacing: -0.003em;
 }
 
 /* ── Evidence list — clean, line-separated ───────── */
@@ -206,10 +246,10 @@
   grid-template-columns: minmax(0, 56px) minmax(0, 1fr);
   align-items: baseline;
   gap: clamp(16px, 2vw, 28px);
-  padding: clamp(16px, 1.6vw, 22px) 0;
+  padding: clamp(14px, 1.5vw, 20px) 0;
   border-bottom: 1px solid var(--border);
-  font-size: clamp(15px, 1.2vw, 18px);
-  line-height: 1.55;
+  font-size: clamp(15px, 1.15vw, 17px);
+  line-height: 1.6;
   color: var(--ink-soft);
   transition: color var(--duration-base) var(--ease-out),
               padding-left var(--duration-base) var(--ease-out);
@@ -266,18 +306,76 @@
   color: var(--blue-2);
 }
 
+/* ── Staggered reveal system ─────────────────────────── */
+[data-reveal-stage] {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
+}
+[data-reveal-stage].is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.exp-role-head[data-reveal-stage] { transform: translateX(-12px); }
+.exp-role-head[data-reveal-stage].is-revealed { transform: translateX(0); }
+
 /* ── Responsive ──────────────────────────────────── */
 @media (max-width: 640px) {
   .exp-role { padding: 24px 20px; }
   .exp-role-evidence li {
     grid-template-columns: minmax(0, 32px) minmax(0, 1fr);
     gap: 12px;
+    font-size: 14px;
   }
   .exp-role-evidence li:hover { padding-left: 6px; }
+  .exp-role-title {
+    font-size: clamp(28px, 8vw, 36px);
+  }
+  .exp-role-summary {
+    font-size: 14px;
+  }
+}
+
+/* ── Small mobile (430 and below) — single column stack ─ */
+@media (max-width: 430px) {
+  .exp-role {
+    padding: 20px 16px;
+    gap: 24px;
+  }
+  .exp-role-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .exp-role-period {
+    font-size: 12px;
+  }
+  .exp-role-evidence li {
+    grid-template-columns: 1fr;
+    gap: 4px;
+    padding: 12px 0;
+  }
+  .exp-role-evidence-mark {
+    font-size: 10px;
+  }
+  .exp-role-tech {
+    font-size: 10px;
+    gap: 8px 12px;
+  }
+  .exp-role-tech-item + .exp-role-tech-item::before {
+    left: -7px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .exp-role-tag::before { animation: none; }
   .exp-role-evidence li { transition: none; }
   .exp-role-evidence li:hover { padding-left: 0; }
+  [data-reveal-stage] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .exp-timeline-line { stroke-dashoffset: 0 !important; }
 }

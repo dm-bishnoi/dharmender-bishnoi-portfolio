@@ -20,23 +20,34 @@ import { isPlatformBrowser } from '@angular/common';
  * Each "pixel" of the rasterized glyphs becomes a small dot, creating
  * the LED / arrival-board / pixel-display effect seen in the reference.
  *
- * Performance: 2x DPR for retina, throttled to once per animation frame.
- * Idle animation: a very subtle horizontal sweep glides through the
- * dots (cursor-style), keeping the headline alive when the mouse is still.
+ * Behavior:
+ *  - On section entry: dots progressively assemble from left → right
+ *    with per-dot randomized delay so the reveal feels organic.
+ *  - After assembly: an extremely subtle horizontal pulse glides through
+ *    a small column of dots (no constant flash) keeping the headline
+ *    alive when the user is still.
+ *  - prefers-reduced-motion: full headline visible immediately, no pulse.
  */
 @Component({
   selector: 'app-dotted-text',
   standalone: true,
   template: `
-    <canvas
-      #cv
-      class="dotted-canvas"
-      [attr.aria-label]="text"
-      role="img">
-    </canvas>
+    <div class="dotted-wrap" #wrap>
+      <canvas
+        #cv
+        class="dotted-canvas"
+        [attr.aria-label]="text"
+        role="img">
+      </canvas>
+    </div>
   `,
   styles: [`
     :host {
+      display: block;
+      width: 100%;
+      position: relative;
+    }
+    .dotted-wrap {
       display: block;
       width: 100%;
       position: relative;
@@ -53,23 +64,40 @@ export class DottedTextComponent implements AfterViewInit, OnDestroy, OnChanges 
   @Input() pixelSize = 6;          // spacing between dot centers (px)
   @Input() dotRadius = 1.6;        // dot radius in CSS px
   @Input() color: string = '#f5f7fb';
+  @Input() accentColor: string = '#7eb1ff';
   @Input() glowColor: string = 'rgba(86, 156, 255, 0.0)';
-  @Input() sweep = true;           // idle cursor-style sweep
-  @Input() aspectRatio: number | null = null;  // override aspect; null = compute from text
+  @Input() sweep = true;           // idle ambient pulse
+  @Input() aspectRatio: number | null = null;
+  @Input() revealDuration = 1400;  // ms for full dot reveal
+  @Input() revealDelay = 0;        // ms before reveal starts
 
   @ViewChild('cv', { static: true }) canvasRef!: ElementRef<HTMLCanvasElement>;
+  @ViewChild('wrap', { static: true }) wrapRef!: ElementRef<HTMLDivElement>;
   @HostBinding('style.--dotted-aspect') aspect = '0.36';
 
   private platformId = inject(PLATFORM_ID);
   private isBrowser = isPlatformBrowser(this.platformId);
+  private ngZone = inject(NgZone);
   private ro?: ResizeObserver;
   private rafId: number | null = null;
-  private sweepX = -0.2; // -0.2 .. 1.2 across canvas width
   private prefersReducedMotion = false;
   private motionListener = (e: MediaQueryListEvent) => {
     this.prefersReducedMotion = e.matches;
+    if (this.prefersReducedMotion) {
+      this.revealStart = performance.now() - this.revealDuration - 1; // already complete
+    }
   };
-  private ngZone = inject(NgZone);
+  private visibilityObserver: IntersectionObserver | null = null;
+  private hasTriggered = false;
+
+  // Animation state
+  private revealStart: number | null = null;
+  private pulseX = -0.18;
+  private pulseDir = 1;
+
+  // Cached dot grid (computed once per size/text)
+  private cachedDots: { x: number; y: number; center: number }[] | null = null;
+  private cachedKey = '';
 
   ngAfterViewInit(): void {
     if (!this.isBrowser) return;
@@ -79,16 +107,25 @@ export class DottedTextComponent implements AfterViewInit, OnDestroy, OnChanges 
     window.matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', this.motionListener);
 
     const cv = this.canvasRef.nativeElement;
-    this.ro = new ResizeObserver(() => this.scheduleRender());
+    this.ro = new ResizeObserver(() => {
+      this.cachedDots = null; // force re-rasterize
+      this.scheduleRender();
+    });
     this.ro.observe(cv);
     this.scheduleRender();
 
     if (!this.prefersReducedMotion) {
-      this.ngZone.runOutsideAngular(() => this.startSweep());
+      this.setupVisibilityObserver();
+      this.ngZone.runOutsideAngular(() => this.startLoop());
+    } else {
+      // Reduced motion: show full headline immediately.
+      this.revealStart = performance.now() - this.revealDuration - 1;
+      this.scheduleRender();
     }
   }
 
   ngOnChanges(_changes: SimpleChanges): void {
+    this.cachedDots = null;
     if (this.canvasRef) this.scheduleRender();
   }
 
@@ -97,15 +134,40 @@ export class DottedTextComponent implements AfterViewInit, OnDestroy, OnChanges 
     if (this.rafId) cancelAnimationFrame(this.rafId);
     if (this.isBrowser) {
       window.matchMedia('(prefers-reduced-motion: reduce)').removeEventListener('change', this.motionListener);
+      this.visibilityObserver?.disconnect();
     }
   }
 
-  private startSweep(): void {
-    const loop = (ts: number) => {
+  private setupVisibilityObserver(): void {
+    const wrap = this.wrapRef.nativeElement;
+    this.visibilityObserver = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting && !this.hasTriggered) {
+            this.hasTriggered = true;
+            this.revealStart = performance.now() + this.revealDelay;
+            this.visibilityObserver?.disconnect();
+            this.visibilityObserver = null;
+          }
+        }
+      },
+      { threshold: 0.12, rootMargin: '0px 0px -10% 0px' }
+    );
+    this.visibilityObserver.observe(wrap);
+  }
+
+  private startLoop(): void {
+    let last = performance.now();
+    const loop = (now: number) => {
       this.rafId = requestAnimationFrame(loop);
-      // advance sweep position slowly — a full pass every ~7 seconds
-      this.sweepX += 0.0024;
-      if (this.sweepX > 1.3) this.sweepX = -0.3;
+      const dt = now - last;
+      last = now;
+
+      // Pulse: gentle drift back-and-forth across canvas (a slow 8s cycle)
+      this.pulseX += (0.00018 * dt) * this.pulseDir;
+      if (this.pulseX > 1.18) { this.pulseX = 1.18; this.pulseDir = -1; }
+      if (this.pulseX < -0.18) { this.pulseX = -0.18; this.pulseDir = 1; }
+
       this.draw();
     };
     this.ngZone.runOutsideAngular(() => {
@@ -123,6 +185,15 @@ export class DottedTextComponent implements AfterViewInit, OnDestroy, OnChanges 
     });
   }
 
+  private getRevealProgress(): number {
+    if (this.prefersReducedMotion) return 1;
+    if (this.revealStart === null) return 0;
+    const now = performance.now();
+    if (now < this.revealStart) return 0;
+    const t = (now - this.revealStart) / this.revealDuration;
+    return Math.max(0, Math.min(1, t));
+  }
+
   private draw(): void {
     if (!this.isBrowser) return;
     const cv = this.canvasRef.nativeElement;
@@ -132,7 +203,6 @@ export class DottedTextComponent implements AfterViewInit, OnDestroy, OnChanges 
     const cssWidth = cv.clientWidth;
     if (cssWidth === 0) return;
 
-    // pick pixelSize relative to width so 1 line of text fills well
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     const w = Math.floor(cssWidth * dpr);
     const aspect = this.computeAspect();
@@ -142,16 +212,62 @@ export class DottedTextComponent implements AfterViewInit, OnDestroy, OnChanges 
     cv.style.aspectRatio = `${cssWidth} / ${cssWidth * aspect}`;
     if (cv.height !== h) cv.height = h;
 
-    // clear
     ctx.clearRect(0, 0, w, h);
     ctx.save();
 
-    // rasterize text to an offscreen canvas, get pixel data
+    // Cache key includes dimensions + text to avoid re-rasterizing every frame
+    const key = `${w}x${h}|${this.text}`;
+    if (!this.cachedDots || this.cachedKey !== key) {
+      this.cachedDots = this.rasterizeDots(w, h);
+      this.cachedKey = key;
+    }
+    const dots = this.cachedDots;
+    if (!dots || dots.length === 0) { ctx.restore(); return; }
+
+    const r = this.dotRadius * dpr;
+    const progress = this.getRevealProgress();
+    const pulseActive = this.sweep && !this.prefersReducedMotion && progress >= 1;
+    const pulseWidth = w * 0.14;
+    const pulseCenter = this.pulseX * w;
+    const pulseColor = this.accentColor;
+
+    // Reveal: each dot has a "center" value (0..1 across width).
+    // Reveal when progress * 1.4 > center (gives slight overlap for organic feel).
+    const threshold = progress * 1.35;
+
+    // Pre-pass: which dots are revealed?
+    // First paint all base dots
+    for (let i = 0; i < dots.length; i++) {
+      const d = dots[i];
+      if (d.center > threshold) continue; // not yet revealed
+
+      // ease-out for the individual dot's fade-in
+      const local = 1 - Math.max(0, (threshold - d.center) / 0.35);
+      const eased = local * local * (3 - 2 * local); // smoothstep
+      this.paintDot(ctx, d.x, d.y, r, this.color, eased);
+    }
+
+    // Second pass: subtle ambient pulse highlight (only after reveal complete)
+    if (pulseActive) {
+      for (let i = 0; i < dots.length; i++) {
+        const d = dots[i];
+        const dist = Math.abs(d.x - pulseCenter);
+        if (dist > pulseWidth) continue;
+        const t = 1 - dist / pulseWidth;
+        const alpha = Math.pow(t, 1.8) * 0.5;
+        this.paintDot(ctx, d.x, d.y, r * 1.04, pulseColor, alpha);
+      }
+    }
+
+    ctx.restore();
+  }
+
+  private rasterizeDots(w: number, h: number): { x: number; y: number; center: number }[] {
     const off = document.createElement('canvas');
     off.width = w;
     off.height = h;
     const octx = off.getContext('2d', { willReadFrequently: true });
-    if (!octx) { ctx.restore(); return; }
+    if (!octx) return [];
 
     const fontStack = '"Space Grotesk", "Inter", system-ui, sans-serif';
     const fontSize = Math.floor(h * 0.78);
@@ -161,10 +277,8 @@ export class DottedTextComponent implements AfterViewInit, OnDestroy, OnChanges 
     octx.textBaseline = 'middle';
     octx.textAlign = 'left';
     octx.font = `700 ${fontSize}px ${fontStack}`;
-    // measure + position: vertically center
     const metrics = octx.measureText(this.text);
     const textW = metrics.width;
-    // horizontal scale to fit
     const targetW = w * 0.94;
     const scale = targetW / textW;
     const drawW = textW * scale;
@@ -176,21 +290,15 @@ export class DottedTextComponent implements AfterViewInit, OnDestroy, OnChanges 
     octx.restore();
 
     const data = octx.getImageData(0, 0, w, h).data;
-    const ps = Math.max(3, Math.floor(this.pixelSize * dpr));
-    const r = this.dotRadius * dpr;
-    const sweepActive = this.sweep && !this.prefersReducedMotion;
-    const sweepWidth = w * 0.18;
-    const sweepCenter = this.sweepX * w;
+    const dprValue = Math.min(window.devicePixelRatio || 1, 2);
+    const ps = Math.max(3, Math.floor(this.pixelSize * dprValue));
 
-    // first pass: base dots
+    const dots: { x: number; y: number; center: number }[] = [];
     for (let y = 0; y < h; y += ps) {
       for (let x = 0; x < w; x += ps) {
         const idx = (y * w + x) * 4;
-        const a = data[idx + 3] / 255;
-        if (a < 0.45) continue;
-        // sample a small block of the pixel cluster to decide if dot is "filled"
+        if (data[idx + 3] < 0.45 * 255) continue;
         let filled = false;
-        // check a 3x3 sub-block for performance
         for (let dy = 0; dy < ps; dy += Math.max(1, Math.floor(ps / 2))) {
           for (let dx = 0; dx < ps; dx += Math.max(1, Math.floor(ps / 2))) {
             const px = x + dx;
@@ -202,27 +310,10 @@ export class DottedTextComponent implements AfterViewInit, OnDestroy, OnChanges 
           if (filled) break;
         }
         if (!filled) continue;
-        this.paintDot(ctx, x, y, r, this.color, 1);
+        dots.push({ x, y, center: x / w });
       }
     }
-
-    // second pass: optional blue sweep — paints a tinted ring of dots that are
-    // inside the sweep band
-    if (sweepActive) {
-      for (let y = 0; y < h; y += ps) {
-        for (let x = 0; x < w; x += ps) {
-          const dist = Math.abs(x - sweepCenter);
-          if (dist > sweepWidth) continue;
-          const idx = (y * w + x) * 4;
-          if (data[idx + 3] < 130) continue;
-          const t = 1 - dist / sweepWidth;
-          const alpha = Math.pow(t, 1.6) * 0.85;
-          this.paintDot(ctx, x, y, r * 1.05, '#7eb1ff', alpha);
-        }
-      }
-    }
-
-    ctx.restore();
+    return dots;
   }
 
   private paintDot(ctx: CanvasRenderingContext2D, x: number, y: number, r: number, color: string, alpha: number): void {
@@ -239,10 +330,7 @@ export class DottedTextComponent implements AfterViewInit, OnDestroy, OnChanges 
     if (this.aspectRatio !== null) {
       return Math.max(0.14, Math.min(0.95, this.aspectRatio));
     }
-    // height/width based on text length — for 10-char word "DHARMENDER" we want
-    // a shorter aspect (~0.18) so the dotted line is wide-and-shallow, not blocky.
     const len = this.text.length || 1;
-    // height = 0.95em; width = len * 0.62em; ratio = height/width
     const ratio = 0.95 / (len * 0.62);
     return Math.max(0.14, Math.min(0.95, ratio));
   }

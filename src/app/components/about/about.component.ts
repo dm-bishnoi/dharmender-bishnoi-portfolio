@@ -6,4 +6,6 @@ import { Component } from '@angular/core';
   templateUrl: './about.component.html',
   styleUrl: './about.component.css'
 })
-export class AboutComponent {}
+export class AboutComponent {
+  // No reveal animation in this section — content is static and visible.
+}
