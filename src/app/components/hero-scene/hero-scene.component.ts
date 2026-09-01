@@ -86,8 +86,19 @@ export class HeroSceneComponent implements AfterViewInit, OnDestroy {
   private outerNodes: any[] = [];
   private innerLines: any[] = [];
   private outerLines: any[] = [];
+  /** Thin radial rings (architecture circles) around the core. */
+  private archRings: any[] = [];
   private pointsObj: any = null;
   private pointsVelocities: Float32Array | null = null;
+  /** Per-line flowing particles: { obj, velocities, lineIndex, lineKind } */
+  private flowParticles: Array<{
+    obj: any;
+    positions: Float32Array;
+    progress: Float32Array;
+    speed: Float32Array;
+    fromVec: any;
+    toVec: any;
+  }> = [];
   private hostWidth = 0;
   private hostHeight = 0;
 
@@ -375,8 +386,88 @@ export class HeroSceneComponent implements AfterViewInit, OnDestroy {
       this.outerLines.push(buildLine(this.core, node, lineMaterialBase));
     }
 
-    // ── Data particles ──────────────────────────────────
-    const particleCount = this.isMobile ? 28 : this.hostWidth < 1024 ? 40 : 80;
+    // ── Architectural rings — concentric circles around the core ──
+    // Restrained: 3 rings at different radii, slight tilts, slow counter-rotation.
+    const ringRadii = [1.7, 2.7, 3.9];
+    const ringTilts = [0.0, 0.35, -0.28];
+    const ringSegs = 128;
+    for (let i = 0; i < ringRadii.length; i++) {
+      const ringGeom = new THREE.RingGeometry(
+        ringRadii[i] - 0.005,
+        ringRadii[i] + 0.005,
+        ringSegs
+      );
+      const ringMat = new THREE.MeshBasicMaterial({
+        color: lineColor,
+        transparent: true,
+        opacity: 0,
+        side: THREE.DoubleSide,
+        depthWrite: false,
+      });
+      const ring = new THREE.Mesh(ringGeom, ringMat);
+      ring.rotation.x = Math.PI / 2 + ringTilts[i];
+      ring.userData.spinSpeed = (i % 2 === 0 ? 0.04 : -0.025) * (i + 1) * 0.18;
+      ring.userData.tilt = ringTilts[i];
+      ring.userData.peakOpacity = i === 0 ? 0.18 : i === 1 ? 0.14 : 0.10;
+      this.scene.add(ring);
+      this.archRings.push(ring);
+    }
+
+    // ── Per-line flowing data particles ─────────────────
+    // These ride each connection line (core→node), reading as data
+    // pulses traveling through the architecture. Staggered start phases
+    // so the lines look populated even on first frame post-entrance.
+    const flowMat = new THREE.PointsMaterial({
+      color: parseInt(palette.blue2.replace('#', '0x')),
+      size: this.isMobile ? 0.07 : 0.06,
+      transparent: true,
+      opacity: 0.9,
+      sizeAttenuation: true,
+      depthWrite: false,
+    });
+
+    const buildFlowForLine = (lineObj: any, from: any, to: any, perLine: number) => {
+      const positions = new Float32Array(perLine * 3);
+      const progress = new Float32Array(perLine);
+      const speed = new Float32Array(perLine);
+      for (let i = 0; i < perLine; i++) {
+        // Distribute initial progress along [0..1] so each line is
+        // already populated when it fades in.
+        progress[i] = i / perLine + (Math.random() - 0.5) * 0.1;
+        speed[i] = 0.0009 + Math.random() * 0.0008;
+      }
+      const geom = new THREE.BufferGeometry();
+      geom.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      const points = new THREE.Points(geom, flowMat);
+      points.frustumCulled = false;
+      this.scene.add(points);
+      this.flowParticles.push({
+        obj: points,
+        positions,
+        progress,
+        speed,
+        fromVec: from.position.clone(),
+        toVec: to.position.clone(),
+      });
+    };
+
+    // Desktop/tablet: 2 particles per inner line, 2 per outer line.
+    // Mobile: 1 per inner line, 0 per outer.
+    const innerFlowCount = this.isMobile ? 1 : 2;
+    const outerFlowCount = this.isMobile ? 0 : 2;
+    for (const line of this.innerLines) {
+      const node = this.innerNodes[this.innerLines.indexOf(line)];
+      buildFlowForLine(line, this.core, node, innerFlowCount);
+    }
+    for (const line of this.outerLines) {
+      const node = this.outerNodes[this.outerLines.indexOf(line)];
+      if (outerFlowCount > 0) buildFlowForLine(line, this.core, node, outerFlowCount);
+    }
+
+    // ── Ambient drift particles (kept from before, but reduced) ──
+    // These now complement the line flows with a small ambient drift
+    // volume — much fewer than the original 80/40/28.
+    const particleCount = this.isMobile ? 12 : this.hostWidth < 1024 ? 18 : 32;
     const positions = new Float32Array(particleCount * 3);
     const velocities = new Float32Array(particleCount * 3);
     const range = 4.5;
@@ -397,8 +488,9 @@ export class HeroSceneComponent implements AfterViewInit, OnDestroy {
       color: parseInt(palette.blue2.replace('#', '0x')),
       size: 0.04,
       transparent: true,
-      opacity: 0.5,
+      opacity: 0.4,
       sizeAttenuation: true,
+      depthWrite: false,
     });
     this.pointsObj = new THREE.Points(pointsGeom, pointsMat);
     scene.add(this.pointsObj);
@@ -440,6 +532,7 @@ export class HeroSceneComponent implements AfterViewInit, OnDestroy {
     const now = time || performance.now();
     this.updateEntrance(now);
     this.updateIdle(now);
+    this.updateFlowParticles(now);
     this.updatePointer();
     this.updateScrollCamera();
     this.updateParticles();
@@ -496,6 +589,27 @@ export class HeroSceneComponent implements AfterViewInit, OnDestroy {
       }
     }
 
+    // 900ms: architecture rings begin fading in (staggered 120ms)
+    for (let i = 0; i < this.archRings.length; i++) {
+      const start = 900 + i * 120;
+      if (t >= start) {
+        const ct = Math.min(1, (t - start) / 800);
+        const peak = this.archRings[i].userData.peakOpacity;
+        this.archRings[i].material.opacity = ct * peak;
+      }
+    }
+
+    // 1400ms: flow particles begin pulsing
+    for (const fp of this.flowParticles) {
+      fp.obj.material.opacity = 0;
+    }
+    if (t >= 1400) {
+      const ct = Math.min(1, (t - 1400) / 600);
+      for (const fp of this.flowParticles) {
+        fp.obj.material.opacity = ct * 0.9;
+      }
+    }
+
     // 1700ms: camera pull-in z 7 → 6 over 1500ms
     if (t >= 1700 && t < 1700 + 1500) {
       const ct = (t - 1700) / 1500;
@@ -520,6 +634,31 @@ export class HeroSceneComponent implements AfterViewInit, OnDestroy {
     if (this.core) {
       const phase = (now / 12000) * Math.PI * 2;
       this.core.rotation.y = Math.sin(phase) * 0.034; // ~2°
+    }
+    // Architecture rings: slow counter-rotation, never full spin speeds.
+    for (const ring of this.archRings) {
+      const speed = ring.userData.spinSpeed ?? 0.02;
+      // Rotate around the ring's local axis (z after tilt).
+      ring.rotation.z += speed * 0.016;
+    }
+  }
+
+  private updateFlowParticles(now: number): void {
+    if (this.state !== 'idle-loop' && this.state !== 'revealing') return;
+    for (const fp of this.flowParticles) {
+      const { obj, positions, progress, speed, fromVec, toVec } = fp;
+      const dt = 0.016; // ~60fps nominal; speed is already per-frame
+      for (let i = 0; i < progress.length; i++) {
+        progress[i] += speed[i] * 60 * dt; // normalize to 60fps
+        if (progress[i] > 1) progress[i] -= 1;
+        if (progress[i] < 0) progress[i] += 1;
+        const p = progress[i];
+        const i3 = i * 3;
+        positions[i3] = fromVec.x + (toVec.x - fromVec.x) * p;
+        positions[i3 + 1] = fromVec.y + (toVec.y - fromVec.y) * p;
+        positions[i3 + 2] = fromVec.z + (toVec.z - fromVec.z) * p;
+      }
+      obj.geometry.attributes.position.needsUpdate = true;
     }
   }
 
@@ -668,6 +807,13 @@ export class HeroSceneComponent implements AfterViewInit, OnDestroy {
     this.renderer.setSize(w, h, false);
     this.camera.aspect = w / h;
     this.camera.updateProjectionMatrix();
+    // Re-detect viewport on resize so the mobile class follows reality.
+    const wasMobile = this.isMobile;
+    this.isMobile = window.innerWidth < 768;
+    if (wasMobile !== this.isMobile) {
+      this.cdr.markForCheck();
+      this.cdr.detectChanges();
+    }
   }
 
   private renderOnce(): void {
@@ -679,6 +825,12 @@ export class HeroSceneComponent implements AfterViewInit, OnDestroy {
     for (const n of this.outerNodes) n.scale.setScalar(1);
     for (const l of this.innerLines) (l.material as any).opacity = 0.6;
     for (const l of this.outerLines) (l.material as any).opacity = 0.55;
+    for (const ring of this.archRings) {
+      ring.material.opacity = ring.userData.peakOpacity;
+    }
+    for (const fp of this.flowParticles) {
+      fp.obj.material.opacity = 0.9;
+    }
     this.camera.position.set(0, 0, 6);
     this.renderer.render(this.scene, this.camera);
     this.renderer.setAnimationLoop(null);
@@ -723,6 +875,8 @@ export class HeroSceneComponent implements AfterViewInit, OnDestroy {
     this.outerNodes = [];
     this.innerLines = [];
     this.outerLines = [];
+    this.archRings = [];
+    this.flowParticles = [];
     this.pointsObj = null;
     this.pointsVelocities = null;
   }
