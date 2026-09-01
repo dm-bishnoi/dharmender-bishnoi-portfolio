@@ -3,7 +3,7 @@
   <!-- Section header — minimal, editorial -->
   <div class="projects-head">
     <div class="projects-mark" data-reveal-stage data-reveal-delay="0">
-      <span class="projects-mark-num">05</span>
+      <span class="projects-mark-num">04</span>
       <span class="projects-mark-label">Selected Work</span>
     </div>
 
@@ -21,9 +21,15 @@
 
   <!-- The Flexschema case study — visual + text -->
   <article class="case" aria-labelledby="case-title">
-    <div class="case-visual-wrap" data-reveal-stage data-reveal-delay="500">
-      <div class="case-visual">
-        <!-- Decorative architectural visualization -->
+
+    <!-- Large index number — decorative, behind content -->
+    <span class="case-index" aria-hidden="true">001</span>
+
+    <!-- Visual + content side by side -->
+    <div class="case-layout">
+
+      <!-- Architectural visualization -->
+      <div class="case-visual" data-reveal-stage data-reveal-delay="500">
         <svg class="case-visual-svg" viewBox="0 0 600 360" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
           <defs>
             <radialGradient id="caseHalo" cx="50%" cy="50%" r="50%">
@@ -90,57 +96,58 @@
           <text x="560" y="340" text-anchor="end" fill="rgba(86, 156, 255, 0.5)" font-family="var(--font-mono)" font-size="9" letter-spacing="0.12em">RXJS · NG_RX</text>
         </svg>
       </div>
-    </div>
 
-    <div class="case-body" data-reveal-stage data-reveal-delay="800">
+      <div class="case-content" data-reveal-stage data-reveal-delay="800">
 
-      <header class="case-head">
-        <div class="case-head-meta">
-          <span class="case-tag">Featured Project</span>
-          <h3 id="case-title" class="case-title">Flexschema</h3>
-          <p class="case-subtitle">Enterprise CRM Platform</p>
+        <header class="case-head">
+          <div class="case-head-meta">
+            <span class="case-tag">Featured Project</span>
+            <h3 id="case-title" class="case-title">Flexschema</h3>
+            <p class="case-subtitle">Enterprise CRM Platform</p>
+          </div>
+        </header>
+
+        <p class="case-lede lede-soft">
+          A comprehensive CRM solution for modern businesses, built end-to-end
+          in Angular. Configurable module system, role-based access control,
+          and the kind of state architecture that survives years of feature
+          work without becoming spaghetti.
+        </p>
+
+        <div class="case-detail">
+          <div class="case-detail-item">
+            <span class="case-detail-label">My contribution</span>
+            <p class="case-detail-text">
+              Frontend architecture, reusable component system, RxJS state
+              flow, API integration layer, and unit-test coverage for the
+              core modules.
+            </p>
+          </div>
+
+          <div class="case-detail-item">
+            <span class="case-detail-label">Stack</span>
+            <p class="case-detail-text case-detail-tech">
+              <span>Angular</span>
+              <span>TypeScript</span>
+              <span>RxJS</span>
+              <span>NgRx</span>
+              <span>REST APIs</span>
+              <span>Jasmine / Karma</span>
+            </p>
+          </div>
+
+          <div class="case-detail-item">
+            <span class="case-detail-label">Technical highlights</span>
+            <ul class="case-detail-list">
+              <li>Standalone components, lazy-loaded feature modules</li>
+              <li>Typed HttpClient services with auth/error interceptors</li>
+              <li>Reactive forms wired to backend contract types</li>
+              <li>RBAC with route guards and feature flag composition</li>
+              <li>TestBed harnesses for shared component specs</li>
+            </ul>
+          </div>
         </div>
-      </header>
 
-      <p class="case-summary lede-soft">
-        A comprehensive CRM solution for modern businesses, built end-to-end
-        in Angular. Configurable module system, role-based access control,
-        and the kind of state architecture that survives years of feature
-        work without becoming spaghetti.
-      </p>
-
-      <div class="case-detail">
-        <div class="case-detail-item">
-          <span class="case-detail-label">My contribution</span>
-          <p class="case-detail-text">
-            Frontend architecture, reusable component system, RxJS state
-            flow, API integration layer, and unit-test coverage for the
-            core modules.
-          </p>
-        </div>
-
-        <div class="case-detail-item">
-          <span class="case-detail-label">Stack</span>
-          <p class="case-detail-text case-detail-tech">
-            <span>Angular</span>
-            <span>TypeScript</span>
-            <span>RxJS</span>
-            <span>NgRx</span>
-            <span>REST APIs</span>
-            <span>Jasmine / Karma</span>
-          </p>
-        </div>
-
-        <div class="case-detail-item">
-          <span class="case-detail-label">Technical highlights</span>
-          <ul class="case-detail-list">
-            <li>Standalone components, lazy-loaded feature modules</li>
-            <li>Typed HttpClient services with auth/error interceptors</li>
-            <li>Reactive forms wired to backend contract types</li>
-            <li>RBAC with route guards and feature flag composition</li>
-            <li>TestBed harnesses for shared component specs</li>
-          </ul>
-        </div>
       </div>
 
     </div>

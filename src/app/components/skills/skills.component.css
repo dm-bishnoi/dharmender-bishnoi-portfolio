@@ -1,6 +1,6 @@
 /* ─────────────────────────────────────────────────────
-   Skills — One strong Angular visual + grouped clusters.
-   Editorial layout, no small cards.
+   Skills — Engineering specification. No pills, no cards.
+   Five blocks of grouped capabilities, line-separated.
    ───────────────────────────────────────────────────── */
 
 :host {
@@ -10,46 +10,38 @@
 
 .skills { position: relative; }
 
-/* Subtle background accent — large blue wash on left */
-:host::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background:
-    radial-gradient(ellipse 60% 60% at 15% 40%, rgba(43, 108, 255, 0.10) 0%, transparent 70%);
-}
-
 .skills-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   grid-template-areas:
     "mark"
     "statement"
-    "anchor"
-    "groups";
+    "spec";
   gap: clamp(40px, 5vw, 64px);
-  position: relative;
-  z-index: 1;
 }
 
 @media (min-width: 1024px) {
   .skills-grid {
-    grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 0.5fr) minmax(0, 1.5fr);
     grid-template-areas:
-      "mark     statement anchor"
-      "groups   groups   groups";
+      "mark     statement"
+      "spec     spec";
     column-gap: clamp(48px, 6vw, 80px);
+    row-gap: clamp(40px, 5vw, 64px);
   }
 }
 
-/* ── Mark ─────────────────────────────────────────── */
+/* ── Mark column ────────────────────────────────────── */
 .skills-mark {
   grid-area: mark;
   display: flex;
   flex-direction: column;
   gap: 14px;
   padding-top: 16px;
+}
+
+@media (min-width: 1024px) {
+  .skills-mark { position: sticky; top: 96px; align-self: start; }
 }
 
 .skills-mark-num {
@@ -73,287 +65,123 @@
   color: var(--ink-light);
 }
 
-/* ── Statement ────────────────────────────────────── */
+/* ── Statement column ───────────────────────────────── */
 .skills-statement { grid-area: statement; }
 
-.skills-headline { margin-bottom: clamp(20px, 2.5vw, 32px); }
+.skills-headline { margin-bottom: clamp(16px, 2vw, 24px); }
 
-.skills-lede { max-width: 38ch; }
-
-/* ── Angular technical visual ─────────────────────── */
-.skills-anchor-wrap {
-  grid-area: anchor;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.skills-lede {
+  max-width: 38ch;
+  color: var(--ink-soft);
 }
 
-.skills-anchor {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 24px;
-}
-
-.skills-anchor-shield {
-  width: clamp(180px, 18vw, 280px);
-  height: auto;
-  filter: drop-shadow(0 12px 40px rgba(86, 156, 255, 0.35));
-  animation: shieldFloat 8s ease-in-out infinite alternate;
-}
-
-@keyframes shieldFloat {
-  0%   { transform: translateY(0); }
-  100% { transform: translateY(-8px); }
-}
-
-.skills-anchor-glow {
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -65%);
-  width: 320px; height: 320px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(86, 156, 255, 0.20) 0%, transparent 70%);
-  filter: blur(20px);
-  pointer-events: none;
-  z-index: -1;
-  animation: glowBreath 6s ease-in-out infinite alternate;
-}
-
-@keyframes glowBreath {
-  0%   { transform: translate(-50%, -65%) scale(1); opacity: 0.7; }
-  100% { transform: translate(-50%, -65%) scale(1.12); opacity: 1; }
-}
-
-.skills-anchor-meta {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  text-align: center;
-}
-
-.skills-anchor-tag {
-  display: inline-block;
-  font-family: var(--font-mono);
-  font-size: 10.5px;
-  font-weight: 500;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--blue-2);
-}
-
-.skills-anchor-title {
-  font-family: var(--font-display);
-  font-size: clamp(36px, 3.8vw, 56px);
-  font-weight: 600;
-  letter-spacing: -0.03em;
-  color: var(--ink);
-  margin: 0;
-  line-height: 1;
-}
-
-.skills-anchor-sub {
-  font-family: var(--font-mono);
-  font-size: 11.5px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--ink-light);
-  margin: 0;
-}
-
-/* ── Grouped skills — large, line-separated ──────── */
-.skills-groups {
-  grid-area: groups;
+/* ── Engineering spec table ─────────────────────────── */
+.skills-spec {
+  grid-area: spec;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: clamp(32px, 4vw, 56px) clamp(24px, 3vw, 48px);
+  grid-template-columns: 1fr;
+  gap: clamp(32px, 4vw, 56px) clamp(32px, 4vw, 64px);
   padding-top: clamp(40px, 5vw, 64px);
   border-top: 1px solid var(--border);
 }
 
-.skills-group {
+@media (min-width: 768px) {
+  .skills-spec {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1280px) {
+  .skills-spec {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.spec-block {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 18px;
 }
 
-.skills-group-num {
+.spec-block-title {
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 500;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
   color: var(--blue-2);
-  width: 28px; height: 28px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid var(--border-glow);
-  border-radius: 6px;
-  background: var(--blue-subtle);
-}
-
-.skills-group-title {
-  font-family: var(--font-display);
-  font-size: clamp(20px, 1.7vw, 26px);
-  font-weight: 500;
-  letter-spacing: -0.02em;
-  color: var(--ink);
   margin: 0;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border-2);
 }
 
-.skills-group-list {
+.spec-list {
   list-style: none;
   padding: 0;
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 0;
-  border-top: 1px solid var(--border);
 }
 
-.skills-group-list li {
+.spec-item {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  gap: 12px;
-  font-size: clamp(14px, 1.05vw, 16px);
-  line-height: 1.55;
+  gap: 16px;
+  font-size: clamp(15px, 1.2vw, 17px);
+  line-height: 1.5;
   color: var(--ink-soft);
   padding: 11px 0;
   border-bottom: 1px solid var(--border);
-  transition: color var(--duration-base) var(--ease-out),
-              padding-left var(--duration-base) var(--ease-out);
+  transition:
+    color var(--duration-base) var(--ease-out),
+    padding-left var(--duration-base) var(--ease-out);
 }
 
-.skills-group-list li:hover {
+.spec-item:hover {
   color: var(--ink);
-  padding-left: 6px;
+  padding-left: 8px;
 }
 
-.skills-group-meta {
+.spec-item-name {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: inherit;
+  min-width: 0;
+}
+
+.spec-item-meta {
   font-family: var(--font-mono);
   font-size: 10.5px;
   color: var(--ink-muted);
   white-space: nowrap;
   flex-shrink: 0;
   letter-spacing: 0.04em;
-}
-
-/* ── Network nodes — orbital labels around the shield ─ */
-.skills-anchor-nodes {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-
-.skills-node {
-  position: absolute;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 4px 10px;
-  font-family: var(--font-mono);
-  font-size: 9.5px;
-  font-weight: 600;
-  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--blue-2);
-  background: rgba(6, 9, 26, 0.85);
-  border: 1px solid var(--blue);
-  border-radius: 999px;
-  opacity: 0;
-  transform: scale(0.6);
-  transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-spring);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
 }
 
-[data-reveal-stage].is-revealed .skills-node {
-  opacity: 1;
-  transform: scale(1);
-}
+.spec-item:has(.spec-item-meta:empty) .spec-item-name { width: 100%; }
 
-[data-reveal-stage].is-revealed .skills-node--ts    { transition-delay: 1.0s; }
-[data-reveal-stage].is-revealed .skills-node--rxjs  { transition-delay: 1.15s; }
-[data-reveal-stage].is-revealed .skills-node--arch  { transition-delay: 1.3s; }
-[data-reveal-stage].is-revealed .skills-node--api   { transition-delay: 1.45s; }
-[data-reveal-stage].is-revealed .skills-node--test  { transition-delay: 1.6s; }
-
-.skills-node--ts   { top: 6%;  left: 8%;  animation: nodeOrbit 14s ease-in-out infinite; }
-.skills-node--rxjs { top: 12%; right: 4%; animation: nodeOrbit 16s ease-in-out infinite reverse; }
-.skills-node--arch { bottom: 14%; left: 4%; animation: nodeOrbit 18s ease-in-out infinite; }
-.skills-node--api  { bottom: 8%; right: 8%; animation: nodeOrbit 15s ease-in-out infinite reverse; }
-.skills-node--test { top: 50%; left: -2%; transform-origin: right center; animation: nodeOrbit 20s ease-in-out infinite; }
-
-@keyframes nodeOrbit {
-  0%, 100% { translate: 0 0; }
-  33%      { translate: 4px -3px; }
-  66%      { translate: -3px 4px; }
-}
-
+/* ── Responsive ─────────────────────────────────────── */
 @media (max-width: 640px) {
-  .skills-anchor-nodes { display: none; }
-}
-
-/* ── Staggered reveal system ─────────────────────────── */
-[data-reveal-stage] {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
-}
-[data-reveal-stage].is-revealed {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.skills-statement [data-reveal-stage] { transform: translateX(-20px); }
-.skills-statement [data-reveal-stage].is-revealed { transform: translateX(0); }
-
-.skills-anchor-wrap[data-reveal-stage] { transform: scale(0.92); }
-.skills-anchor-wrap[data-reveal-stage].is-revealed { transform: scale(1); }
-
-/* ── Responsive ──────────────────────────────────── */
-@media (max-width: 640px) {
-  .skills-groups { grid-template-columns: 1fr; }
-  .skills-group-list li { font-size: 14px; }
-  .skills-group-list li:hover { padding-left: 3px; }
-  .skills-anchor-shield {
-    width: 160px;
-  }
-  .skills-anchor-tag { font-size: 10px; }
-  .skills-anchor-title { font-size: 28px; }
-  .skills-anchor-sub { font-size: 10px; }
-}
-
-/* ── Small mobile (430 and below) ── */
-@media (max-width: 430px) {
-  .skills-groups {
-    grid-template-columns: 1fr;
-    gap: 32px;
-  }
-  .skills-group-title {
-    font-size: 18px;
-  }
-  .skills-group-list li {
-    font-size: 13.5px;
+  .spec-item {
+    font-size: 14px;
     padding: 10px 0;
   }
-  .skills-group-meta {
+  .spec-item:hover { padding-left: 4px; }
+}
+
+@media (max-width: 430px) {
+  .spec-item {
+    font-size: 13.5px;
+  }
+  .spec-item-meta {
     font-size: 10px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .skills-anchor-shield,
-  .skills-anchor-glow,
-  .skills-node { animation: none; }
-  .skills-group-list li { transition: none; }
-  .skills-group-list li:hover { padding-left: 0; }
-  [data-reveal-stage] {
-    opacity: 1;
-    transform: none;
-    transition: none;
-  }
+  .spec-item { transition: none; }
+  .spec-item:hover { padding-left: 0; }
 }

@@ -3,133 +3,149 @@
   <div class="skills-grid">
 
     <!-- Editorial mark -->
-    <div class="skills-mark" data-reveal-stage data-reveal-delay="0">
-      <span class="skills-mark-num">04</span>
+    <div class="skills-mark">
+      <span class="skills-mark-num">03</span>
       <span class="skills-mark-label">Skills</span>
     </div>
 
     <!-- Statement -->
     <div class="skills-statement">
-      <h2 class="display-2 skills-headline" data-reveal-stage data-reveal-delay="120">
-        The <em class="heading-accent">core</em> of<br />how I build.
+      <h2 class="skills-headline display-2">
+        The <em class="heading-accent">engineering</em><br />
+        stack.
       </h2>
-      <p class="lede skills-lede" data-reveal-stage data-reveal-delay="320">
-        Angular, TypeScript, and RxJS form the spine.
-        Everything else is supporting cast.
+      <p class="lede skills-lede">
+        Angular, TypeScript, and RxJS are the spine.
+        The rest is supporting infrastructure.
       </p>
     </div>
 
-    <!-- The Angular technical visual — single strong composition -->
-    <div class="skills-anchor-wrap" data-reveal-stage data-reveal-delay="500">
-      <div class="skills-anchor">
-        <div class="skills-anchor-glow" aria-hidden="true"></div>
+    <!-- Engineering spec table — spans full width -->
+    <div class="skills-spec">
 
-        <!-- The Angular shield mark, sized large -->
-        <svg class="skills-anchor-shield" viewBox="0 0 200 200" aria-hidden="true">
-          <defs>
-            <linearGradient id="shieldGrad" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stop-color="rgba(126, 177, 255, 0.95)"/>
-              <stop offset="100%" stop-color="rgba(43, 108, 255, 0.85)"/>
-            </linearGradient>
-            <radialGradient id="shieldGlow" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stop-color="rgba(86, 156, 255, 0.3)"/>
-              <stop offset="100%" stop-color="rgba(86, 156, 255, 0)"/>
-            </radialGradient>
-          </defs>
-          <!-- outer glow ring -->
-          <circle cx="100" cy="100" r="98" fill="url(#shieldGlow)"/>
-          <!-- shield outline -->
-          <path d="M100 18 L172 50 L172 110 Q172 162 100 188 Q28 162 28 110 L28 50 Z"
-                fill="none" stroke="url(#shieldGrad)" stroke-width="1.5" opacity="0.7"/>
-          <!-- inner shield outline -->
-          <path d="M100 36 L156 60 L156 110 Q156 148 100 168 Q44 148 44 110 L44 60 Z"
-                fill="rgba(86, 156, 255, 0.04)" stroke="url(#shieldGrad)" stroke-width="0.8" opacity="0.6"/>
-          <!-- angular A -->
-          <path d="M100 64 L62 142 M100 64 L138 142 M82 116 L118 116"
-                fill="none" stroke="url(#shieldGrad)" stroke-width="6"
-                stroke-linecap="round" stroke-linejoin="round"/>
-          <!-- subtle red bar (angular brand accent) -->
-          <line x1="78" y1="142" x2="100" y2="64" stroke="rgba(220, 60, 60, 0.7)" stroke-width="6"
-                stroke-linecap="round" opacity="0.85"/>
-        </svg>
-
-        <div class="skills-anchor-meta">
-          <span class="skills-anchor-tag">Primary</span>
-          <h3 class="skills-anchor-title">Angular</h3>
-          <p class="skills-anchor-sub">Standalone APIs · v20 · Signals · CLI</p>
-        </div>
-
-        <!-- Network nodes: TypeScript, RxJS, etc. -->
-        <div class="skills-anchor-nodes" aria-hidden="true">
-          <span class="skills-node skills-node--ts" data-node="ts">TS</span>
-          <span class="skills-node skills-node--rxjs" data-node="rxjs">RxJS</span>
-          <span class="skills-node skills-node--arch" data-node="arch">ARCH</span>
-          <span class="skills-node skills-node--api" data-node="api">API</span>
-          <span class="skills-node skills-node--test" data-node="test">TEST</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Grouped skills — large, separated, no card boxes -->
-    <div class="skills-groups">
-
-      <div class="skills-group" data-reveal-stage data-reveal-delay="900">
-        <span class="skills-group-num">A</span>
-        <h4 class="skills-group-title">Frameworks &amp; Languages</h4>
-        <ul class="skills-group-list">
-          <li>Angular <span class="skills-group-meta">v17–v20</span></li>
-          <li>Angular CLI</li>
-          <li>TypeScript</li>
-          <li>JavaScript <span class="skills-group-meta">ES6+</span></li>
-          <li>HTML5 · CSS3 · SCSS</li>
+      <div class="spec-block">
+        <h3 class="spec-block-title">Frameworks &amp; Languages</h3>
+        <ul class="spec-list">
+          <li class="spec-item">
+            <span class="spec-item-name">Angular</span>
+            <span class="spec-item-meta">v17 — v20</span>
+          </li>
+          <li class="spec-item">
+            <span class="spec-item-name">Angular CLI</span>
+            <span class="spec-item-meta"></span>
+          </li>
+          <li class="spec-item">
+            <span class="spec-item-name">TypeScript</span>
+            <span class="spec-item-meta">ES2022+</span>
+          </li>
+          <li class="spec-item">
+            <span class="spec-item-name">JavaScript</span>
+            <span class="spec-item-meta">ES6+</span>
+          </li>
+          <li class="spec-item">
+            <span class="spec-item-name">HTML5 · CSS3 · SCSS</span>
+            <span class="spec-item-meta"></span>
+          </li>
         </ul>
       </div>
 
-      <div class="skills-group" data-reveal-stage data-reveal-delay="1020">
-        <span class="skills-group-num">B</span>
-        <h4 class="skills-group-title">Architecture &amp; State</h4>
-        <ul class="skills-group-list">
-          <li>RxJS · Observables · Subjects</li>
-          <li>Signals &amp; computed</li>
-          <li>Standalone components</li>
-          <li>Lazy loading · Route guards</li>
-          <li>Dependency injection</li>
+      <div class="spec-block">
+        <h3 class="spec-block-title">Architecture &amp; State</h3>
+        <ul class="spec-list">
+          <li class="spec-item">
+            <span class="spec-item-name">RxJS</span>
+            <span class="spec-item-meta">Observables · Subjects</span>
+          </li>
+          <li class="spec-item">
+            <span class="spec-item-name">Signals</span>
+            <span class="spec-item-meta">Angular 17+</span>
+          </li>
+          <li class="spec-item">
+            <span class="spec-item-name">Standalone components</span>
+            <span class="spec-item-meta">v17+ pattern</span>
+          </li>
+          <li class="spec-item">
+            <span class="spec-item-name">Lazy loading · Route guards</span>
+            <span class="spec-item-meta"></span>
+          </li>
+          <li class="spec-item">
+            <span class="spec-item-name">Dependency injection</span>
+            <span class="spec-item-meta"></span>
+          </li>
         </ul>
       </div>
 
-      <div class="skills-group" data-reveal-stage data-reveal-delay="1140">
-        <span class="skills-group-num">C</span>
-        <h4 class="skills-group-title">APIs &amp; Forms</h4>
-        <ul class="skills-group-list">
-          <li>HttpClient · Interceptors</li>
-          <li>Reactive forms</li>
-          <li>Template-driven forms</li>
-          <li>REST · JSON contracts</li>
-          <li>Auth · RBAC patterns</li>
+      <div class="spec-block">
+        <h3 class="spec-block-title">APIs &amp; Forms</h3>
+        <ul class="spec-list">
+          <li class="spec-item">
+            <span class="spec-item-name">HttpClient</span>
+            <span class="spec-item-meta">Typed services</span>
+          </li>
+          <li class="spec-item">
+            <span class="spec-item-name">Interceptors</span>
+            <span class="spec-item-meta">Auth · Error</span>
+          </li>
+          <li class="spec-item">
+            <span class="spec-item-name">Reactive Forms</span>
+            <span class="spec-item-meta"></span>
+          </li>
+          <li class="spec-item">
+            <span class="spec-item-name">REST · JSON contracts</span>
+            <span class="spec-item-meta"></span>
+          </li>
+          <li class="spec-item">
+            <span class="spec-item-name">Auth · RBAC patterns</span>
+            <span class="spec-item-meta"></span>
+          </li>
         </ul>
       </div>
 
-      <div class="skills-group" data-reveal-stage data-reveal-delay="1260">
-        <span class="skills-group-num">D</span>
-        <h4 class="skills-group-title">Testing &amp; Quality</h4>
-        <ul class="skills-group-list">
-          <li>Jasmine · Karma</li>
-          <li>TestBed harnesses</li>
-          <li>ESLint · Prettier</li>
-          <li>SonarQube</li>
-          <li>Cross-browser debugging</li>
+      <div class="spec-block">
+        <h3 class="spec-block-title">Testing &amp; Quality</h3>
+        <ul class="spec-list">
+          <li class="spec-item">
+            <span class="spec-item-name">Jasmine · Karma</span>
+            <span class="spec-item-meta"></span>
+          </li>
+          <li class="spec-item">
+            <span class="spec-item-name">TestBed harnesses</span>
+            <span class="spec-item-meta">Component specs</span>
+          </li>
+          <li class="spec-item">
+            <span class="spec-item-name">ESLint · Prettier</span>
+            <span class="spec-item-meta"></span>
+          </li>
+          <li class="spec-item">
+            <span class="spec-item-name">SonarQube</span>
+            <span class="spec-item-meta">Quality gates</span>
+          </li>
         </ul>
       </div>
 
-      <div class="skills-group" data-reveal-stage data-reveal-delay="1380">
-        <span class="skills-group-num">E</span>
-        <h4 class="skills-group-title">UI &amp; Tooling</h4>
-        <ul class="skills-group-list">
-          <li>Angular Material</li>
-          <li>CSS Grid · Flexbox</li>
-          <li>Responsive design</li>
-          <li>Git · GitHub</li>
-          <li>Jira · Agile / Scrum</li>
+      <div class="spec-block">
+        <h3 class="spec-block-title">UI &amp; Tooling</h3>
+        <ul class="spec-list">
+          <li class="spec-item">
+            <span class="spec-item-name">Angular Material</span>
+            <span class="spec-item-meta"></span>
+          </li>
+          <li class="spec-item">
+            <span class="spec-item-name">CSS Grid · Flexbox</span>
+            <span class="spec-item-meta"></span>
+          </li>
+          <li class="spec-item">
+            <span class="spec-item-name">Responsive design</span>
+            <span class="spec-item-meta"></span>
+          </li>
+          <li class="spec-item">
+            <span class="spec-item-name">Git · GitHub</span>
+            <span class="spec-item-meta"></span>
+          </li>
+          <li class="spec-item">
+            <span class="spec-item-name">Jira · Agile / Scrum</span>
+            <span class="spec-item-meta"></span>
+          </li>
         </ul>
       </div>
 

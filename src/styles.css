@@ -9,53 +9,52 @@
   --max-hero: 1640px;
   --side: clamp(20px, 4vw, 56px);
 
-  /* ── Palette — Deep Cinematic Black & Blue ───────────
-     Black base → deep navy → electric blue glow.
-     Restraint over neon: accent is selective, surfaces whisper.
+  /* ── Palette — Near-black + controlled blue light source
+     Desaturated: blue reads as a light source, not a color.
+     Restraint over neon.
   */
-  --bg:           #03050b;     /* near-black */
-  --bg-2:         #06091a;     /* navy for layered depth */
-  --bg-3:         #0a1126;     /* deep navy */
+  --bg:           #050812;   /* near-black navy */
+  --bg-2:         #08101f;  /* secondary navy */
+  --bg-3:         #0c1424;  /* surface navy */
 
-  /* Surface tokens — used very sparingly */
-  --surface:      #0d1322;
+  /* Surface */
+  --surface:      #0c1424;
   --surface-2:    #111a2e;
 
-  /* ── Borders — thin, blue-tinted, minimal use ──────── */
-  --border:        #1a2238;
-  --border-2:      #232d4a;
-  --border-3:      #2f3b5e;
-  --border-glow:   rgba(86, 156, 255, 0.18);
+  /* ── Ink hierarchy ─────────────────────────────────── */
+  --ink:           #eef3ff;   /* primary — warm off-white */
+  --ink-soft:      #9aa8c2;  /* secondary */
+  --ink-light:     #6b7a99;   /* muted */
+  --ink-muted:     #3d4d6b;   /* faint */
+  --ink-faint:     #1e2a3d;   /* ghost / divider */
 
-  /* ── Ink — cool off-white hierarchy ────────────────── */
-  --ink:           #f3f6fc;
-  --ink-soft:      #c5cbdb;
-  --ink-light:     #8a93ad;
-  --ink-muted:     #5d6685;
-  --ink-faint:     #3a4263;
-  --ink-ghost:     #1d2540;
+  /* ── Borders ─────────────────────────────────────── */
+  --border:        rgba(150, 180, 230, 0.14);
+  --border-2:      rgba(150, 180, 230, 0.22);
+  --border-3:      rgba(150, 180, 230, 0.32);
+  --border-glow:   rgba(110, 150, 230, 0.18);
 
-  /* ── Accent — Electric Blue (selective emphasis) ──── */
-  --blue:          #569cff;
-  --blue-2:        #7eb1ff;
-  --blue-3:        #a3c6ff;
-  --blue-deep:     #2b6cff;
-  --blue-tint:     rgba(86, 156, 255, 0.14);
-  --blue-subtle:   rgba(86, 156, 255, 0.06);
-  --blue-glow:     rgba(86, 156, 255, 0.35);
-  --blue-glow-2:   rgba(86, 156, 255, 0.55);
+  /* ── Blue accent — controlled light source ──────────────── */
+  --blue:          #4d7acc;   /* primary */
+  --blue-2:        #6e96e6;   /* bright */
+  --blue-3:        #8fb3f5;   /* pale */
+  --blue-deep:     #2d5cb8;   /* deep */
+  --blue-tint:     rgba(110, 150, 230, 0.12);
+  --blue-subtle:   rgba(110, 150, 230, 0.06);
+  --blue-glow:     rgba(110, 150, 230, 0.28);
+  --blue-glow-2:   rgba(110, 150, 230, 0.48);
 
   /* ── Dot-matrix / trace system ─────────────────────── */
-  --trace:         #3d5a8c;
-  --accent:        #569cff;
-  --accent-2:      #7eb1ff;
-  --accent-subtle: rgba(86, 156, 255, 0.08);
-  --accent-glow:   rgba(86, 156, 255, 0.28);
+  --trace:         #2d4070;
+  --accent:        #6e96e6;
+  --accent-2:      #8fb3f5;
+  --accent-subtle: rgba(110, 150, 230, 0.08);
+  --accent-glow:   rgba(110, 150, 230, 0.25);
 
   /* ── Status ───────────────────────────────────────── */
-  --green:         #4ade80;
-  --green-subtle:  rgba(74, 222, 128, 0.12);
-  --green-glow:    rgba(74, 222, 128, 0.25);
+  --green:         #5dcc99;
+  --green-subtle:  rgba(93, 204, 153, 0.12);
+  --green-glow:    rgba(93, 204, 153, 0.22);
 
   /* ── Typography ─────────────────────────────────────── */
   --font-display: 'Space Grotesk', 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
@@ -111,6 +110,63 @@
   --z-overlay: 200;
   --z-skip: 250;
   --z-atm: -1;
+  --z-cursor: 9999;
+  --z-cursor-ring: 9998;
+}
+
+/* ── Custom cursor (desktop only — touch devices use native) */
+.cursor-dot {
+  position: fixed;
+  width: 6px; height: 6px;
+  background: var(--blue-2);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: var(--z-cursor);
+  transform: translate(-50%, -50%);
+  mix-blend-mode: screen;
+  will-change: transform;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.cursor-ring {
+  position: fixed;
+  width: 36px; height: 36px;
+  border: 1px solid rgba(110, 150, 230, 0.45);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: var(--z-cursor-ring);
+  transform: translate(-50%, -50%);
+  will-change: transform;
+  opacity: 0;
+  transition:
+    opacity 0.3s,
+    width 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    height 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.25s,
+    background 0.25s,
+    box-shadow 0.25s;
+}
+
+.cursor-ring.is-active {
+  opacity: 1;
+  width: 52px;
+  height: 52px;
+  border-color: rgba(110, 150, 230, 0.7);
+}
+
+.cursor-ring.is-project {
+  opacity: 1;
+  width: 72px;
+  height: 72px;
+  border-color: rgba(110, 150, 230, 0.4);
+  box-shadow: 0 0 20px var(--blue-glow);
+  background: rgba(110, 150, 230, 0.04);
+}
+
+/* Hide on touch/hover-none devices */
+@media (hover: none), (pointer: coarse) {
+  .cursor-dot, .cursor-ring { display: none !important; }
 }
 
 /* ── Reset ──────────────────────────────────────────────── */
@@ -136,8 +192,8 @@ body {
   letter-spacing: -0.003em;
 }
 
-/* ── Atmospheric background — black → navy → electric blue ─
-   Multiple layered radial lights for cinematic depth.
+/* ── Atmospheric background — near-black with controlled blue light ─
+   Layered radial lights for cinematic depth.
    Slow drift creates the impression of breathing light. */
 body::before {
   content: '';
@@ -146,14 +202,14 @@ body::before {
   pointer-events: none;
   z-index: 0;
   background:
-    /* primary electric blue glow, upper-left */
-    radial-gradient(ellipse 60% 50% at 22% 18%, rgba(43, 108, 255, 0.22) 0%, transparent 60%),
+    /* primary deep blue, upper-left */
+    radial-gradient(ellipse 55% 45% at 20% 15%, rgba(45, 91, 184, 0.18) 0%, transparent 60%),
     /* deep navy ambient mid */
-    radial-gradient(ellipse 80% 70% at 50% 50%, rgba(10, 26, 60, 0.55) 0%, transparent 70%),
+    radial-gradient(ellipse 75% 65% at 50% 50%, rgba(8, 16, 31, 0.6) 0%, transparent 70%),
     /* secondary blue, lower-right */
-    radial-gradient(ellipse 50% 40% at 88% 82%, rgba(86, 156, 255, 0.12) 0%, transparent 60%),
-    /* base vertical: black → deep navy → black */
-    linear-gradient(180deg, #02030a 0%, #050a1c 40%, #03050f 100%);
+    radial-gradient(ellipse 45% 35% at 85% 80%, rgba(110, 150, 230, 0.10) 0%, transparent 60%),
+    /* base vertical: near-black → deep navy → near-black */
+    linear-gradient(180deg, #030508 0%, #040810 40%, #030508 100%);
   background-attachment: fixed;
   animation: atmDrift 30s ease-in-out infinite alternate;
 }

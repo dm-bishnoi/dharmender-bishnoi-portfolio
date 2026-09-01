@@ -20,6 +20,7 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
   private mediaQuery: MediaQueryList;
   private motionListener: (e: MediaQueryListEvent) => void;
   prefersReducedMotion = false;
+  private timeouts: number[] = [];
 
   constructor(private el: ElementRef<HTMLElement>) {
     this.mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -33,21 +34,49 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
     this.prefersReducedMotion = this.mediaQuery.matches;
     this.mediaQuery.addEventListener('change', this.motionListener);
 
-    // Staggered entrance: trigger each child zone sequentially
-    const inner = this.host.querySelector<HTMLElement>('.hero-inner');
-    if (inner) {
-      setTimeout(() => {
-        inner.querySelectorAll('.hero-meta, .hero-display, .hero-foot').forEach((el, i) => {
-          setTimeout(() => {
-            (el as HTMLElement).style.opacity = '1';
-            (el as HTMLElement).style.transform = '';
-          }, i * 120);
-        });
-      }, 100);
+    if (this.prefersReducedMotion) {
+      this.revealAll();
+      return;
     }
+
+    // Cinematic staggered entrance — one element at a time.
+    // The dotted text component has its own revealDelay (800ms) from IntersectionObserver.
+    const reveals: Array<{ selector: string; delay: number }> = [
+      { selector: '[data-hero-reveal="meta"]',      delay: 100 },
+      { selector: '[data-hero-reveal="name"]',       delay: 300 },
+      { selector: '[data-hero-reveal="dotted"]',     delay: 800 },
+      { selector: '[data-hero-reveal="statement"]',    delay: 900 },
+      { selector: '[data-hero-reveal="foot"]',        delay: 1100 },
+    ];
+
+    for (const { selector, delay } of reveals) {
+      const el = this.host!.querySelector(selector);
+      if (!el) continue;
+      const t = window.setTimeout(() => {
+        (el as HTMLElement).classList.add('is-revealed');
+      }, delay);
+      this.timeouts.push(t);
+    }
+  }
+
+  private revealAll(): void {
+    if (!this.host) return;
+    const selectors = [
+      '[data-hero-reveal="meta"]',
+      '[data-hero-reveal="name"]',
+      '[data-hero-reveal="dotted"]',
+      '[data-hero-reveal="statement"]',
+      '[data-hero-reveal="foot"]',
+    ];
+    selectors.forEach(sel => {
+      this.host!.querySelectorAll<HTMLElement>(sel).forEach(el => {
+        el.classList.add('is-revealed');
+      });
+    });
   }
 
   ngOnDestroy(): void {
     this.mediaQuery.removeEventListener('change', this.motionListener);
+    this.timeouts.forEach(t => clearTimeout(t));
   }
 }

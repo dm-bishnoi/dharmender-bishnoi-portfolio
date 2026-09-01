@@ -1,7 +1,8 @@
-/* ─────────────────────────────────────────────────────
-   Hero — Editorial display. Massive dotted identity.
-   Dark cinematic + electric blue atmospheric glow.
-   ───────────────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════════
+   Hero — Artefakt-inspired editorial composition.
+   Personal identity first. Dotted secondary. 3D background.
+   Cinematic staggered entrance.
+   ═══════════════════════════════════════════════════════════ */
 
 :host {
   display: block;
@@ -12,15 +13,15 @@
   position: relative;
   max-width: var(--max-hero);
   margin: 0 auto;
-  padding: clamp(32px, 4vw, 56px) var(--side) clamp(24px, 3vw, 48px);
-  min-height: calc(100vh - 64px);
+  padding: clamp(40px, 5vw, 72px) var(--side) clamp(48px, 6vw, 96px);
+  min-height: 100vh;
   display: flex;
   align-items: stretch;
   z-index: 1;
   overflow: hidden;
 }
 
-/* ── Atmospheric glow layers — large soft blue radial ── */
+/* ── Atmospheric glow layers — subtle controlled blue depth ─── */
 .hero-atm {
   position: absolute;
   inset: 0;
@@ -32,56 +33,34 @@
 .hero-atm-glow {
   position: absolute;
   border-radius: 50%;
-  filter: blur(80px);
+  filter: blur(90px);
   will-change: transform;
 }
 
 .hero-atm-glow--a {
-  width: 900px; height: 900px;
-  top: -15%; left: -10%;
-  background: radial-gradient(circle, rgba(43, 108, 255, 0.42) 0%, transparent 65%);
-  animation: atmA 24s ease-in-out infinite alternate;
+  width: 800px; height: 800px;
+  top: -15%; left: -8%;
+  background: radial-gradient(circle, rgba(45, 91, 184, 0.28) 0%, transparent 65%);
+  animation: glowA 28s ease-in-out infinite alternate;
 }
 
 .hero-atm-glow--b {
-  width: 700px; height: 700px;
-  top: 30%; left: 28%;
-  background: radial-gradient(circle, rgba(86, 156, 255, 0.22) 0%, transparent 70%);
-  animation: atmB 30s ease-in-out infinite alternate;
-}
-
-.hero-atm-glow--c {
   width: 600px; height: 600px;
-  bottom: -15%; right: -10%;
-  background: radial-gradient(circle, rgba(43, 108, 255, 0.18) 0%, transparent 65%);
-  animation: atmC 28s ease-in-out infinite alternate;
+  top: 30%; right: 20%;
+  background: radial-gradient(circle, rgba(110, 150, 230, 0.14) 0%, transparent 70%);
+  animation: glowB 36s ease-in-out infinite alternate;
 }
 
-.hero-atm-glow--d {
-  width: 400px; height: 400px;
-  top: 60%; right: 30%;
-  background: radial-gradient(circle, rgba(126, 177, 255, 0.16) 0%, transparent 70%);
-  animation: atmD 22s ease-in-out infinite alternate;
+@keyframes glowA {
+  0%   { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(50px, 35px) scale(1.06); }
+}
+@keyframes glowB {
+  0%   { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(-35px, 40px) scale(1.08); }
 }
 
-@keyframes atmA {
-  0%   { transform: translate(0, 0) scale(1); }
-  100% { transform: translate(60px, 40px) scale(1.08); }
-}
-@keyframes atmB {
-  0%   { transform: translate(0, 0) scale(1); }
-  100% { transform: translate(-40px, 30px) scale(1.10); }
-}
-@keyframes atmC {
-  0%   { transform: translate(0, 0) scale(1); }
-  100% { transform: translate(30px, -40px) scale(1.06); }
-}
-@keyframes atmD {
-  0%   { transform: translate(0, 0) scale(1); }
-  100% { transform: translate(-20px, -30px) scale(1.04); }
-}
-
-/* ── Decorative side rails (subtle technical ticks) ─── */
+/* ── Decorative rail ticks ────────────────────────────── */
 .hero-rail {
   position: absolute;
   top: 50%;
@@ -89,32 +68,32 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   z-index: 1;
   pointer-events: none;
 }
-.hero-rail--left { left: clamp(8px, 1.2vw, 16px); }
+.hero-rail--left  { left: clamp(8px, 1.2vw, 16px); }
 .hero-rail--right { right: clamp(8px, 1.2vw, 16px); }
 
 .hero-rail-line {
   width: 1px;
   height: 80px;
-  background: linear-gradient(to bottom, transparent, var(--blue), transparent);
-  opacity: 0.5;
+  background: linear-gradient(to bottom, transparent, var(--border-2), transparent);
 }
 .hero-rail-tick {
   width: 6px; height: 1px;
-  background: var(--ink-faint);
-  opacity: 0.5;
+  background: var(--border-2);
+  opacity: 0.6;
 }
 
-/* ── Inner layout — vertical: meta → display → foot ── */
+/* ── Inner layout ──────────────────────────────────── */
 .hero-inner {
   position: relative;
   z-index: 1;
   display: flex;
   flex-direction: column;
-  gap: clamp(20px, 2.5vw, 36px);
+  justify-content: center;
+  gap: clamp(32px, 4vw, 56px);
   width: 100%;
   margin: auto 0;
 }
@@ -135,15 +114,14 @@
   transform: translateY(-8px);
   transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out);
 }
+.hero-meta.is-revealed { opacity: 1; transform: translateY(0); }
 
 .hero-meta-num {
   color: var(--blue-2);
   font-weight: 600;
 }
-
 .hero-meta-sep {
-  width: 1px;
-  height: 12px;
+  width: 1px; height: 12px;
   background: var(--border-2);
 }
 .hero-meta-sep--hide { display: none; }
@@ -154,7 +132,6 @@
   gap: 8px;
   color: var(--ink-light);
 }
-
 .hero-meta-status-dot {
   width: 6px; height: 6px;
   border-radius: 50%;
@@ -162,115 +139,78 @@
   box-shadow: 0 0 8px var(--green-glow);
   animation: dotPulse 2.4s ease-in-out infinite;
 }
-
 @keyframes dotPulse {
   0%, 100% { opacity: 1; transform: scale(1); }
   50%      { opacity: 0.5; transform: scale(0.7); }
 }
 
-/* ── Display — massive multi-line identity ──────────── */
-.hero-display {
-  position: relative;
-  margin: clamp(8px, 1vw, 20px) 0;
-  opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 1.4s var(--ease-out), transform 1.4s var(--ease-out);
-}
-
-.hero-display__title {
+/* ── Identity block — solid name + dotted below ──────── */
+.hero-identity {
   display: flex;
   flex-direction: column;
-  gap: clamp(0px, 0.4vw, 8px);
-  margin: 0;
+  gap: 0;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 1.2s var(--ease-out), transform 1.2s var(--ease-out);
+}
+.hero-identity.is-revealed { opacity: 1; transform: translateY(0); }
+
+/* Primary: solid name — the dominant editorial headline */
+.hero-name {
+  display: block;
   font-family: var(--font-display);
+  font-size: clamp(64px, 9.5vw, 148px);
   font-weight: 600;
   line-height: 0.92;
   letter-spacing: -0.04em;
-}
-
-.hero-display__line {
-  display: block;
-  width: 100%;
-  position: relative;
-}
-
-/* Signature line — small solid name below the dotted display.
-   The role is dot-matrix; the name is a quiet identity. */
-.hero-signature {
-  display: flex;
-  align-items: center;
-  gap: clamp(6px, 0.8vw, 12px);
-  font-family: var(--font-mono);
-  font-size: clamp(13px, 1.1vw, 15px);
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  color: var(--ink-light);
+  color: var(--ink);
+  text-transform: uppercase;
   margin: 0;
-  padding-top: clamp(12px, 1.5vw, 20px);
 }
 
-.hero-signature-dash {
-  color: var(--blue-2);
-  font-weight: 400;
-}
-
-.hero-signature-sep {
-  color: var(--ink-muted);
-  font-weight: 300;
-}
-
-.hero-signature-meta {
-  font-size: 0.88em;
-  color: var(--ink-muted);
-  letter-spacing: 0.08em;
-}
-
-/* Dotted name row — the dominant visual band. A single block that
-   spans the full width, letting the dot-matrix typography read as
-   one cohesive word. */
-.hero-display__line--name {
+.hero-name-line {
   display: block;
-  margin-top: clamp(2px, 0.4vw, 8px);
-  width: 100%;
 }
 
-.hero-display__name-dotted {
-  display: block;
-  width: 100%;
+/* Secondary: dotted typography — architectural identity layer */
+.hero-dotted-wrap {
+  margin-top: clamp(10px, 1.2vw, 18px);
+  max-width: min(420px, 90%);
+  opacity: 0;
+  transition: opacity 0.6s var(--ease-out);
+}
+.hero-identity.is-revealed .hero-dotted-wrap {
+  opacity: 1;
 }
 
-.hero-display__line--solid {
+/* ── Main statement ──────────────────────────────────── */
+.hero-statement {
   display: flex;
-  align-items: baseline;
-  gap: clamp(10px, 1.4vw, 24px);
-  flex-wrap: nowrap;
-  white-space: nowrap;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 1s var(--ease-out), transform 1s var(--ease-out);
 }
+.hero-statement.is-revealed { opacity: 1; transform: translateY(0); }
 
-.hero-display__line-main {
-  font-size: clamp(48px, 7vw, 112px);
-  font-weight: 600;
-  letter-spacing: -0.04em;
-  line-height: 0.95;
-  color: var(--ink-light);
-  text-transform: uppercase;
+.hero-statement-line {
+  font-family: var(--font-display);
+  font-size: clamp(30px, 4vw, 56px);
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  color: var(--ink-soft);
+  margin: 0;
 }
-
-.hero-display__line-main--accent {
+.hero-statement-line--accent {
   color: var(--blue-2);
-  font-weight: 500;
+  font-weight: 600;
+  font-style: italic;
 }
 
-.hero-display__line-sub {
-  font-size: clamp(48px, 7vw, 112px);
-  font-weight: 500;
-  letter-spacing: -0.04em;
-  line-height: 0.95;
-  color: var(--ink-light);
-  text-transform: uppercase;
-}
-
-/* ── Foot row — lede + CTA + socials ────────────────── */
+/* ── Foot row — CTA + socials ─────────────────────── */
 .hero-foot {
   display: grid;
   grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
@@ -279,44 +219,21 @@
   padding-top: clamp(24px, 3vw, 40px);
   border-top: 1px solid var(--border);
   opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 1s var(--ease-out), transform 1s var(--ease-out);
+  transform: translateY(16px);
+  transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out);
 }
+.hero-foot.is-revealed { opacity: 1; transform: translateY(0); }
 
-.hero-foot-left { min-width: 0; }
-
-.hero-statement {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  margin: 0;
-  max-width: 18ch;
-}
-
-.hero-statement-line {
-  font-family: var(--font-display);
-  font-size: clamp(28px, 3.4vw, 48px);
-  font-weight: 500;
-  letter-spacing: -0.035em;
-  line-height: 1.02;
-  color: var(--ink);
-  margin: 0;
-}
-
-.hero-statement-line--accent {
-  color: var(--blue-2);
-  font-weight: 600;
-  font-style: italic;
-}
-
+.hero-foot-left {}
 .hero-foot-right {
   display: flex;
   flex-direction: column;
-  gap: 28px;
+  gap: 24px;
   align-items: flex-end;
   min-width: 0;
 }
 
+/* CTA button */
 .hero-cta {
   display: inline-flex;
   align-items: center;
@@ -330,13 +247,13 @@
   letter-spacing: 0.08em;
   text-transform: uppercase;
   border-radius: var(--radius-pill);
-  transition: background var(--duration-base) var(--ease-out),
-              color var(--duration-base) var(--ease-out),
-              transform var(--duration-instant) var(--ease-out),
-              box-shadow var(--duration-base) var(--ease-out);
+  transition:
+    background var(--duration-base) var(--ease-out),
+    color var(--duration-base) var(--ease-out),
+    transform var(--duration-instant) var(--ease-out),
+    box-shadow var(--duration-base) var(--ease-out);
   white-space: nowrap;
 }
-
 .hero-cta:hover {
   background: var(--blue-2);
   color: var(--bg);
@@ -357,11 +274,11 @@
 }
 .hero-cta:hover .hero-cta-arrow { transform: translateX(3px); }
 
-/* Social row — text + icon, more elegant */
+/* Social row */
 .hero-social {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   flex-wrap: wrap;
   justify-content: flex-end;
 }
@@ -369,8 +286,8 @@
 .hero-social-icon {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 10px 16px 10px 12px;
+  gap: 7px;
+  padding: 10px 14px 10px 12px;
   border-radius: var(--radius-pill);
   color: var(--ink-light);
   font-family: var(--font-mono);
@@ -379,110 +296,90 @@
   letter-spacing: 0.1em;
   text-transform: uppercase;
   background: transparent;
-  transition: color var(--duration-base) var(--ease-out),
-              background var(--duration-base) var(--ease-out),
-              transform var(--duration-base) var(--ease-out);
+  border: 1px solid transparent;
+  transition:
+    color var(--duration-base) var(--ease-out),
+    background var(--duration-base) var(--ease-out),
+    border-color var(--duration-base) var(--ease-out),
+    transform var(--duration-base) var(--ease-out);
 }
-
 .hero-social-icon svg {
   width: 16px; height: 16px;
-  opacity: 0.85;
+  opacity: 0.8;
   transition: opacity var(--duration-base) var(--ease-out);
 }
-
 .hero-social-icon:hover {
   color: var(--blue-2);
   background: var(--blue-subtle);
+  border-color: var(--border-2);
   transform: translateY(-1px);
 }
 .hero-social-icon:hover svg { opacity: 1; }
-
-.hero-social-icon-label {
-  display: inline-block;
-}
 
 /* ── Responsive ─────────────────────────────────────── */
 @media (max-width: 1100px) {
   .hero-rail { display: none; }
 }
 
-@media (max-width: 880px) {
-  .hero {
-    min-height: auto;
-    padding-top: 48px;
-    padding-bottom: 48px;
-  }
+@media (max-width: 900px) {
   .hero-foot {
     grid-template-columns: 1fr;
     gap: 32px;
     align-items: start;
   }
-  .hero-foot-right {
-    align-items: flex-start;
-  }
+  .hero-foot-right { align-items: flex-start; }
   .hero-social { justify-content: flex-start; }
   .hero-meta-sep--hide { display: inline-block; }
 }
 
-/* ── Small mobile recomposition (430 and below) ─── */
-@media (max-width: 430px) {
+@media (max-width: 640px) {
   .hero {
-    padding-top: 32px;
-    padding-bottom: 32px;
+    padding-top: 56px;
+    padding-bottom: 64px;
   }
-  .hero-inner {
-    gap: 24px;
-  }
-  .hero-meta {
-    font-size: 10px;
-    letter-spacing: 0.14em;
-    gap: 8px;
-  }
-  .hero-meta-status { width: 100%; }
-  .hero-display__line--solid {
-    flex-wrap: wrap;
-    gap: 6px 10px;
-  }
-  .hero-display__line-main,
-  .hero-display__line-sub {
-    font-size: clamp(36px, 11vw, 56px);
-    letter-spacing: -0.03em;
-  }
-  .hero-display__line--name {
-    gap: clamp(8px, 2vw, 20px);
+  .hero-name {
+    font-size: clamp(48px, 14vw, 80px);
   }
   .hero-statement-line {
-    font-size: clamp(22px, 7vw, 32px);
+    font-size: clamp(26px, 7.5vw, 40px);
   }
-  .hero-cta {
-    padding: 14px 22px;
-    font-size: 12px;
+  .hero-cta { padding: 16px 24px; font-size: 12px; }
+}
+
+@media (max-width: 430px) {
+  .hero { padding-top: 48px; padding-bottom: 56px; }
+  .hero-inner { gap: 28px; }
+  .hero-meta { font-size: 10px; letter-spacing: 0.14em; gap: 10px; }
+  .hero-meta-status { width: 100%; }
+  .hero-name {
+    font-size: clamp(44px, 16vw, 72px);
   }
-  .hero-social-icon-label { display: none; }
+  .hero-statement-line {
+    font-size: clamp(22px, 7.5vw, 34px);
+  }
+  .hero-social-label { display: none; }
   .hero-social-icon { padding: 10px; }
-  .hero-foot {
-    gap: 28px;
-    padding-top: 24px;
-  }
+  .hero-foot { gap: 28px; padding-top: 24px; }
 }
 
-/* ── Extra small (390, 375, 360) ── */
 @media (max-width: 390px) {
-  .hero-meta {
-    font-size: 9.5px;
-    gap: 6px 8px;
-  }
-  .hero-display__line-main,
-  .hero-display__line-sub {
-    font-size: 32px;
-  }
+  .hero-name { font-size: clamp(38px, 18vw, 56px); }
+  .hero-meta { font-size: 9.5px; }
 }
 
+/* ── Reduced motion ─────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   .hero-atm-glow--a,
   .hero-atm-glow--b,
-  .hero-atm-glow--c,
-  .hero-atm-glow--d,
   .hero-meta-status-dot { animation: none; }
-  .hero-display, .hero-foot, .hero-meta { animation: none; }
+
+  .hero-meta,
+  .hero-identity,
+  .hero-statement,
+  .hero-foot,
+  .hero-dotted-wrap {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }

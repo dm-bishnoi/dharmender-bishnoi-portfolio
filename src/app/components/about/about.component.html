@@ -1,85 +1,80 @@
 <section id="about" class="about sec sec--wide">
 
   <div class="about-grid">
-    <!-- Editorial: number marker -->
-    <div class="about-mark" data-reveal-stage data-reveal-delay="0">
-      <span class="about-mark-num">02</span>
+
+    <!-- Left: editorial mark -->
+    <div class="about-mark">
+      <span class="about-mark-num">01</span>
       <span class="about-mark-label">About</span>
     </div>
 
-    <!-- The statement -->
+    <!-- Center: the statement — oversized, dominant -->
     <div class="about-statement">
-      <h2 class="display-2 about-statement__headline" data-reveal-stage data-reveal-delay="120">
-        I build Angular<br />
-        <em class="heading-accent">applications</em><br />
-        that ship.
+      <h2 class="about-headline">
+        <span class="about-headline-line">Five years</span>
+        <span class="about-headline-line about-headline-line--sub">building Angular</span>
+        <span class="about-headline-line about-headline-line--accent">that ships.</span>
       </h2>
     </div>
 
-    <!-- The body — long-form lede + capability axis -->
+    <!-- Right: lede + capabilities -->
     <div class="about-body">
-      <p class="about-lede lede" data-reveal-stage data-reveal-delay="320">
-        Five years maintaining one large enterprise CRM in production —
-        handling the parts that matter: state, performance, accessibility,
-        and code that the next developer can read on a Monday morning.
+      <p class="about-lede">
+        Angular developer at Pizone Infotech, maintaining an enterprise CRM
+        in production. What that means: components that survive five years of
+        feature work without becoming unmaintainable, reactive state that
+        doesn't leak, and code the next developer can read on a Monday morning.
       </p>
 
-      <div class="about-axis">
-        <div class="about-axis-item" data-reveal-stage data-reveal-delay="520">
-          <span class="about-axis-num">01</span>
-          <h3 class="about-axis-head">Architecture</h3>
-          <p class="about-axis-text">
-            Standalone components, lazy-loaded feature modules, route guards
-            and well-defined DI boundaries. Built so the codebase scales
-            without becoming a maze.
-          </p>
+      <!-- Capability rows — line-separated, hover indent -->
+      <div class="about-caps">
+        <div class="about-cap">
+          <span class="about-cap-num">01</span>
+          <div class="about-cap-body">
+            <h3 class="about-cap-head">Architecture</h3>
+            <p class="about-cap-text">Standalone components, lazy-loaded modules, route guards, DI boundaries.</p>
+          </div>
         </div>
-
-        <div class="about-axis-item" data-reveal-stage data-reveal-delay="660">
-          <span class="about-axis-num">02</span>
-          <h3 class="about-axis-head">Reactive data</h3>
-          <p class="about-axis-text">
-            RxJS as the spine: observables, multicasting, async pipe
-            templates, and clean subscription lifecycles with
-            <span class="about-axis-mono">takeUntilDestroyed</span>.
-          </p>
+        <div class="about-cap">
+          <span class="about-cap-num">02</span>
+          <div class="about-cap-body">
+            <h3 class="about-cap-head">Reactive data</h3>
+            <p class="about-cap-text">RxJS observables, multicasting, async pipe, clean subscription lifecycle.</p>
+          </div>
         </div>
-
-        <div class="about-axis-item" data-reveal-stage data-reveal-delay="800">
-          <span class="about-axis-num">03</span>
-          <h3 class="about-axis-head">API integration</h3>
-          <p class="about-axis-text">
-            HttpClient with typed services, interceptors for auth and error
-            handling, and reactive forms wired to backend contracts.
-          </p>
+        <div class="about-cap">
+          <span class="about-cap-num">03</span>
+          <div class="about-cap-body">
+            <h3 class="about-cap-head">API integration</h3>
+            <p class="about-cap-text">Typed HttpClient, interceptors, reactive forms wired to backend contracts.</p>
+          </div>
         </div>
-
-        <div class="about-axis-item" data-reveal-stage data-reveal-delay="940">
-          <span class="about-axis-num">04</span>
-          <h3 class="about-axis-head">Testing &amp; quality</h3>
-          <p class="about-axis-text">
-            Jasmine specs, TestBed harnesses, ESLint and Prettier, SonarQube.
-            Confidence that the next change doesn't regress the last.
-          </p>
+        <div class="about-cap">
+          <span class="about-cap-num">04</span>
+          <div class="about-cap-body">
+            <h3 class="about-cap-head">Testing &amp; quality</h3>
+            <p class="about-cap-text">Jasmine specs, TestBed harnesses, ESLint, SonarQube gates.</p>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- Quick stats — large numeric identity -->
-    <aside class="about-stats" aria-label="Key metrics">
-      <div class="about-stat" data-reveal-stage data-reveal-delay="1140">
+    <!-- Stats — full width -->
+    <div class="about-stats">
+      <div class="about-stat">
         <span class="about-stat-value">5+</span>
-        <span class="about-stat-label">Years<br />Production</span>
+        <span class="about-stat-label">Years in<br/>production</span>
       </div>
-      <div class="about-stat" data-reveal-stage data-reveal-delay="1260">
-        <span class="about-stat-value">v17<span class="about-stat-suffix">→</span>v20</span>
-        <span class="about-stat-label">Angular<br />Versions</span>
+      <div class="about-stat about-stat--wide">
+        <span class="about-stat-value about-stat-value--mono">v17–v20</span>
+        <span class="about-stat-label">Angular<br/>versions</span>
       </div>
-      <div class="about-stat" data-reveal-stage data-reveal-delay="1380">
+      <div class="about-stat">
         <span class="about-stat-value">CRM</span>
-        <span class="about-stat-label">Enterprise<br />Scale App</span>
+        <span class="about-stat-label">Enterprise<br/>scale app</span>
       </div>
-    </aside>
+    </div>
+
   </div>
 
 </section>

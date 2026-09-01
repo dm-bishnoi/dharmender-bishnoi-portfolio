@@ -81,16 +81,22 @@ export class HeroSceneComponent implements AfterViewInit, OnDestroy {
   private renderer: any = null;
   private scene: any = null;
   private camera: any = null;
-  private core: any = null;
+  /** Core icosahedron + edge wireframe. */
+  private core: {
+    mesh: any;
+    line: any;
+    edgeMat: any;
+    fillMat: any;
+  } | null = null;
+  /** Module/architecture nodes (orbit around core). */
   private innerNodes: any[] = [];
-  private outerNodes: any[] = [];
+  /** Connection lines (core → each module node). */
   private innerLines: any[] = [];
-  private outerLines: any[] = [];
-  /** Thin radial rings (architecture circles) around the core. */
+  /** Architecture torus rings at different radii. */
   private archRings: any[] = [];
   private pointsObj: any = null;
   private pointsVelocities: Float32Array | null = null;
-  /** Per-line flowing particles: { obj, velocities, lineIndex, lineKind } */
+  /** Per-line flowing data particles. */
   private flowParticles: Array<{
     obj: any;
     positions: Float32Array;
@@ -265,10 +271,14 @@ export class HeroSceneComponent implements AfterViewInit, OnDestroy {
 
   private buildScene(THREE: any): void {
     const palette = this.readPalette();
+    const blue2Hex = parseInt(palette.blue2.replace('#', '0x'));
+    const blueHex = parseInt(palette.blue.replace('#', '0x'));
+    const blueDeepHex = parseInt(palette.blueD.replace('#', '0x'));
+    const traceHex = parseInt(palette.trace.replace('#', '0x'));
 
     const scene = new THREE.Scene();
     scene.background = null;
-    scene.fog = new THREE.Fog(0x06080f, 6, 14);
+    scene.fog = new THREE.Fog(0x05080f, 5, 13);
     this.scene = scene;
 
     const camera = new THREE.PerspectiveCamera(
@@ -282,157 +292,140 @@ export class HeroSceneComponent implements AfterViewInit, OnDestroy {
     this.camera = camera;
 
     // ── Lights ──────────────────────────────────────────
-    const ambient = new THREE.AmbientLight(0x1a2238, 0.6);
+    const ambient = new THREE.AmbientLight(0x0a1224, 0.5);
     scene.add(ambient);
 
-    const keyLight = new THREE.PointLight(parseInt(palette.blue2.replace('#', '0x')), 1.4, 12);
-    keyLight.position.set(2, 2, 2);
+    const keyLight = new THREE.PointLight(blue2Hex, 1.2, 12);
+    keyLight.position.set(2.5, 2.5, 2);
     scene.add(keyLight);
 
-    const fillLight = new THREE.PointLight(parseInt(palette.blueD.replace('#', '0x')), 0.8, 14);
-    fillLight.position.set(-3, -1, -1);
+    const fillLight = new THREE.PointLight(blueDeepHex, 0.7, 14);
+    fillLight.position.set(-3, -1.5, -1);
     scene.add(fillLight);
 
-    // ── Core: glowing icosahedron ───────────────────────
+    // ── Core: icosahedron with edge highlights (architectural feel) ──
     const coreGeom = new THREE.IcosahedronGeometry(1.0, 1);
-    const coreMat = new THREE.MeshStandardMaterial({
-      color: 0x1a2238,
-      emissive: parseInt(palette.blueD.replace('#', '0x')),
-      emissiveIntensity: 0.5,
-      metalness: 0.2,
-      roughness: 0.4,
-    });
-    const core = new THREE.Mesh(coreGeom, coreMat);
-    core.scale.setScalar(0); // start at 0; entrance scales it up
-    scene.add(core);
-    this.core = core;
-
-    // ── Inner ring nodes (4) ────────────────────────────
-    const innerCount = 4;
-    const innerRadius = 2.4;
-    const innerNodeGeom = new THREE.OctahedronGeometry(0.18);
-    const innerNodeMat = new THREE.MeshStandardMaterial({
-      color: parseInt(palette.blue2.replace('#', '0x')),
-      emissive: parseInt(palette.blueD.replace('#', '0x')),
-      emissiveIntensity: 0.4,
+    const coreFillMat = new THREE.MeshStandardMaterial({
+      color: 0x060a1a,
+      transparent: true,
+      opacity: 0.65,
       metalness: 0.4,
       roughness: 0.5,
     });
-    for (let i = 0; i < innerCount; i++) {
-      const angle = (i / innerCount) * Math.PI * 2;
-      const node = new THREE.Mesh(innerNodeGeom, innerNodeMat);
+    const coreMesh = new THREE.Mesh(coreGeom, coreFillMat);
+    coreMesh.scale.setScalar(0);
+    scene.add(coreMesh);
+
+    // Edge lines on the icosahedron — the architectural wireframe
+    const coreEdges = new THREE.EdgesGeometry(coreGeom);
+    const coreLineMat = new THREE.LineBasicMaterial({
+      color: blue2Hex,
+      transparent: true,
+      opacity: 0,
+    });
+    const coreLines = new THREE.LineSegments(coreEdges, coreLineMat);
+    coreLines.scale.setScalar(0);
+    scene.add(coreLines);
+
+    this.core = { mesh: coreMesh, line: coreLines, edgeMat: coreLineMat, fillMat: coreFillMat };
+
+    // ── Architecture torus rings ────────────────────────
+    // 3 tori at increasing radii, slightly tilted, slow rotation.
+    const torusSpecs = [
+      { radius: 1.6, tube: 0.012, tilt: 0.4,  spin: 0.0008, peakOp: 0.30 },
+      { radius: 2.5, tube: 0.010, tilt: -0.3, spin: -0.0006, peakOp: 0.18 },
+      { radius: 3.5, tube: 0.008, tilt: 0.6,  spin: 0.0004, peakOp: 0.10 },
+    ];
+    for (let i = 0; i < torusSpecs.length; i++) {
+      const spec = torusSpecs[i];
+      const geom = new THREE.TorusGeometry(spec.radius, spec.tube, 8, 128);
+      const mat = new THREE.MeshBasicMaterial({
+        color: blueHex,
+        transparent: true,
+        opacity: 0,
+        depthWrite: false,
+      });
+      const ring = new THREE.Mesh(geom, mat);
+      ring.rotation.x = Math.PI / 2 + spec.tilt;
+      ring.rotation.z = i * 0.4;
+      ring.userData.spinSpeed = spec.spin;
+      ring.userData.peakOpacity = spec.peakOp;
+      scene.add(ring);
+      this.archRings.push(ring);
+    }
+
+    // ── Module nodes — abstract geometric shapes ─────────
+    // 6 desktop / 4 mobile. Different geometries (box, oct, tetra) for visual variety.
+    const moduleCount = this.isMobile ? 4 : 6;
+    const moduleRadius = 2.3;
+    const moduleGeoms = [
+      new THREE.BoxGeometry(0.22, 0.22, 0.22),
+      new THREE.OctahedronGeometry(0.18),
+      new THREE.TetrahedronGeometry(0.2),
+    ];
+    for (let i = 0; i < moduleCount; i++) {
+      const angle = (i / moduleCount) * Math.PI * 2;
+      const r = moduleRadius + (i % 2 === 0 ? 0 : 0.35);
+      const geom = moduleGeoms[i % moduleGeoms.length];
+      const mat = new THREE.MeshStandardMaterial({
+        color: blue2Hex,
+        emissive: blueHex,
+        emissiveIntensity: 0.35,
+        metalness: 0.5,
+        roughness: 0.4,
+        transparent: true,
+        opacity: 0,
+      });
+      const node = new THREE.Mesh(geom, mat);
       node.position.set(
-        Math.cos(angle) * innerRadius,
+        Math.cos(angle) * r,
         Math.sin(angle * 0.7) * 0.5,
-        Math.sin(angle) * innerRadius
+        Math.sin(angle) * r
       );
+      node.userData.orbitAngle = angle;
+      node.userData.orbitSpeed = 0.00006 + (i % 3) * 0.00004;
+      node.userData.floatPhase = i * 1.1;
       node.scale.setScalar(0);
       scene.add(node);
       this.innerNodes.push(node);
     }
 
-    // ── Outer ring nodes (4) — desktop/tablet only ──────
-    const outerCount = 4;
-    const outerRadius = 3.6;
-    const outerNodeGeom = new THREE.OctahedronGeometry(0.14);
-    const outerNodeMat = new THREE.MeshStandardMaterial({
-      color: parseInt(palette.blue2.replace('#', '0x')),
-      emissive: parseInt(palette.blueD.replace('#', '0x')),
-      emissiveIntensity: 0.3,
-      metalness: 0.4,
-      roughness: 0.5,
-    });
-    if (!this.isMobile) {
-      for (let i = 0; i < outerCount; i++) {
-        const angle = (i / outerCount) * Math.PI * 2 + Math.PI / 4;
-        const node = new THREE.Mesh(outerNodeGeom, outerNodeMat);
-        node.position.set(
-          Math.cos(angle) * outerRadius,
-          Math.sin(angle * 0.5 + 1.2) * 0.7,
-          Math.sin(angle) * outerRadius
-        );
-        node.scale.setScalar(0);
-        scene.add(node);
-        this.outerNodes.push(node);
-      }
-    }
-
-    // ── Connection lines (core → each node) ─────────────
-    const lineColor = parseInt(palette.trace.replace('#', '0x'));
+    // ── Connection lines: core → each module ────────────
     const lineMaterialBase = new THREE.LineBasicMaterial({
-      color: lineColor,
+      color: traceHex,
       transparent: true,
-      opacity: 0.0, // animated in during entrance
+      opacity: 0.0,
     });
-
-    const buildLine = (from: any, to: any, baseMat: any) => {
+    const buildLine = (from: any, to: any) => {
       const geom = new THREE.BufferGeometry().setFromPoints([
         from.position.clone(),
         to.position.clone(),
       ]);
-      const mat = baseMat.clone();
+      const mat = lineMaterialBase.clone();
       mat.opacity = 0;
       const line = new THREE.Line(geom, mat);
-      this.scene.add(line);
+      scene.add(line);
       return line;
     };
-
-    // We need separate materials per line so opacity can be animated
-    // independently.
     for (const node of this.innerNodes) {
-      this.innerLines.push(buildLine(this.core, node, lineMaterialBase));
-    }
-    for (const node of this.outerNodes) {
-      this.outerLines.push(buildLine(this.core, node, lineMaterialBase));
+      this.innerLines.push(buildLine(coreMesh, node));
     }
 
-    // ── Architectural rings — concentric circles around the core ──
-    // Restrained: 3 rings at different radii, slight tilts, slow counter-rotation.
-    const ringRadii = [1.7, 2.7, 3.9];
-    const ringTilts = [0.0, 0.35, -0.28];
-    const ringSegs = 128;
-    for (let i = 0; i < ringRadii.length; i++) {
-      const ringGeom = new THREE.RingGeometry(
-        ringRadii[i] - 0.005,
-        ringRadii[i] + 0.005,
-        ringSegs
-      );
-      const ringMat = new THREE.MeshBasicMaterial({
-        color: lineColor,
-        transparent: true,
-        opacity: 0,
-        side: THREE.DoubleSide,
-        depthWrite: false,
-      });
-      const ring = new THREE.Mesh(ringGeom, ringMat);
-      ring.rotation.x = Math.PI / 2 + ringTilts[i];
-      ring.userData.spinSpeed = (i % 2 === 0 ? 0.04 : -0.025) * (i + 1) * 0.18;
-      ring.userData.tilt = ringTilts[i];
-      ring.userData.peakOpacity = i === 0 ? 0.18 : i === 1 ? 0.14 : 0.10;
-      this.scene.add(ring);
-      this.archRings.push(ring);
-    }
-
-    // ── Per-line flowing data particles ─────────────────
-    // These ride each connection line (core→node), reading as data
-    // pulses traveling through the architecture. Staggered start phases
-    // so the lines look populated even on first frame post-entrance.
+    // ── Per-line flowing data particles ────────────────
+    // Particles travel core → module, reading as data flow.
     const flowMat = new THREE.PointsMaterial({
-      color: parseInt(palette.blue2.replace('#', '0x')),
-      size: this.isMobile ? 0.07 : 0.06,
+      color: blue2Hex,
+      size: this.isMobile ? 0.07 : 0.055,
       transparent: true,
       opacity: 0.9,
       sizeAttenuation: true,
       depthWrite: false,
     });
-
     const buildFlowForLine = (lineObj: any, from: any, to: any, perLine: number) => {
       const positions = new Float32Array(perLine * 3);
       const progress = new Float32Array(perLine);
       const speed = new Float32Array(perLine);
       for (let i = 0; i < perLine; i++) {
-        // Distribute initial progress along [0..1] so each line is
-        // already populated when it fades in.
         progress[i] = i / perLine + (Math.random() - 0.5) * 0.1;
         speed[i] = 0.0009 + Math.random() * 0.0008;
       }
@@ -440,7 +433,7 @@ export class HeroSceneComponent implements AfterViewInit, OnDestroy {
       geom.setAttribute('position', new THREE.BufferAttribute(positions, 3));
       const points = new THREE.Points(geom, flowMat);
       points.frustumCulled = false;
-      this.scene.add(points);
+      scene.add(points);
       this.flowParticles.push({
         obj: points,
         positions,
@@ -450,24 +443,14 @@ export class HeroSceneComponent implements AfterViewInit, OnDestroy {
         toVec: to.position.clone(),
       });
     };
-
-    // Desktop/tablet: 2 particles per inner line, 2 per outer line.
-    // Mobile: 1 per inner line, 0 per outer.
-    const innerFlowCount = this.isMobile ? 1 : 2;
-    const outerFlowCount = this.isMobile ? 0 : 2;
+    const flowPerLine = this.isMobile ? 1 : 2;
     for (const line of this.innerLines) {
       const node = this.innerNodes[this.innerLines.indexOf(line)];
-      buildFlowForLine(line, this.core, node, innerFlowCount);
-    }
-    for (const line of this.outerLines) {
-      const node = this.outerNodes[this.outerLines.indexOf(line)];
-      if (outerFlowCount > 0) buildFlowForLine(line, this.core, node, outerFlowCount);
+      buildFlowForLine(line, coreMesh, node, flowPerLine);
     }
 
-    // ── Ambient drift particles (kept from before, but reduced) ──
-    // These now complement the line flows with a small ambient drift
-    // volume — much fewer than the original 80/40/28.
-    const particleCount = this.isMobile ? 12 : this.hostWidth < 1024 ? 18 : 32;
+    // ── Ambient drift particles ─────────────────────────
+    const particleCount = this.isMobile ? 14 : this.hostWidth < 1024 ? 20 : 32;
     const positions = new Float32Array(particleCount * 3);
     const velocities = new Float32Array(particleCount * 3);
     const range = 4.5;
@@ -481,14 +464,13 @@ export class HeroSceneComponent implements AfterViewInit, OnDestroy {
       velocities[i3 + 2] = (Math.random() - 0.5) * 0.0008;
     }
     this.pointsVelocities = velocities;
-
     const pointsGeom = new THREE.BufferGeometry();
     pointsGeom.setAttribute('position', new THREE.BufferAttribute(positions, 3));
     const pointsMat = new THREE.PointsMaterial({
-      color: parseInt(palette.blue2.replace('#', '0x')),
+      color: blue2Hex,
       size: 0.04,
       transparent: true,
-      opacity: 0.4,
+      opacity: 0.35,
       sizeAttenuation: true,
       depthWrite: false,
     });
@@ -542,104 +524,93 @@ export class HeroSceneComponent implements AfterViewInit, OnDestroy {
   private updateEntrance(now: number): void {
     if (this.revealStart === null) return;
     const t = now - this.revealStart;
-    const dur = this.revealDuration();
 
-    // 0ms: canvas opacity 0 → 1 (handled by CSS, but we read it as "ready")
-
-    // 150ms: core scales 0 → 1 over 700ms
+    // 150ms: core (mesh + edge lines) scales 0 → 1
     if (t >= 150) {
       const ct = Math.min(1, (t - 150) / 700);
       const eased = this.easeOutCubic(ct);
-      this.core.scale.setScalar(eased);
+      if (this.core?.mesh) this.core.mesh.scale.setScalar(eased);
+      if (this.core?.line) this.core.line.scale.setScalar(eased);
+      if (this.core?.edgeMat) this.core.edgeMat.opacity = eased * 0.7;
     }
 
-    // 350ms: first inner node, then 500/580/660ms remaining (80ms stagger)
-    for (let i = 0; i < this.innerNodes.length; i++) {
-      const start = 350 + i * 80;
-      if (t >= start) {
-        const ct = Math.min(1, (t - start) / 300);
-        const eased = this.easeOutBack(ct);
-        this.innerNodes[i].scale.setScalar(eased);
-      }
-    }
-
-    // 700ms: inner lines reveal (staggered 80ms), opacity 0 → 0.6 over 600ms
-    for (let i = 0; i < this.innerLines.length; i++) {
-      const start = 700 + i * 80;
-      if (t >= start) {
-        const ct = Math.min(1, (t - start) / 600);
-        this.innerLines[i].material.opacity = ct * 0.6;
-      }
-    }
-
-    // 1050ms: outer nodes + outer lines (staggered 80ms each)
-    for (let i = 0; i < this.outerNodes.length; i++) {
-      const start = 1050 + i * 80;
-      if (t >= start) {
-        const ct = Math.min(1, (t - start) / 300);
-        const eased = this.easeOutBack(ct);
-        this.outerNodes[i].scale.setScalar(eased);
-      }
-    }
-    for (let i = 0; i < this.outerLines.length; i++) {
-      const start = 1050 + i * 80;
-      if (t >= start) {
-        const ct = Math.min(1, (t - start) / 600);
-        this.outerLines[i].material.opacity = ct * 0.55;
-      }
-    }
-
-    // 900ms: architecture rings begin fading in (staggered 120ms)
+    // 350ms: architecture tori begin appearing (staggered 100ms each)
     for (let i = 0; i < this.archRings.length; i++) {
-      const start = 900 + i * 120;
+      const start = 350 + i * 100;
       if (t >= start) {
         const ct = Math.min(1, (t - start) / 800);
-        const peak = this.archRings[i].userData.peakOpacity;
+        const peak = this.archRings[i].userData.peakOpacity ?? 0.2;
         this.archRings[i].material.opacity = ct * peak;
       }
     }
 
-    // 1400ms: flow particles begin pulsing
+    // 500ms: module nodes appear (staggered 100ms each)
+    for (let i = 0; i < this.innerNodes.length; i++) {
+      const start = 500 + i * 100;
+      if (t >= start) {
+        const ct = Math.min(1, (t - start) / 300);
+        const eased = this.easeOutBack(ct);
+        this.innerNodes[i].scale.setScalar(eased);
+        this.innerNodes[i].material.opacity = eased;
+      }
+    }
+
+    // 700ms: connection lines reveal (staggered 80ms)
+    for (let i = 0; i < this.innerLines.length; i++) {
+      const start = 700 + i * 80;
+      if (t >= start) {
+        const ct = Math.min(1, (t - start) / 600);
+        this.innerLines[i].material.opacity = ct * 0.5;
+      }
+    }
+
+    // 1100ms: flow particles fade in
     for (const fp of this.flowParticles) {
       fp.obj.material.opacity = 0;
     }
-    if (t >= 1400) {
-      const ct = Math.min(1, (t - 1400) / 600);
+    if (t >= 1100) {
+      const ct = Math.min(1, (t - 1100) / 600);
       for (const fp of this.flowParticles) {
         fp.obj.material.opacity = ct * 0.9;
       }
     }
 
-    // 1700ms: camera pull-in z 7 → 6 over 1500ms
-    if (t >= 1700 && t < 1700 + 1500) {
-      const ct = (t - 1700) / 1500;
+    // 1500ms: camera pull-in z 7 → 6
+    if (t >= 1500 && t < 1500 + 1500) {
+      const ct = (t - 1500) / 1500;
       this.camera.position.z = 7 + (6 - 7) * this.easeInOutCubic(ct);
-    } else if (t >= 3200) {
-      // Stay at 6 (the idle camera will continue to drift on top of this)
+    } else if (t >= 3000) {
       this.camera.position.z = 6;
     }
 
-    // 2600ms: transition to idle-loop
-    if (t >= 2600 && this.state === 'revealing') {
+    // 2400ms: transition to idle-loop
+    if (t >= 2400 && this.state === 'revealing') {
       this.state = 'idle-loop';
       this.cdr.markForCheck();
-      // Once entrance is complete, enable pointer listening.
       this.attachPointerListeners();
     }
   }
 
   private updateIdle(now: number): void {
     if (this.state !== 'idle-loop') return;
-    // Core oscillates ±2° on Y axis (12s period).
-    if (this.core) {
+    // Core (icosahedron): oscillate ±2° on Y axis (12s period).
+    if (this.core?.mesh) {
       const phase = (now / 12000) * Math.PI * 2;
-      this.core.rotation.y = Math.sin(phase) * 0.034; // ~2°
+      this.core.mesh.rotation.y = Math.sin(phase) * 0.034;
+      if (this.core.line) this.core.line.rotation.y = Math.sin(phase) * 0.034;
     }
-    // Architecture rings: slow counter-rotation, never full spin speeds.
+    // Torus rings: slow spin around z axis, each at its own speed.
     for (const ring of this.archRings) {
-      const speed = ring.userData.spinSpeed ?? 0.02;
-      // Rotate around the ring's local axis (z after tilt).
-      ring.rotation.z += speed * 0.016;
+      const speed = ring.userData.spinSpeed ?? 0.001;
+      ring.rotation.z += speed;
+    }
+    // Module nodes: slow orbit + gentle Y float.
+    for (const node of this.innerNodes) {
+      const angle = (node.userData.orbitAngle ?? 0) + now * (node.userData.orbitSpeed ?? 0.0001);
+      const baseR = 2.3 + (Math.sin(node.userData.floatPhase ?? 0) > 0 ? 0.35 : 0);
+      node.position.x = Math.cos(angle) * baseR;
+      node.position.z = Math.sin(angle) * baseR;
+      node.position.y = Math.sin(angle * 0.7) * 0.5 + Math.sin(now * 0.0008 + (node.userData.floatPhase ?? 0)) * 0.15;
     }
   }
 
@@ -818,15 +789,18 @@ export class HeroSceneComponent implements AfterViewInit, OnDestroy {
 
   private renderOnce(): void {
     if (!this.renderer || !this.scene || !this.camera) return;
-    // For reduced motion: render one static frame at the "final"
-    // composition, then stop the loop.
-    this.core?.scale.setScalar(1);
-    for (const n of this.innerNodes) n.scale.setScalar(1);
-    for (const n of this.outerNodes) n.scale.setScalar(1);
-    for (const l of this.innerLines) (l.material as any).opacity = 0.6;
-    for (const l of this.outerLines) (l.material as any).opacity = 0.55;
+    if (this.core?.mesh) this.core.mesh.scale.setScalar(1);
+    if (this.core?.line) this.core.line.scale.setScalar(1);
+    if (this.core?.edgeMat) this.core.edgeMat.opacity = 0.7;
+    for (const n of this.innerNodes) {
+      n.scale.setScalar(1);
+      if (n.material) n.material.opacity = 1;
+    }
+    for (const l of this.innerLines) {
+      if (l.material) (l.material as any).opacity = 0.5;
+    }
     for (const ring of this.archRings) {
-      ring.material.opacity = ring.userData.peakOpacity;
+      ring.material.opacity = ring.userData.peakOpacity ?? 0.2;
     }
     for (const fp of this.flowParticles) {
       fp.obj.material.opacity = 0.9;
@@ -872,9 +846,7 @@ export class HeroSceneComponent implements AfterViewInit, OnDestroy {
     }
     this.core = null;
     this.innerNodes = [];
-    this.outerNodes = [];
     this.innerLines = [];
-    this.outerLines = [];
     this.archRings = [];
     this.flowParticles = [];
     this.pointsObj = null;

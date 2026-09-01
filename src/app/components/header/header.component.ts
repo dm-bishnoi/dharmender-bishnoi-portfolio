@@ -22,11 +22,11 @@ interface NavLink {
 })
 export class HeaderComponent implements AfterViewInit, OnDestroy {
   readonly navLinks: ReadonlyArray<NavLink> = [
-    { id: 'home',      label: 'Home',      num: '01' },
-    { id: 'about',     label: 'About',     num: '02' },
-    { id: 'experience', label: 'Experience', num: '03' },
-    { id: 'projects',  label: 'Projects',  num: '04' },
-    { id: 'contact',   label: 'Contact',   num: '05' },
+    { id: 'home',       label: 'Home',       num: '·' },
+    { id: 'about',      label: 'About',      num: '01' },
+    { id: 'experience', label: 'Experience', num: '02' },
+    { id: 'projects',   label: 'Projects',   num: '03' },
+    { id: 'contact',    label: 'Contact',    num: '04' },
   ];
 
   @HostBinding('class.menu-open') menuOpen = false;
