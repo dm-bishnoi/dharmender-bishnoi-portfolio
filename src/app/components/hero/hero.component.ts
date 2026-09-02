@@ -43,8 +43,7 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
     // The dotted text component has its own revealDelay (800ms) from IntersectionObserver.
     const reveals: Array<{ selector: string; delay: number }> = [
       { selector: '[data-hero-reveal="meta"]',      delay: 100 },
-      { selector: '[data-hero-reveal="name"]',       delay: 300 },
-      { selector: '[data-hero-reveal="dotted"]',     delay: 800 },
+      { selector: '[data-hero-reveal="identity"]',   delay: 300 },
       { selector: '[data-hero-reveal="statement"]',    delay: 900 },
       { selector: '[data-hero-reveal="foot"]',        delay: 1100 },
     ];
@@ -63,8 +62,7 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
     if (!this.host) return;
     const selectors = [
       '[data-hero-reveal="meta"]',
-      '[data-hero-reveal="name"]',
-      '[data-hero-reveal="dotted"]',
+      '[data-hero-reveal="identity"]',
       '[data-hero-reveal="statement"]',
       '[data-hero-reveal="foot"]',
     ];

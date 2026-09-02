@@ -354,7 +354,8 @@
   .hero-meta { font-size: 10px; letter-spacing: 0.14em; gap: 10px; }
   .hero-meta-status { width: 100%; }
   .hero-name {
-    font-size: clamp(44px, 16vw, 72px);
+    /* Keep the 10-character first name on one line on narrow phones. */
+    font-size: clamp(39px, 13vw, 52px);
   }
   .hero-statement-line {
     font-size: clamp(22px, 7.5vw, 34px);
@@ -365,7 +366,7 @@
 }
 
 @media (max-width: 390px) {
-  .hero-name { font-size: clamp(38px, 18vw, 56px); }
+  .hero-name { font-size: clamp(37px, 12.5vw, 48px); }
   .hero-meta { font-size: 9.5px; }
 }
 
