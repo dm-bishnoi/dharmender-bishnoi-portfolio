@@ -1,156 +1,107 @@
 <section id="skills" class="skills sec sec--wide">
 
   <div class="skills-grid">
-
-    <!-- Editorial mark -->
-    <div class="skills-mark">
-      <span class="skills-mark-num">03</span>
-      <span class="skills-mark-label">Skills</span>
-    </div>
-
     <!-- Statement -->
-    <div class="skills-statement">
+    <div class="skills-statement reveal-up">
       <h2 class="skills-headline display-2">
-        The <em class="heading-accent">engineering</em><br />
-        stack.
+        <span class="heading-accent">System</span><br />
+        Architecture.
       </h2>
       <p class="lede skills-lede">
-        Angular, TypeScript, and RxJS are the spine.
-        The rest is supporting infrastructure.
+        Angular, TypeScript, and RxJS form the foundation. The rest is supporting infrastructure designed for scale and performance.
       </p>
     </div>
 
-    <!-- Engineering spec table — spans full width -->
-    <div class="skills-spec">
-
-      <div class="spec-block">
-        <h3 class="spec-block-title">Frameworks &amp; Languages</h3>
-        <ul class="spec-list">
-          <li class="spec-item">
-            <span class="spec-item-name">Angular</span>
-            <span class="spec-item-meta">v17 — v20</span>
-          </li>
-          <li class="spec-item">
-            <span class="spec-item-name">Angular CLI</span>
-            <span class="spec-item-meta"></span>
-          </li>
-          <li class="spec-item">
-            <span class="spec-item-name">TypeScript</span>
-            <span class="spec-item-meta">ES2022+</span>
-          </li>
-          <li class="spec-item">
-            <span class="spec-item-name">JavaScript</span>
-            <span class="spec-item-meta">ES6+</span>
-          </li>
-          <li class="spec-item">
-            <span class="spec-item-name">HTML5 · CSS3 · SCSS</span>
-            <span class="spec-item-meta"></span>
-          </li>
-        </ul>
+    <!-- Connected Technical System Visualization -->
+    <div class="skills-system-map reveal-stagger">
+      
+      <!-- Core — slight delay so the Hero's tech cluster is at peak when
+           this node begins fading in. Visual continuity handoff. -->
+      <div class="system-node core-node glass glass-prominent reveal-up" style="transition-delay: 0.1s">
+        <div class="node-icon">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M12 2L2 22h20L12 2zm0 4.2l7.5 15H4.5L12 6.2z"/></svg>
+        </div>
+        <div class="node-content">
+          <h3 class="node-title">Angular Ecosystem</h3>
+          <p class="node-meta">v17 — v20</p>
+        </div>
       </div>
 
-      <div class="spec-block">
-        <h3 class="spec-block-title">Architecture &amp; State</h3>
-        <ul class="spec-list">
-          <li class="spec-item">
-            <span class="spec-item-name">RxJS</span>
-            <span class="spec-item-meta">Observables · Subjects</span>
-          </li>
-          <li class="spec-item">
-            <span class="spec-item-name">Signals</span>
-            <span class="spec-item-meta">Angular 17+</span>
-          </li>
-          <li class="spec-item">
-            <span class="spec-item-name">Standalone components</span>
-            <span class="spec-item-meta">v17+ pattern</span>
-          </li>
-          <li class="spec-item">
-            <span class="spec-item-name">Lazy loading · Route guards</span>
-            <span class="spec-item-meta"></span>
-          </li>
-          <li class="spec-item">
-            <span class="spec-item-name">Dependency injection</span>
-            <span class="spec-item-meta"></span>
-          </li>
-        </ul>
+      <div class="system-connections">
+        <!-- Lines connecting core to modules -->
+        <svg class="connection-lines" preserveAspectRatio="none">
+          <path class="connection-line l-1" d="M 50% 0 Q 50% 50% 16.6% 100%" />
+          <path class="connection-line l-2" d="M 50% 0 Q 50% 50% 50% 100%" />
+          <path class="connection-line l-3" d="M 50% 0 Q 50% 50% 83.3% 100%" />
+        </svg>
       </div>
 
-      <div class="spec-block">
-        <h3 class="spec-block-title">APIs &amp; Forms</h3>
-        <ul class="spec-list">
-          <li class="spec-item">
-            <span class="spec-item-name">HttpClient</span>
-            <span class="spec-item-meta">Typed services</span>
-          </li>
-          <li class="spec-item">
-            <span class="spec-item-name">Interceptors</span>
-            <span class="spec-item-meta">Auth · Error</span>
-          </li>
-          <li class="spec-item">
-            <span class="spec-item-name">Reactive Forms</span>
-            <span class="spec-item-meta"></span>
-          </li>
-          <li class="spec-item">
-            <span class="spec-item-name">REST · JSON contracts</span>
-            <span class="spec-item-meta"></span>
-          </li>
-          <li class="spec-item">
-            <span class="spec-item-name">Auth · RBAC patterns</span>
-            <span class="spec-item-meta"></span>
-          </li>
-        </ul>
+      <!-- Modules -->
+      <div class="system-modules">
+        
+        <div class="system-node module-node glass glass-subtle reveal-up" style="transition-delay: 0.1s">
+          <div class="node-content">
+            <h3 class="node-title">State &amp; Reactivity</h3>
+            <ul class="node-tech-list">
+              <li>RxJS Observables</li>
+              <li>Signals (v17+)</li>
+              <li>NgRx Store</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="system-node module-node glass glass-subtle reveal-up" style="transition-delay: 0.2s">
+          <div class="node-content">
+            <h3 class="node-title">Architecture</h3>
+            <ul class="node-tech-list">
+              <li>Standalone Components</li>
+              <li>Lazy Loading</li>
+              <li>Dependency Injection</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="system-node module-node glass glass-subtle reveal-up" style="transition-delay: 0.3s">
+          <div class="node-content">
+            <h3 class="node-title">API &amp; Integration</h3>
+            <ul class="node-tech-list">
+              <li>HttpClient</li>
+              <li>Typed Contracts</li>
+              <li>Reactive Forms</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+      
+      <div class="system-connections secondary">
+        <!-- Lines connecting modules to tools -->
+        <svg class="connection-lines" preserveAspectRatio="none">
+          <path class="connection-line l-4" d="M 16.6% 0 Q 16.6% 50% 33.3% 100%" />
+          <path class="connection-line l-5" d="M 83.3% 0 Q 83.3% 50% 66.6% 100%" />
+        </svg>
       </div>
 
-      <div class="spec-block">
-        <h3 class="spec-block-title">Testing &amp; Quality</h3>
-        <ul class="spec-list">
-          <li class="spec-item">
-            <span class="spec-item-name">Jasmine · Karma</span>
-            <span class="spec-item-meta"></span>
-          </li>
-          <li class="spec-item">
-            <span class="spec-item-name">TestBed harnesses</span>
-            <span class="spec-item-meta">Component specs</span>
-          </li>
-          <li class="spec-item">
-            <span class="spec-item-name">ESLint · Prettier</span>
-            <span class="spec-item-meta"></span>
-          </li>
-          <li class="spec-item">
-            <span class="spec-item-name">SonarQube</span>
-            <span class="spec-item-meta">Quality gates</span>
-          </li>
-        </ul>
-      </div>
+      <!-- Tooling -->
+      <div class="system-tools">
+        
+        <div class="system-node tool-node glass glass-subtle reveal-up" style="transition-delay: 0.4s">
+          <div class="node-content">
+            <h3 class="node-title">Testing</h3>
+            <p class="node-tech-flat">Jasmine / Karma / TestBed</p>
+          </div>
+        </div>
+        
+        <div class="system-node tool-node glass glass-subtle reveal-up" style="transition-delay: 0.5s">
+          <div class="node-content">
+            <h3 class="node-title">Quality</h3>
+            <p class="node-tech-flat">ESLint / SonarQube</p>
+          </div>
+        </div>
 
-      <div class="spec-block">
-        <h3 class="spec-block-title">UI &amp; Tooling</h3>
-        <ul class="spec-list">
-          <li class="spec-item">
-            <span class="spec-item-name">Angular Material</span>
-            <span class="spec-item-meta"></span>
-          </li>
-          <li class="spec-item">
-            <span class="spec-item-name">CSS Grid · Flexbox</span>
-            <span class="spec-item-meta"></span>
-          </li>
-          <li class="spec-item">
-            <span class="spec-item-name">Responsive design</span>
-            <span class="spec-item-meta"></span>
-          </li>
-          <li class="spec-item">
-            <span class="spec-item-name">Git · GitHub</span>
-            <span class="spec-item-meta"></span>
-          </li>
-          <li class="spec-item">
-            <span class="spec-item-name">Jira · Agile / Scrum</span>
-            <span class="spec-item-meta"></span>
-          </li>
-        </ul>
       </div>
 
     </div>
-
   </div>
 
 </section>

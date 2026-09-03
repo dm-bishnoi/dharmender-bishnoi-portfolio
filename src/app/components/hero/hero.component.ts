@@ -5,13 +5,13 @@ import {
   OnDestroy,
   inject,
 } from '@angular/core';
-import { DottedTextComponent } from '../dotted-text/dotted-text.component';
 import { HeroSceneComponent } from '../hero-scene/hero-scene.component';
+import { HeroStorytellingComponent } from '../hero-storytelling/hero-storytelling.component';
 
 @Component({
   selector: 'app-hero',
   standalone: true,
-  imports: [DottedTextComponent, HeroSceneComponent],
+  imports: [HeroSceneComponent, HeroStorytellingComponent],
   templateUrl: './hero.component.html',
   styleUrl: './hero.component.css'
 })

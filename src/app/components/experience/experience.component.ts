@@ -3,8 +3,7 @@ import {
   Component,
   ElementRef,
   OnDestroy,
-  QueryList,
-  ViewChildren,
+  NgZone,
   inject,
 } from '@angular/core';
 
@@ -15,100 +14,74 @@ import {
   styleUrl: './experience.component.css'
 })
 export class ExperienceComponent implements AfterViewInit, OnDestroy {
-  @ViewChildren('evidenceItem') evidenceItems!: QueryList<HTMLElement>;
-
   private host: HTMLElement | null = null;
   private observer: IntersectionObserver | null = null;
-  private hasTriggered = false;
-  private timeouts: number[] = [];
+  private ngZone = inject(NgZone);
+  private scrollRafId: number | null = null;
+  private scrollHandler: (() => void) | null = null;
 
   constructor(private el: ElementRef<HTMLElement>) {}
 
   ngAfterViewInit(): void {
-    if (typeof IntersectionObserver === 'undefined') {
-      this.revealAll();
-      return;
-    }
+    if (typeof window === 'undefined') return;
     this.host = this.el.nativeElement;
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReduced) {
-      this.revealAll();
-      return;
+
+    // Observe stages for active state
+    const stages = this.host.querySelectorAll('.exp-stage');
+    if (stages.length > 0 && typeof IntersectionObserver !== 'undefined') {
+      this.observer = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-active');
+            } else {
+              entry.target.classList.remove('is-active');
+            }
+          }
+        },
+        { rootMargin: '-30% 0px -40% 0px' }
+      );
+      stages.forEach((el) => this.observer!.observe(el));
     }
 
-    this.observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting && !this.hasTriggered) {
-            this.hasTriggered = true;
-            this.runReveal();
-            this.observer?.disconnect();
-            this.observer = null;
-            break;
-          }
-        }
-      },
-      { threshold: 0.18, rootMargin: '0px 0px -10% 0px' }
-    );
-    this.observer.observe(this.host);
+    // Scroll progress line
+    this.setupScrollProgress();
+  }
+
+  private setupScrollProgress(): void {
+    const timeline = this.host?.querySelector('.exp-timeline') as HTMLElement;
+    const progressLine = this.host?.querySelector('#exp-progress-line') as HTMLElement;
+    if (!timeline || !progressLine) return;
+
+    this.ngZone.runOutsideAngular(() => {
+      this.scrollHandler = () => {
+        if (this.scrollRafId !== null) return;
+        this.scrollRafId = requestAnimationFrame(() => {
+          this.scrollRafId = null;
+          const rect = timeline.getBoundingClientRect();
+          const windowHeight = window.innerHeight;
+          
+          // Start progressing when top of timeline enters middle of screen
+          const start = windowHeight * 0.5;
+          const totalDist = rect.height;
+          
+          let progress = (start - rect.top) / totalDist;
+          progress = Math.max(0, Math.min(1, progress));
+          progressLine.style.height = `${progress * 100}%`;
+        });
+      };
+      window.addEventListener('scroll', this.scrollHandler, { passive: true });
+      this.scrollHandler(); // init
+    });
   }
 
   ngOnDestroy(): void {
     this.observer?.disconnect();
-    this.timeouts.forEach(t => clearTimeout(t));
-  }
-
-  private revealAll(): void {
-    if (!this.host) return;
-    this.host.querySelectorAll<HTMLElement>('[data-reveal-stage]').forEach((el) => {
-      el.classList.add('is-revealed');
-    });
-    this.host.querySelectorAll<SVGElement>('.exp-timeline-line').forEach((el) => {
-      el.style.strokeDashoffset = '0';
-    });
-    this.host.querySelectorAll<HTMLElement>('.exp-role-evidence li').forEach((el) => {
-      el.style.opacity = '1';
-      el.style.transform = 'none';
-    });
-  }
-
-  private runReveal(): void {
-    if (!this.host) return;
-
-    // Reveal each data-reveal-stage element with its configured delay
-    const stages = this.host.querySelectorAll<HTMLElement>('[data-reveal-stage]');
-    stages.forEach((el) => {
-      const delay = parseInt(el.dataset['revealDelay'] || '0', 10);
-      const t = window.setTimeout(() => {
-        el.classList.add('is-revealed');
-      }, delay);
-      this.timeouts.push(t);
-    });
-
-    // Animate the timeline line drawing
-    const timelineLine = this.host.querySelector<SVGElement>('.exp-timeline-line');
-    if (timelineLine) {
-      const length = parseFloat(timelineLine.dataset['length'] || '200');
-      timelineLine.style.strokeDasharray = `${length}`;
-      timelineLine.style.strokeDashoffset = `${length}`;
-      const t = window.setTimeout(() => {
-        timelineLine.style.transition = 'stroke-dashoffset 1.4s cubic-bezier(0.22, 1, 0.36, 1)';
-        timelineLine.style.strokeDashoffset = '0';
-      }, 600);
-      this.timeouts.push(t);
+    if (this.scrollHandler) {
+      window.removeEventListener('scroll', this.scrollHandler);
     }
-
-    // Stagger evidence items
-    const items = this.host.querySelectorAll<HTMLElement>('.exp-role-evidence li');
-    items.forEach((el, i) => {
-      el.style.opacity = '0';
-      el.style.transform = 'translateX(-12px)';
-      el.style.transition = `opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1), transform 0.5s cubic-bezier(0.22, 1, 0.36, 1)`;
-      const t = window.setTimeout(() => {
-        el.style.opacity = '1';
-        el.style.transform = 'none';
-      }, 1200 + i * 110);
-      this.timeouts.push(t);
-    });
+    if (this.scrollRafId !== null) {
+      cancelAnimationFrame(this.scrollRafId);
+    }
   }
 }

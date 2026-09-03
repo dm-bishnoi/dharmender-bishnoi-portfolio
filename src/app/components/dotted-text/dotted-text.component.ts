@@ -157,10 +157,23 @@ export class DottedTextComponent implements AfterViewInit, OnChanges, OnDestroy 
   private mouseX = -9999;
   private mouseY = -9999;
   private pointerHandler = (e: PointerEvent) => this.onPointerMove(e);
+  /** True when the rAF loop is currently scheduling frames. */
+  private loopActive = false;
+  /** setTimeout handle used to wake the loop for the next pulse edge. */
+  private pulseTimer: number | null = null;
+
+  // Cached viewBox geometry — recomputed only on layout, not every frame.
+  private cachedViewW = 0;
+  private cachedViewH = 0;
+  private cachedPadX = 0;
+  private cachedPadY = 0;
+  /** Cached SVG bounding rect (for pointer math). Refreshed on resize/pointer. */
+  private cachedRect: DOMRect | null = null;
 
   // All circles. Each entry references a circle and its grid metadata.
   // In three-tier mode, each entry may refer to a trace + an active dot
-  // (or to a single circle in 2-tier mode).
+  // (or to a single circle in 2-tier mode). `cx`, `cy`, `r` are pre-parsed
+  // so renderFrame never calls parseFloat on attribute strings.
   private circles: Array<{
     /** "on" cell: render the letterform. "off" cell: structural ghost (3-tier only). */
     isOn: boolean;
@@ -176,6 +189,15 @@ export class DottedTextComponent implements AfterViewInit, OnChanges, OnDestroy 
     trace: SVGCircleElement | null;
     /** The active-tier circle. Always present. */
     active: SVGCircleElement;
+    /** Pre-parsed geometry. */
+    cx: number;
+    cy: number;
+    /** Last written trace opacity (to skip identical writes). */
+    lastTrace: number;
+    /** Last written active opacity. */
+    lastActive: number;
+    /** Last written radius. */
+    lastR: number;
   }> = [];
 
   /** Geometry of the current layout, in viewBox units. */
@@ -204,34 +226,44 @@ export class DottedTextComponent implements AfterViewInit, OnChanges, OnDestroy 
     if (this.reducedMotion) {
       this.revealStart = performance.now() - this.revealDuration - 1;
       this.renderFrame();
-    } else {
-      this.setupVisibilityObserver();
-      this.ngZone.runOutsideAngular(() => this.startLoop());
+      return;
     }
+
+    this.setupVisibilityObserver();
+    // Demand-driven: no continuous loop. The first frame is scheduled
+    // when the visibility observer fires (see setupVisibilityObserver).
+    // Subsequent frames are requested only when something changes.
+    this.ngZone.runOutsideAngular(() => {
+      // Hook pointer events at the wrap so we don't have to manage them in two places.
+      if (this.interactive) {
+        this.wrapRef.nativeElement.addEventListener('pointermove', this.pointerHandler, { passive: true });
+        this.wrapRef.nativeElement.addEventListener('pointerleave', this.pointerHandler, { passive: true });
+      }
+    });
 
     this.resizeObserver = new ResizeObserver(() => {
       // The viewBox is fixed, so size changes don't require rebuilding.
-      // We re-apply the ambient pulse to ensure crispness on devicePixelRatio
-      // changes (e.g. dragging between monitors).
-      this.renderFrame();
+      // Invalidate the cached bounding rect and re-render once for crispness
+      // on devicePixelRatio changes (e.g. dragging between monitors).
+      this.cachedRect = null;
+      this.requestFrame();
     });
     this.resizeObserver.observe(this.wrapRef.nativeElement);
-
-    if (this.interactive && !this.reducedMotion) {
-      this.wrapRef.nativeElement.addEventListener('pointermove', this.pointerHandler, { passive: true });
-      this.wrapRef.nativeElement.addEventListener('pointerleave', this.pointerHandler, { passive: true });
-    }
   }
 
   ngOnChanges(_changes: SimpleChanges): void {
     if (this.svgRef) {
       this.buildGrid();
-      this.renderFrame();
+      this.requestFrame();
     }
   }
 
   ngOnDestroy(): void {
     if (this.rafId !== null) cancelAnimationFrame(this.rafId);
+    if (this.pulseTimer !== null) clearTimeout(this.pulseTimer);
+    this.rafId = null;
+    this.pulseTimer = null;
+    this.loopActive = false;
     this.resizeObserver?.disconnect();
     if (this.motionListener && this.motionQuery) {
       this.motionQuery.removeEventListener('change', this.motionListener);
@@ -274,12 +306,18 @@ export class DottedTextComponent implements AfterViewInit, OnChanges, OnDestroy 
     this.gridH = totalRows * this.cell;
     const padX = this.cell * 1.5;
     const padY = this.cell * 1.5;
+    this.cachedPadX = padX;
+    this.cachedPadY = padY;
     const viewW = this.gridW + padX * 2;
     const viewH = this.gridH + padY * 2;
+    this.cachedViewW = viewW;
+    this.cachedViewH = viewH;
+    this.cachedRect = null; // invalidate; re-read on next renderFrame
     this.viewBox = `0 0 ${viewW} ${viewH}`;
 
     // Build the circles.
     const ns = 'http://www.w3.org/2000/svg';
+    const baseR = this.dotSize / 2;
     let cursorX = padX;
     let charIndex = 0;
     let wordIndex = 0;
@@ -309,7 +347,7 @@ export class DottedTextComponent implements AfterViewInit, OnChanges, OnDestroy 
               const circle = document.createElementNS(ns, 'circle');
               circle.setAttribute('cx', String(cx));
               circle.setAttribute('cy', String(cy));
-              circle.setAttribute('r', String(this.dotSize / 2));
+              circle.setAttribute('r', String(baseR));
               circle.setAttribute('fill', baseColor);
               circle.setAttribute('opacity', '0');
               svg.appendChild(circle);
@@ -321,6 +359,10 @@ export class DottedTextComponent implements AfterViewInit, OnChanges, OnDestroy 
                 isAccent: accent,
                 trace: null,
                 active: circle,
+                cx, cy,
+                lastTrace: 0,
+                lastActive: 0,
+                lastR: baseR,
               });
               cellCounter++;
               continue;
@@ -334,7 +376,7 @@ export class DottedTextComponent implements AfterViewInit, OnChanges, OnDestroy 
             const trace = document.createElementNS(ns, 'circle');
             trace.setAttribute('cx', String(cx));
             trace.setAttribute('cy', String(cy));
-            trace.setAttribute('r', String(this.dotSize / 2));
+            trace.setAttribute('r', String(baseR));
             trace.setAttribute('fill', this.traceColor);
             trace.setAttribute('opacity', '0');
             svg.appendChild(trace);
@@ -346,7 +388,7 @@ export class DottedTextComponent implements AfterViewInit, OnChanges, OnDestroy 
               active = document.createElementNS(ns, 'circle');
               active.setAttribute('cx', String(cx));
               active.setAttribute('cy', String(cy));
-              active.setAttribute('r', String(this.dotSize / 2));
+              active.setAttribute('r', String(baseR));
               active.setAttribute('fill', activeColor);
               active.setAttribute('opacity', '0');
               svg.appendChild(active);
@@ -365,6 +407,10 @@ export class DottedTextComponent implements AfterViewInit, OnChanges, OnDestroy 
               isAccent: accent,
               trace,
               active,
+              cx, cy,
+              lastTrace: 0,
+              lastActive: 0,
+              lastR: baseR,
             });
             cellCounter++;
           }

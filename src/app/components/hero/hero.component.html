@@ -1,123 +1,55 @@
-<section id="home" class="hero" aria-label="Hero — Dharmender Bishnoi, Angular Developer">
+<section id="home" class="hero sec sec--hero" aria-label="Hero — Dharmender Bishnoi, Angular Developer">
 
-  <!-- Three.js 3D scene — background layer -->
+  <!-- Three.js 3D scene — background particle layer (unaffected by sticky stage) -->
   <app-hero-scene></app-hero-scene>
 
-  <!-- Atmospheric blue depth — above canvas, behind text -->
-  <div class="hero-atm" aria-hidden="true">
-    <div class="hero-atm-glow hero-atm-glow--a"></div>
-    <div class="hero-atm-glow hero-atm-glow--b"></div>
-  </div>
+  <!-- 200vh scroll area; the sticky child inside holds the visual stage pinned. -->
+  <div class="hero-stage">
+    <div class="hero-stage-sticky">
 
-  <!-- Left decorative rail -->
-  <div class="hero-rail hero-rail--left" aria-hidden="true">
-    <span class="hero-rail-line"></span>
-    <span class="hero-rail-tick"></span>
-    <span class="hero-rail-tick"></span>
-    <span class="hero-rail-tick"></span>
-  </div>
+      <div class="hero-inner">
 
-  <div class="hero-inner">
+        <!-- Left content column (text + CTAs) — always visible, no JS dependency. -->
+        <div class="hero-content-left">
+          <div class="hero-meta" data-hero-reveal="meta">
+            <span class="hero-status">
+              <span class="hero-status-dot" aria-hidden="true"></span>
+              Available for new opportunities
+            </span>
+          </div>
 
-    <!-- Top meta strip — small editorial metadata -->
-    <div class="hero-meta" data-hero-reveal="meta">
-      <span class="hero-meta-num">01</span>
-      <span class="hero-meta-sep" aria-hidden="true"></span>
-      <span class="hero-meta-label">Portfolio · Angular Developer</span>
-      <span class="hero-meta-sep hero-meta-sep--hide" aria-hidden="true"></span>
-      <span class="hero-meta-status">
-        <span class="hero-meta-status-dot" aria-hidden="true"></span>
-        Available · 2026
-      </span>
-    </div>
+          <h1 class="display-1 hero-title" data-hero-reveal="identity">
+            <span class="hero-title-line">Dharmender</span>
+            <span class="hero-title-line">Bishnoi</span>
+          </h1>
 
-    <!-- Primary identity — solid name (the dominant identity) -->
-    <div class="hero-identity" data-hero-reveal="identity">
-      <h1 class="hero-name">
-        <span class="hero-name-line">Dharmender</span>
-        <span class="hero-name-line">Bishnoi</span>
-      </h1>
+          <p class="lede hero-lede" data-hero-reveal="statement">
+            Frontend engineer specializing in <strong>Angular</strong> architecture, reactive state management, and cinematic user experiences.
+          </p>
 
-      <!-- Dotted typography — secondary identity layer -->
-      <div class="hero-dotted-wrap">
-        <app-dotted-text
-          text="ANGULAR DEVELOPER"
-          [dotSize]="4"
-          [dotGap]="7"
-          color="#eef3ff"
-          activeColor="#eef3ff"
-          traceColor="#2d4070"
-          accentColor="#6e96e6"
-          [revealDelay]="800"
-          [revealDuration]="2000"
-          [charStagger]="45"
-          [wordStagger]="200"
-          [intraCharStagger]="12"
-          [accentRatio]="0.08"
-          [traceOpacity]="0.4">
-        </app-dotted-text>
+          <div class="hero-actions" data-hero-reveal="foot">
+            <a class="btn btn-primary magnetic glass glass-prominent" href="#projects">
+              View Selected Work
+            </a>
+            <a class="btn btn-outline magnetic glass glass-subtle" href="#contact">
+              Let's Talk
+            </a>
+          </div>
+        </div>
+
+        <!-- Right visual stage — relative-positioned, scroll-driven via storytelling wrapper. -->
+        <div class="hero-visual-stage" aria-hidden="true">
+          <app-hero-storytelling></app-hero-storytelling>
+        </div>
+
       </div>
-    </div>
 
-    <!-- Main statement — the strongest readable content -->
-    <div class="hero-statement" data-hero-reveal="statement">
-      <p class="hero-statement-line">I build Angular</p>
-      <p class="hero-statement-line">applications</p>
-      <p class="hero-statement-line hero-statement-line--accent">that ship.</p>
-    </div>
-
-    <!-- Foot row — CTA + socials -->
-    <div class="hero-foot" data-hero-reveal="foot">
-
-      <a class="hero-cta" href="#projects">
-        <span class="hero-cta-label">Selected Work</span>
-        <span class="hero-cta-arrow" aria-hidden="true">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M5 12h14M13 5l7 7-7 7"/>
-          </svg>
-        </span>
-      </a>
-
-      <div class="hero-social">
-        <a class="hero-social-icon"
-           href="https://github.com/dm-bishnoi"
-           target="_blank" rel="noopener noreferrer"
-           aria-label="GitHub">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">
-            <path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-2.04c-3.2.69-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.46.11-3.04 0 0 .96-.31 3.16 1.18.92-.26 1.91-.39 2.89-.39.98 0 1.97.13 2.89.39 2.2-1.49 3.16-1.18 3.16-1.18.62 1.58.23 2.75.11 3.04.74.81 1.18 1.84 1.18 3.1 0 4.42-2.7 5.4-5.27 5.69.41.35.78 1.05.78 2.12v3.14c0 .31.21.68.8.56C20.21 21.39 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/>
-          </svg>
-          <span class="hero-social-label">GitHub</span>
-        </a>
-        <a class="hero-social-icon"
-           href="https://www.linkedin.com/in/dharmender-bishnoi-7ba664176"
-           target="_blank" rel="noopener noreferrer"
-           aria-label="LinkedIn">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">
-            <path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM10 9h3.6v1.7h.05c.5-.95 1.72-1.95 3.55-1.95 3.8 0 4.5 2.5 4.5 5.75V21H17.7v-5.7c0-1.36-.03-3.1-1.9-3.1-1.9 0-2.2 1.48-2.2 3v5.8H10z"/>
-          </svg>
-          <span class="hero-social-label">LinkedIn</span>
-        </a>
-        <a class="hero-social-icon"
-           href="mailto:bishnoid770&#64;gmail.com?subject=Opportunity%20for%20Dharmender%20Bishnoi"
-           aria-label="Email">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <rect x="3" y="5" width="18" height="14" rx="2" />
-            <path d="M3 7l9 6 9-6" />
-          </svg>
-          <span class="hero-social-label">Email</span>
-        </a>
+      <div class="hero-scroll-indicator">
+        <span class="hero-scroll-text">Scroll to explore</span>
+        <div class="hero-scroll-line"></div>
       </div>
 
     </div>
-
-  </div>
-
-  <!-- Right decorative rail -->
-  <div class="hero-rail hero-rail--right" aria-hidden="true">
-    <span class="hero-rail-line"></span>
-    <span class="hero-rail-tick"></span>
-    <span class="hero-rail-tick"></span>
-    <span class="hero-rail-tick"></span>
   </div>
 
 </section>

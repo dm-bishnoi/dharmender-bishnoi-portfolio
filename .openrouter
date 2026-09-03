@@ -1,0 +1,28 @@
+# OpenRouter tool config for local AI-assisted development workflows.
+# Format: simple INI-like key/value pairs, matching the conventions used
+# by OpenRouter-aware coding agents (Cursor, Cline, Roo Code, etc.).
+#
+# NOTE: This file is for dev-time tooling only. The Angular app reads its
+# config from `src/app/config/openrouter.config.ts` at runtime.
+
+# Default model to use when an agent doesn't specify one
+default_model=openai/gpt-4o-mini
+
+# Optional: a list of preferred models, in priority order
+# (comma-separated; first match wins when the agent asks for a tier)
+preferred_models=openai/gpt-4o-mini,anthropic/claude-3.5-sonnet,google/gemini-2.0-flash-exp
+
+# Your app/site URL — sent as HTTP-Referer so usage is attributed correctly
+app_url=http://localhost:4200
+
+# Human-readable app title — shown on openrouter.ai rankings
+app_title=Dharmender Bishnoi Portfolio
+
+# Where to load the API key from at runtime.
+# Valid sources:
+#   env    -> read OPENROUTER_API_KEY from the process environment (recommended)
+#   file   -> read from the file path in `api_key_file`
+api_key_source=env
+
+# Only used when api_key_source=file. Path is relative to the repo root.
+api_key_file=.env

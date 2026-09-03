@@ -1,0 +1,15 @@
+<div class="hero-storytelling" #stageEl>
+  <div class="hero-storytelling-laptop" #laptopWrap>
+    <app-hero-visual></app-hero-visual>
+  </div>
+
+  <div class="hero-tech-nodes" #techNodes aria-hidden="true">
+    <div
+      class="hero-tech-node"
+      *ngFor="let n of nodes"
+      [attr.data-node]="n.label">
+      <span class="hero-tech-node-icon">{{ n.icon }}</span>
+      <span class="hero-tech-node-label">{{ n.label }}</span>
+    </div>
+  </div>
+</div>

@@ -31,10 +31,12 @@ export class HeaderComponent implements AfterViewInit, OnDestroy {
 
   @HostBinding('class.menu-open') menuOpen = false;
   @HostBinding('class.scrolled') isScrolled = false;
+  @HostBinding('class.scroll-down') isScrollDown = false;
   activeSection = 'home';
 
   private observer: IntersectionObserver | null = null;
   private rafId = 0;
+  private lastScrollY = 0;
 
   private allSections = ['home', 'about', 'experience', 'skills', 'projects', 'contact'];
 
@@ -88,7 +90,16 @@ export class HeaderComponent implements AfterViewInit, OnDestroy {
   onScroll(): void {
     if (this.rafId) return;
     this.rafId = requestAnimationFrame(() => {
-      this.isScrolled = window.scrollY > 20;
+      const currentScroll = window.scrollY;
+      this.isScrolled = currentScroll > 20;
+      
+      if (currentScroll > this.lastScrollY && currentScroll > 100) {
+        this.isScrollDown = true;
+      } else if (currentScroll < this.lastScrollY) {
+        this.isScrollDown = false;
+      }
+      
+      this.lastScrollY = currentScroll;
       this.rafId = 0;
     });
   }
@@ -102,5 +113,12 @@ export class HeaderComponent implements AfterViewInit, OnDestroy {
     if (!this.menuOpen) return;
     this.menuOpen = false;
     document.body.classList.remove('menu-open');
+  }
+
+  isMobile(): boolean {
+    if (typeof window !== 'undefined') {
+      return window.innerWidth <= 900;
+    }
+    return false;
   }
 }

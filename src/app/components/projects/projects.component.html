@@ -1,35 +1,20 @@
 <section id="projects" class="projects sec sec--wide">
 
-  <!-- Section header — minimal, editorial -->
-  <div class="projects-head">
-    <div class="projects-mark" data-reveal-stage data-reveal-delay="0">
-      <span class="projects-mark-num">04</span>
-      <span class="projects-mark-label">Selected Work</span>
-    </div>
-
+  <div class="projects-head reveal-up">
     <div class="projects-statement">
-      <h2 class="display-1 projects-headline" data-reveal-stage data-reveal-delay="120">
-        Featured<br />
-        <em class="heading-accent">case study.</em>
+      <h2 class="display-2 projects-headline">
+        Selected<br />
+        <em class="heading-accent">Case Study.</em>
       </h2>
-      <p class="lede projects-lede" data-reveal-stage data-reveal-delay="320">
-        One large enterprise CRM built and maintained end-to-end in
-        Angular. Real production, real users, real architecture decisions.
-      </p>
     </div>
   </div>
 
-  <!-- The Flexschema case study — visual + text -->
-  <article class="case" aria-labelledby="case-title">
-
-    <!-- Large index number — decorative, behind content -->
-    <span class="case-index" aria-hidden="true">001</span>
-
-    <!-- Visual + content side by side -->
+  <article class="case">
     <div class="case-layout">
 
-      <!-- Architectural visualization -->
-      <div class="case-visual" data-reveal-stage data-reveal-delay="500">
+      <!-- Left: Architectural visualization (Sticky) -->
+      <div class="case-visual-container">
+        <div class="case-visual magnetic interactive glass glass-prominent" data-cursor-text="View">
         <svg class="case-visual-svg" viewBox="0 0 600 360" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
           <defs>
             <radialGradient id="caseHalo" cx="50%" cy="50%" r="50%">
@@ -47,12 +32,11 @@
           </defs>
           <rect width="600" height="360" fill="url(#caseDots)" opacity="0.5"/>
           <ellipse cx="300" cy="180" rx="260" ry="120" fill="url(#caseHalo)"/>
-          <!-- Top label bar -->
+          
           <line x1="40" y1="42" x2="180" y2="42" stroke="url(#caseLine)" stroke-width="1"/>
-          <text x="40" y="34" fill="rgba(240, 237, 232, 0.4)" font-family="var(--font-mono)" font-size="10" letter-spacing="0.16em">FLEXSCHEMA · CRM</text>
+          <text x="40" y="34" fill="rgba(240, 237, 232, 0.4)" font-family="var(--font-mono)" font-size="10" letter-spacing="0.16em">{{ projects[activeProjectIndex].title | uppercase }}</text>
           <text x="560" y="34" text-anchor="end" fill="rgba(86, 156, 255, 0.6)" font-family="var(--font-mono)" font-size="10" letter-spacing="0.14em">v20 · STANDALONE</text>
 
-          <!-- Module grid -->
           <g stroke="rgba(86, 156, 255, 0.25)" stroke-width="0.75" fill="none">
             <rect x="60" y="80" width="200" height="60" rx="4"/>
             <rect x="270" y="80" width="160" height="60" rx="4"/>
@@ -65,7 +49,6 @@
             <rect x="440" y="220" width="100" height="60" rx="4"/>
           </g>
 
-          <!-- Module labels (subtle) -->
           <g fill="rgba(240, 237, 232, 0.5)" font-family="var(--font-mono)" font-size="9" letter-spacing="0.1em">
             <text x="72" y="115">CONTACTS</text>
             <text x="282" y="115">DEALS</text>
@@ -78,12 +61,10 @@
             <text x="452" y="255">API</text>
           </g>
 
-          <!-- Module highlights (active) -->
           <g fill="rgba(86, 156, 255, 0.15)" stroke="rgba(86, 156, 255, 0.5)" stroke-width="0.75">
             <rect x="210" y="150" width="220" height="60" rx="4"/>
           </g>
 
-          <!-- Data flow lines -->
           <g stroke="rgba(86, 156, 255, 0.4)" stroke-width="1" fill="none" stroke-dasharray="2 4">
             <path d="M 160 140 L 160 150"/>
             <path d="M 350 140 L 350 150"/>
@@ -91,63 +72,56 @@
             <path d="M 490 210 L 490 220"/>
           </g>
 
-          <!-- Status footer -->
           <text x="40" y="340" fill="rgba(240, 237, 232, 0.3)" font-family="var(--font-mono)" font-size="9" letter-spacing="0.12em">ENTERPRISE SCALE · PRODUCTION</text>
           <text x="560" y="340" text-anchor="end" fill="rgba(86, 156, 255, 0.5)" font-family="var(--font-mono)" font-size="9" letter-spacing="0.12em">RXJS · NG_RX</text>
         </svg>
-      </div>
 
-      <div class="case-content" data-reveal-stage data-reveal-delay="800">
-
-        <header class="case-head">
-          <div class="case-head-meta">
-            <span class="case-tag">Featured Project</span>
-            <h3 id="case-title" class="case-title">Flexschema</h3>
-            <p class="case-subtitle">Enterprise CRM Platform</p>
+        <!-- Glass Metadata Layer -->
+        <div class="case-visual-meta glass glass-prominent">
+          <div class="meta-row">
+            <span class="meta-label">System</span>
+            <span class="meta-value">{{ projects[activeProjectIndex].title }}</span>
           </div>
-        </header>
-
-        <p class="case-lede lede-soft">
-          A comprehensive CRM solution for modern businesses, built end-to-end
-          in Angular. Configurable module system, role-based access control,
-          and the kind of state architecture that survives years of feature
-          work without becoming spaghetti.
-        </p>
-
-        <div class="case-detail">
-          <div class="case-detail-item">
-            <span class="case-detail-label">My contribution</span>
-            <p class="case-detail-text">
-              Frontend architecture, reusable component system, RxJS state
-              flow, API integration layer, and unit-test coverage for the
-              core modules.
-            </p>
-          </div>
-
-          <div class="case-detail-item">
-            <span class="case-detail-label">Stack</span>
-            <p class="case-detail-text case-detail-tech">
-              <span>Angular</span>
-              <span>TypeScript</span>
-              <span>RxJS</span>
-              <span>NgRx</span>
-              <span>REST APIs</span>
-              <span>Jasmine / Karma</span>
-            </p>
-          </div>
-
-          <div class="case-detail-item">
-            <span class="case-detail-label">Technical highlights</span>
-            <ul class="case-detail-list">
-              <li>Standalone components, lazy-loaded feature modules</li>
-              <li>Typed HttpClient services with auth/error interceptors</li>
-              <li>Reactive forms wired to backend contract types</li>
-              <li>RBAC with route guards and feature flag composition</li>
-              <li>TestBed harnesses for shared component specs</li>
-            </ul>
+          <div class="meta-row">
+            <span class="meta-label">Focus</span>
+            <span class="meta-value">{{ projects[activeProjectIndex].subtitle }}</span>
           </div>
         </div>
 
+        </div>
+      </div>
+
+      <!-- Right: Scrolling Projects -->
+      <div class="case-list">
+        <div class="case-content glass glass-subtle project-item" 
+             *ngFor="let p of projects; let i = index"
+             #projectEl
+             [attr.data-index]="i"
+             [class.is-active]="i === activeProjectIndex">
+          
+          <header class="case-head">
+            <div class="case-head-meta">
+              <h3 class="case-title">{{ p.title }}</h3>
+              <p class="case-subtitle">{{ p.subtitle }}</p>
+            </div>
+          </header>
+
+          <p class="case-lede">{{ p.lede }}</p>
+
+          <div class="case-detail">
+            <div class="case-detail-item">
+              <span class="case-detail-label">Contribution</span>
+              <p class="case-detail-text">{{ p.contribution }}</p>
+            </div>
+
+            <div class="case-detail-item">
+              <span class="case-detail-label">Stack</span>
+              <div class="case-detail-tech">
+                <span *ngFor="let tech of p.stack">{{ tech }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
     </div>

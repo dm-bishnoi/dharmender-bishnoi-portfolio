@@ -1,381 +1,226 @@
 /* ─────────────────────────────────────────────────────
-   Experience — Editorial timeline. Large role/date.
+   Experience — Cinematic vertical timeline
    ───────────────────────────────────────────────────── */
-
 :host {
   display: block;
-  background: var(--bg);
   position: relative;
 }
 
-/* Subtle background accent — a deep navy wash under the section */
-:host::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background:
-    radial-gradient(ellipse 70% 60% at 80% 30%, rgba(43, 108, 255, 0.08) 0%, transparent 70%);
+.experience {
+  position: relative;
+  z-index: 1;
 }
-
-.experience { position: relative; z-index: 1; }
 
 .exp-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  grid-template-areas:
-    "mark"
-    "statement"
-    "role";
-  gap: clamp(40px, 5vw, 64px);
+  grid-template-columns: 1fr;
+  gap: clamp(64px, 10vw, 120px);
+  align-items: start;
 }
 
 @media (min-width: 1024px) {
   .exp-grid {
-    grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr) minmax(0, 1.5fr);
-    grid-template-areas: "mark statement role";
-    column-gap: clamp(48px, 6vw, 80px);
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: clamp(80px, 8vw, 160px);
+  }
+  .exp-statement {
+    position: sticky;
+    top: 140px;
   }
 }
 
-/* ── Mark ─────────────────────────────────────────── */
-.exp-mark {
-  grid-area: mark;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  padding-top: 16px;
-}
-
-.exp-mark-num {
-  font-family: var(--font-display);
-  font-size: clamp(72px, 10vw, 160px);
-  font-weight: 600;
-  line-height: 0.9;
-  letter-spacing: -0.04em;
-  background: linear-gradient(180deg, var(--blue-2) 0%, rgba(86, 156, 255, 0.25) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.exp-mark-label {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--ink-light);
-}
-
 /* ── Statement ────────────────────────────────────── */
-.exp-statement { grid-area: statement; }
-
 .exp-headline {
-  margin-bottom: clamp(20px, 2.5vw, 32px);
+  margin-bottom: 32px;
 }
-
 .exp-lede {
-  max-width: 38ch;
+  color: var(--ink-soft);
+  max-width: 40ch;
 }
 
-/* ── Role — large editorial ───────────────────────── */
-.exp-role {
-  grid-area: role;
+/* ── Timeline Sequence ──────────────────────────────── */
+.exp-timeline {
+  display: flex;
+  gap: clamp(24px, 4vw, 40px);
+  position: relative;
+}
+
+.exp-role-timeline-track {
+  width: 2px;
+  background: var(--border-3);
+  position: relative;
+  flex-shrink: 0;
+  margin-top: 32px;
+  margin-bottom: 32px;
+}
+
+.exp-role-line {
+  position: absolute;
+  top: 0; left: -1px; width: 4px;
+  background: var(--blue-2);
+  height: 0%;
+  border-radius: 2px;
+  box-shadow: 0 0 12px var(--blue-glow);
+  transition: height 0.1s linear;
+}
+
+.exp-role-content {
   display: flex;
   flex-direction: column;
-  gap: clamp(24px, 3vw, 36px);
-  padding: clamp(28px, 3.5vw, 48px);
-  background: linear-gradient(180deg, rgba(13, 19, 34, 0.55) 0%, rgba(7, 10, 20, 0.3) 100%);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-2xl);
-  position: relative;
-  overflow: hidden;
+  gap: 80px; /* Lots of space to scroll */
+  padding-bottom: 20vh;
+  flex-grow: 1;
 }
 
-/* ── Timeline SVG — left rail that draws on entry ── */
-.exp-timeline-svg {
-  position: absolute;
-  left: 18px;
-  top: 36px;
-  width: 4px;
-  height: calc(100% - 72px);
-  z-index: 1;
-  pointer-events: none;
+.exp-stage {
+  padding: 32px;
+  border-radius: var(--radius-lg);
+  transition: opacity 0.6s var(--ease-out), filter 0.6s var(--ease-out), transform 0.6s var(--ease-out);
+  opacity: 0.2;
+  filter: blur(8px);
+  transform: scale(0.96);
+  border-color: transparent;
 }
 
-.exp-timeline-line {
-  filter: drop-shadow(0 0 6px rgba(86, 156, 255, 0.4));
+.exp-stage.is-active {
+  opacity: 1;
+  filter: blur(0);
+  transform: scale(1);
+  border-color: var(--glass-border-light);
 }
 
-.exp-timeline-marker {
-  filter: drop-shadow(0 0 8px rgba(86, 156, 255, 0.7));
-  animation: markerPulse 2.4s ease-in-out infinite;
-}
-
-@keyframes markerPulse {
-  0%, 100% { transform-origin: center; transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.3); opacity: 0.7; }
-}
-
-@media (max-width: 640px) {
-  .exp-timeline-svg { left: 10px; top: 28px; }
-  .exp-role { padding-left: 38px; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .exp-timeline-marker { animation: none; }
-}
-
-.exp-role::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 1px;
-  background: linear-gradient(to right, transparent 0%, var(--blue) 50%, transparent 100%);
-  opacity: 0.6;
+.exp-stage-title {
+  font-family: var(--font-body);
+  font-size: 20px;
+  color: var(--ink);
+  margin-bottom: 24px;
 }
 
 .exp-role-head {
   display: flex;
   flex-wrap: wrap;
-  align-items: flex-start;
   justify-content: space-between;
-  gap: 16px 24px;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 24px;
 }
 
 .exp-role-meta {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
 }
 
 .exp-role-tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--blue-2);
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  font-family: var(--font-mono);
-  font-size: 10.5px;
-  font-weight: 500;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--blue-2);
-  align-self: flex-start;
+  gap: 6px;
 }
-
 .exp-role-tag::before {
   content: '';
-  width: 8px; height: 8px;
+  width: 6px; height: 6px;
+  background: var(--blue-2);
   border-radius: 50%;
-  background: var(--green);
-  box-shadow: 0 0 8px var(--green-glow);
-  animation: dotPulse 2.4s ease-in-out infinite;
-}
-
-@keyframes dotPulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50%      { opacity: 0.5; transform: scale(0.7); }
 }
 
 .exp-role-title {
   font-family: var(--font-display);
-  font-size: clamp(36px, 4.5vw, 64px);
+  font-size: clamp(28px, 3vw, 40px);
   font-weight: 600;
-  letter-spacing: -0.035em;
-  line-height: 1.0;
   color: var(--ink);
-  margin: 0;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
 }
 
 .exp-role-company {
-  font-size: clamp(16px, 1.4vw, 20px);
+  font-size: clamp(16px, 1.5vw, 18px);
   color: var(--ink-light);
-  margin: 0;
-  letter-spacing: -0.005em;
 }
 
 .exp-role-period {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 8px;
   font-family: var(--font-mono);
-  font-size: clamp(13px, 1.05vw, 15px);
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font-size: 13px;
   color: var(--ink-soft);
-  flex-shrink: 0;
-  padding: 6px 12px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-pill);
-  background: rgba(6, 9, 26, 0.4);
-}
-
-.exp-role-period-start,
-.exp-role-period-end {
-  font-weight: 500;
-  color: var(--ink);
-}
-
-.exp-role-period-arrow {
-  color: var(--blue-2);
-  font-size: 1.1em;
+  margin-left: 8px;
+  opacity: 0.7;
 }
 
 .exp-role-summary {
-  font-size: clamp(15px, 1.2vw, 17px);
-  line-height: 1.7;
+  font-size: clamp(16px, 1.3vw, 18px);
+  line-height: 1.6;
   color: var(--ink-soft);
-  margin: 0;
-  max-width: 68ch;
-  letter-spacing: -0.003em;
+  margin-bottom: 32px;
 }
 
-/* ── Evidence list — clean, line-separated ───────── */
 .exp-role-evidence {
-  list-style: none;
-  padding: 0;
-  margin: 0;
   display: flex;
   flex-direction: column;
-  border-top: 1px solid var(--border);
+  gap: 16px;
+  margin-bottom: 32px;
 }
 
 .exp-role-evidence li {
-  display: grid;
-  grid-template-columns: minmax(0, 56px) minmax(0, 1fr);
-  align-items: baseline;
-  gap: clamp(16px, 2vw, 28px);
-  padding: clamp(14px, 1.5vw, 20px) 0;
-  border-bottom: 1px solid var(--border);
-  font-size: clamp(15px, 1.15vw, 17px);
-  line-height: 1.6;
-  color: var(--ink-soft);
-  transition: color var(--duration-base) var(--ease-out),
-              padding-left var(--duration-base) var(--ease-out);
+  position: relative;
+  padding-left: 24px;
+  color: var(--ink-light);
+  font-size: 15px;
+  line-height: 1.5;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.exp-role-evidence li::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 10px;
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: var(--blue-3);
+  opacity: 0.5;
+  transition: transform var(--duration-fast) var(--ease-out);
 }
 
 .exp-role-evidence li:hover {
   color: var(--ink);
-  padding-left: 12px;
+}
+.exp-role-evidence li:hover::before {
+  transform: scale(1.5);
+  opacity: 1;
 }
 
-.exp-role-evidence-mark {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 500;
-  color: var(--ink-muted);
-  letter-spacing: 0.08em;
-  text-align: left;
-  transition: color var(--duration-base) var(--ease-out);
-}
-
-.exp-role-evidence li:hover .exp-role-evidence-mark {
-  color: var(--blue-2);
-}
-
-/* ── Tech strip ──────────────────────────────────── */
 .exp-role-tech {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
-  gap: 10px 18px;
-  padding-top: 8px;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--ink-light);
+  gap: 12px;
 }
 
 .exp-role-tech-item {
-  position: relative;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ink-soft);
+  background: var(--glass-bg);
+  border: 1px solid var(--border-2);
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  transition: border-color var(--duration-fast) var(--ease-out),
+              color var(--duration-fast) var(--ease-out);
 }
-.exp-role-tech-item + .exp-role-tech-item::before {
-  content: '';
-  position: absolute;
-  left: -10px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 3px; height: 3px;
-  border-radius: 50%;
-  background: var(--ink-faint);
-}
-.exp-role-tech-item:first-child {
+
+.exp-role-tech-item:hover {
+  border-color: var(--blue-2);
   color: var(--blue-2);
 }
 
-/* ── Staggered reveal system ─────────────────────────── */
-[data-reveal-stage] {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
-}
-[data-reveal-stage].is-revealed {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.exp-role-head[data-reveal-stage] { transform: translateX(-12px); }
-.exp-role-head[data-reveal-stage].is-revealed { transform: translateX(0); }
-
-/* ── Responsive ──────────────────────────────────── */
 @media (max-width: 640px) {
-  .exp-role { padding: 24px 20px; }
-  .exp-role-evidence li {
-    grid-template-columns: minmax(0, 32px) minmax(0, 1fr);
-    gap: 12px;
-    font-size: 14px;
-  }
-  .exp-role-evidence li:hover { padding-left: 6px; }
-  .exp-role-title {
-    font-size: clamp(28px, 8vw, 36px);
-  }
-  .exp-role-summary {
-    font-size: 14px;
-  }
-}
-
-/* ── Small mobile (430 and below) — single column stack ─ */
-@media (max-width: 430px) {
-  .exp-role {
-    padding: 20px 16px;
-    gap: 24px;
-  }
-  .exp-role-head {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-  }
-  .exp-role-period {
-    font-size: 12px;
-  }
-  .exp-role-evidence li {
-    grid-template-columns: 1fr;
-    gap: 4px;
-    padding: 12px 0;
-  }
-  .exp-role-evidence-mark {
-    font-size: 10px;
-  }
-  .exp-role-tech {
-    font-size: 10px;
-    gap: 8px 12px;
-  }
-  .exp-role-tech-item + .exp-role-tech-item::before {
-    left: -7px;
-  }
+  .exp-role-head { flex-direction: column; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .exp-role-tag::before { animation: none; }
-  .exp-role-evidence li { transition: none; }
-  .exp-role-evidence li:hover { padding-left: 0; }
-  [data-reveal-stage] {
-    opacity: 1;
-    transform: none;
-    transition: none;
-  }
-  .exp-timeline-line { stroke-dashoffset: 0 !important; }
+  .exp-role-marker::after { animation: none; }
 }

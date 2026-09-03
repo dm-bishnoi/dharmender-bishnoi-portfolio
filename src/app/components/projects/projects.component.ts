@@ -3,74 +3,86 @@ import {
   Component,
   ElementRef,
   OnDestroy,
-  inject,
+  QueryList,
+  ViewChildren,
+  ChangeDetectorRef
 } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+interface Project {
+  id: string;
+  title: string;
+  subtitle: string;
+  lede: string;
+  contribution: string;
+  stack: string[];
+}
 
 @Component({
   selector: 'app-projects',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './projects.component.html',
   styleUrl: './projects.component.css',
 })
 export class ProjectsComponent implements AfterViewInit, OnDestroy {
-  private host: HTMLElement | null = null;
-  private observer: IntersectionObserver | null = null;
-  private hasTriggered = false;
-  private timeouts: number[] = [];
+  projects: Project[] = [
+    {
+      id: 'flexschema',
+      title: 'Flexschema',
+      subtitle: 'Enterprise CRM Platform',
+      lede: 'A comprehensive CRM solution for modern businesses, built end-to-end in Angular. Configurable module system, role-based access control, and a robust state architecture that scales.',
+      contribution: 'Frontend architecture, reusable component system, RxJS state flow, API integration layer, and unit-test coverage.',
+      stack: ['Angular', 'TypeScript', 'RxJS', 'NgRx']
+    },
+    {
+      id: 'datamesh',
+      title: 'DataMesh',
+      subtitle: 'Real-time Analytics Dashboard',
+      lede: 'High-performance data visualization interface handling millions of data points with WebGL and Angular. Implemented custom change detection strategies to ensure 60fps rendering.',
+      contribution: 'Dashboard layout engine, D3.js integration, WebSocket real-time updates, performance tuning.',
+      stack: ['Angular', 'D3.js', 'WebSockets', 'SCSS']
+    },
+    {
+      id: 'nexus',
+      title: 'Nexus UI',
+      subtitle: 'Component Library',
+      lede: 'A deeply accessible, themeable Angular component library. Used across 15+ internal applications to maintain a consistent design language and reduce development time.',
+      contribution: 'Core component development, accessibility auditing (a11y), Storybook documentation, CI/CD publishing pipeline.',
+      stack: ['Angular', 'Storybook', 'SCSS', 'A11y']
+    }
+  ];
 
-  constructor(private el: ElementRef<HTMLElement>) {}
+  activeProjectIndex = 0;
+  private observer: IntersectionObserver | null = null;
+  @ViewChildren('projectEl') projectElements!: QueryList<ElementRef>;
+
+  constructor(private cdr: ChangeDetectorRef) {}
 
   ngAfterViewInit(): void {
-    if (typeof IntersectionObserver === 'undefined') {
-      this.revealAll();
-      return;
-    }
-    this.host = this.el.nativeElement;
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReduced) {
-      this.revealAll();
-      return;
-    }
-
-    this.observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting && !this.hasTriggered) {
-            this.hasTriggered = true;
-            this.runReveal();
-            this.observer?.disconnect();
-            this.observer = null;
-            break;
+    if (typeof IntersectionObserver !== 'undefined') {
+      this.observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const index = Number((entry.target as HTMLElement).dataset['index']);
+            if (this.activeProjectIndex !== index) {
+              this.activeProjectIndex = index;
+              this.cdr.detectChanges();
+            }
           }
-        }
-      },
-      { threshold: 0.18, rootMargin: '0px 0px -10% 0px' }
-    );
-    this.observer.observe(this.host);
+        });
+      }, {
+        rootMargin: '-30% 0px -30% 0px',
+        threshold: 0
+      });
+
+      this.projectElements.forEach(el => {
+        this.observer?.observe(el.nativeElement);
+      });
+    }
   }
 
   ngOnDestroy(): void {
     this.observer?.disconnect();
-    this.timeouts.forEach(t => clearTimeout(t));
-  }
-
-  private revealAll(): void {
-    if (!this.host) return;
-    this.host.querySelectorAll<HTMLElement>('[data-reveal-stage]').forEach((el) => {
-      el.classList.add('is-revealed');
-    });
-  }
-
-  private runReveal(): void {
-    if (!this.host) return;
-    const stages = this.host.querySelectorAll<HTMLElement>('[data-reveal-stage]');
-    stages.forEach((el) => {
-      const delay = parseInt(el.dataset['revealDelay'] || '0', 10);
-      const t = window.setTimeout(() => {
-        el.classList.add('is-revealed');
-      }, delay);
-      this.timeouts.push(t);
-    });
   }
 }

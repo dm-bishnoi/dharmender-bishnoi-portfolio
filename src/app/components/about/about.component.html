@@ -2,79 +2,54 @@
 
   <div class="about-grid">
 
-    <!-- Left: editorial mark -->
-    <div class="about-mark">
-      <span class="about-mark-num">01</span>
-      <span class="about-mark-label">About</span>
-    </div>
-
     <!-- Center: the statement — oversized, dominant -->
-    <div class="about-statement">
-      <h2 class="about-headline">
-        <span class="about-headline-line">Five years</span>
-        <span class="about-headline-line about-headline-line--sub">building Angular</span>
-        <span class="about-headline-line about-headline-line--accent">that ships.</span>
+    <div class="about-statement reveal-up">
+      <h2 class="display-2 about-headline">
+        <span class="about-headline-line">Precision &amp;</span>
+        <span class="heading-accent">Performance</span>
       </h2>
-    </div>
-
-    <!-- Right: lede + capabilities -->
-    <div class="about-body">
-      <p class="about-lede">
-        Angular developer at Pizone Infotech, maintaining an enterprise CRM
-        in production. What that means: components that survive five years of
-        feature work without becoming unmaintainable, reactive state that
-        doesn't leak, and code the next developer can read on a Monday morning.
+      <p class="lede about-lede">
+        I engineer scalable Angular applications with a deep focus on <strong>reactive state management</strong>, robust architecture, and premium user experiences. With over five years in production environments, I build systems designed to outlast their initial requirements.
       </p>
+    </div>
 
-      <!-- Capability rows — line-separated, hover indent -->
-      <div class="about-caps">
-        <div class="about-cap">
-          <span class="about-cap-num">01</span>
-          <div class="about-cap-body">
-            <h3 class="about-cap-head">Architecture</h3>
-            <p class="about-cap-text">Standalone components, lazy-loaded modules, route guards, DI boundaries.</p>
-          </div>
+    <!-- Right: Capabilities Timeline -->
+    <div class="about-body">
+      <div class="capabilities-timeline reveal-stagger">
+        <div class="timeline-line"></div>
+        <div class="cap-item glass glass-subtle">
+          <div class="cap-marker"></div>
+          <h3 class="cap-head">Angular Architecture</h3>
+          <p class="cap-text">Standalone components, lazy-loaded modules, route guards, DI boundaries.</p>
         </div>
-        <div class="about-cap">
-          <span class="about-cap-num">02</span>
-          <div class="about-cap-body">
-            <h3 class="about-cap-head">Reactive data</h3>
-            <p class="about-cap-text">RxJS observables, multicasting, async pipe, clean subscription lifecycle.</p>
-          </div>
+        <div class="cap-item glass glass-subtle">
+          <div class="cap-marker"></div>
+          <h3 class="cap-head">Reactive State (RxJS)</h3>
+          <p class="cap-text">Complex data flows, multicasting, strict subscription lifecycle management.</p>
         </div>
-        <div class="about-cap">
-          <span class="about-cap-num">03</span>
-          <div class="about-cap-body">
-            <h3 class="about-cap-head">API integration</h3>
-            <p class="about-cap-text">Typed HttpClient, interceptors, reactive forms wired to backend contracts.</p>
-          </div>
-        </div>
-        <div class="about-cap">
-          <span class="about-cap-num">04</span>
-          <div class="about-cap-body">
-            <h3 class="about-cap-head">Testing &amp; quality</h3>
-            <p class="about-cap-text">Jasmine specs, TestBed harnesses, ESLint, SonarQube gates.</p>
-          </div>
+        <div class="cap-item glass glass-subtle">
+          <div class="cap-marker"></div>
+          <h3 class="cap-head">Quality Assurance</h3>
+          <p class="cap-text">Jasmine specs, TestBed harnesses, strict ESLint rules, SonarQube gates.</p>
         </div>
       </div>
     </div>
 
-    <!-- Stats — full width -->
-    <div class="about-stats">
-      <div class="about-stat">
-        <span class="about-stat-value">5+</span>
-        <span class="about-stat-label">Years in<br/>production</span>
-      </div>
-      <div class="about-stat about-stat--wide">
-        <span class="about-stat-value about-stat-value--mono">v17–v20</span>
-        <span class="about-stat-label">Angular<br/>versions</span>
-      </div>
-      <div class="about-stat">
-        <span class="about-stat-value">CRM</span>
-        <span class="about-stat-label">Enterprise<br/>scale app</span>
-      </div>
+  </div>
+  
+  <div class="about-stats reveal-up">
+    <div class="about-stat count-reveal">
+      <span class="about-stat-value"><span class="count-num">5</span><span class="about-stat-plus">+</span></span>
+      <span class="about-stat-label">Years Shipping</span>
     </div>
-
+    <div class="about-stat sweep-reveal">
+      <span class="about-stat-value" data-text="CRM">CRM</span>
+      <span class="about-stat-label">Enterprise Focus</span>
+    </div>
+    <div class="about-stat glitch-reveal">
+      <span class="about-stat-value" data-text="v20">v20</span>
+      <span class="about-stat-label">Angular Mastery</span>
+    </div>
   </div>
 
 </section>

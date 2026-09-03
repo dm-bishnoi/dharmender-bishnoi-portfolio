@@ -1,7 +1,6 @@
 /* ─────────────────────────────────────────────────────
-   Footer — Editorial closing identity. Large name, line links.
+   Footer — Editorial closing identity
    ───────────────────────────────────────────────────── */
-
 :host {
   display: block;
   margin-top: clamp(60px, 8vw, 120px);
@@ -11,31 +10,10 @@
 .site-footer {
   position: relative;
   background: var(--bg);
-  padding: 0 0 32px;
+  padding: 0 0 48px;
   font-family: var(--font-body);
   color: var(--ink);
-}
-
-/* Decorative gradient wash */
-.site-footer::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent 0%, var(--border) 50%, transparent 100%);
-}
-
-.sec {
-  position: relative;
-  z-index: 1;
-}
-
-.footer-divider {
-  width: 100%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent 0%, var(--blue) 50%, transparent 100%);
-  margin-bottom: clamp(48px, 6vw, 80px);
-  opacity: 0.6;
+  overflow: hidden;
 }
 
 /* ── Large closing identity ────────────────────── */
@@ -48,69 +26,50 @@
 
 .footer-mark-title {
   font-family: var(--font-display);
-  font-size: clamp(36px, 6vw, 88px);
+  font-size: clamp(48px, 12vw, 160px);
   font-weight: 600;
   letter-spacing: -0.04em;
-  line-height: 0.95;
-  color: var(--ink);
+  line-height: 0.9;
   margin: 0;
-  background: linear-gradient(180deg, var(--ink) 0%, rgba(245, 247, 251, 0.5) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--ink);
+  text-transform: uppercase;
 }
 
 .footer-mark-sub {
   font-family: var(--font-mono);
-  font-size: 11.5px;
-  font-weight: 500;
-  letter-spacing: 0.18em;
+  font-size: 12px;
   text-transform: uppercase;
+  letter-spacing: 0.2em;
   color: var(--ink-light);
   margin: 0;
 }
 
-/* ── Footer nav — line-separated ─────────────────── */
+/* ── Footer nav ──────────────────────────────────── */
 .footer-nav {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: clamp(16px, 2.5vw, 40px);
-  padding: clamp(24px, 3vw, 32px) 0;
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-  margin-bottom: clamp(24px, 3vw, 40px);
+  gap: clamp(24px, 4vw, 64px);
+  padding: clamp(32px, 4vw, 48px) 0;
+  border-top: 1px solid var(--border-3);
+  border-bottom: 1px solid var(--border-3);
+  margin-bottom: clamp(32px, 4vw, 48px);
 }
 
 .footer-link {
   font-family: var(--font-mono);
-  font-size: 11.5px;
-  font-weight: 500;
-  letter-spacing: 0.14em;
+  font-size: 11px;
   text-transform: uppercase;
-  color: var(--ink-light);
+  letter-spacing: 0.1em;
+  color: var(--ink-soft);
   text-decoration: none;
   display: inline-flex;
-  align-items: center;
-  position: relative;
-  transition: color var(--duration-base) var(--ease-out);
-}
-
-.footer-link::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: -4px;
-  width: 0;
-  height: 1px;
-  background: var(--blue-2);
-  transition: width var(--duration-base) var(--ease-out);
+  transition: color var(--duration-fast) var(--ease-out);
 }
 
 .footer-link:hover {
-  color: var(--blue-2);
+  color: var(--ink);
 }
-.footer-link:hover::after { width: 100%; }
 
 /* ── Bottom row ──────────────────────────────────── */
 .footer-bottom {
@@ -124,7 +83,7 @@
 .footer-bottom__copy {
   font-family: var(--font-mono);
   font-size: 11px;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.05em;
   color: var(--ink-muted);
   margin: 0;
 }
@@ -132,27 +91,26 @@
 .footer-bottom__lat {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   font-family: var(--font-mono);
   font-size: 11px;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--ink-light);
   margin: 0;
 }
 
 .footer-bottom__pulse {
-  width: 6px; height: 6px;
+  width: 8px; height: 8px;
   border-radius: 50%;
-  background: var(--green);
-  box-shadow: 0 0 0 0 var(--green-glow);
-  animation: footer-pulse 2.4s ease-out infinite;
+  background: var(--blue-2);
+  box-shadow: 0 0 12px var(--blue-glow);
+  animation: footer-pulse 3s infinite;
 }
 
 @keyframes footer-pulse {
-  0%   { box-shadow: 0 0 0 0 var(--green-glow); }
-  70%  { box-shadow: 0 0 0 7px transparent; }
-  100% { box-shadow: 0 0 0 0 transparent; }
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.8); }
 }
 
 .sr-only {
@@ -167,10 +125,6 @@
 
 @media (max-width: 700px) {
   :host { margin-top: 48px; }
-  .footer-bottom { flex-direction: column; align-items: flex-start; gap: 12px; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .footer-bottom__pulse { animation: none; }
-  .footer-link, .footer-link::after { transition: none; }
+  .footer-bottom { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .footer-nav { flex-direction: column; align-items: flex-start; gap: 24px; }
 }

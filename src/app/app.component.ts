@@ -45,24 +45,15 @@ export class AppComponent implements AfterViewInit, OnDestroy {
   private cursorRafId: number | null = null;
   private cursorEnabled = false;
 
-  // ── Scroll storytelling (single observer, not a scroll listener) ─
-  /** Map of section id → opacity for the 3D scene as the user scrolls past it. */
-  private static readonly SECTION_OPACITY: ReadonlyArray<{ id: string; opacity: number }> = [
-    { id: 'home',       opacity: 1.00 },
-    { id: 'about',      opacity: 0.85 },
-    { id: 'experience', opacity: 0.70 },
-    { id: 'skills',     opacity: 0.50 },
-    { id: 'projects',   opacity: 0.30 },
-    { id: 'contact',    opacity: 0.10 },
-  ];
-
   ngAfterViewInit(): void {
     if (!this.isBrowser) return;
 
     this.prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     this.setupRevealObserver();
-    this.setupScrollStorytelling();
+    // Per-section opacity fade for the background particle plexus is now
+    // owned by <app-hero-scene>. The Hero storytelling wrapper drives the
+    // laptop + tech nodes independently.
 
     if (this.prefersReducedMotion) {
       // No cursor, no animation observers, no scroll opacity changes.
@@ -78,7 +69,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
   // ── Reveal observer for all in-page sections (delegated, not per-component) ─
   private setupRevealObserver(): void {
     const revealEls = document.querySelectorAll(
-      '.reveal, .reveal-left, .reveal-right, .reveal-scale, .reveal-stagger, [data-reveal-stage]'
+      '.reveal-up, .reveal-stagger, .mask-reveal, .mask-stagger'
     );
     if (revealEls.length === 0) return;
     this.revealObserver = new IntersectionObserver(
@@ -90,7 +81,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
           }
         }
       },
-      { threshold: 0.08, rootMargin: '0px 0px -8% 0px' }
+      { threshold: 0.1, rootMargin: '0px 0px -15% 0px' }
     );
     revealEls.forEach((el) => this.revealObserver!.observe(el));
   }
@@ -120,7 +111,10 @@ export class AppComponent implements AfterViewInit, OnDestroy {
   }
   private atmScrollHandler: (() => void) | null = null;
 
-  // ── Custom cursor (desktop only, event-delegated) ─────
+  private cursorHoverCleanup: (() => void) | null = null;
+  private magneticCleanup: (() => void) | null = null;
+
+  // ── Custom cursor & magnetic elements ─────
   private setupCursor(): void {
     // Touch / coarse-pointer devices use the native cursor.
     if (window.matchMedia('(hover: none), (pointer: coarse)').matches) return;
@@ -155,72 +149,89 @@ export class AppComponent implements AfterViewInit, OnDestroy {
       this.cursorRafId = requestAnimationFrame(animate);
     });
 
+    // Cache bounding rects on hover to avoid expensive layout thrashing in mousemove
+    let activeGlassRect: DOMRect | null = null;
+    let activeGlassEl: HTMLElement | null = null;
+    let activeMagRect: DOMRect | null = null;
+    let activeMagEl: HTMLElement | null = null;
+
     // Event delegation: one pair of listeners on document, not N per element.
-    const HOVER = 'a, button, [role="button"], .case-visual, .case-title, .exp-role-evidence li, .spec-item';
+    const HOVER = 'a, button, [role="button"], .project-case, .interactive, .glass';
     const onOver = (e: Event) => {
       const target = e.target as Element | null;
-      if (target && target.closest(HOVER)) ring.classList.add('is-hover');
+      if (target && target.closest('.case-visual')) {
+        ring.classList.add('is-project');
+      } else if (target && target.closest('a, button, [role="button"], .interactive')) {
+        ring.classList.add('is-hover');
+      } else if (target && target.closest('.glass')) {
+        ring.classList.add('is-glass');
+      }
+
+      // Cache rects
+      const hTarget = target as HTMLElement;
+      if (hTarget) {
+        const glass = hTarget.closest('.glass') as HTMLElement;
+        if (glass && activeGlassEl !== glass) {
+          activeGlassEl = glass;
+          activeGlassRect = glass.getBoundingClientRect();
+        }
+        const mag = hTarget.closest('.magnetic') as HTMLElement;
+        if (mag && activeMagEl !== mag) {
+          activeMagEl = mag;
+          activeMagRect = mag.getBoundingClientRect();
+        }
+      }
     };
     const onOut = (e: Event) => {
-      const target = e.target as Element | null;
-      if (target && target.closest(HOVER)) ring.classList.remove('is-hover');
+      ring.classList.remove('is-hover');
+      ring.classList.remove('is-project');
+      ring.classList.remove('is-glass');
+
+      const hTarget = e.target as HTMLElement;
+      const related = (e as MouseEvent).relatedTarget as HTMLElement | null;
+
+      if (activeGlassEl && (!related || !activeGlassEl.contains(related))) {
+        activeGlassEl = null;
+        activeGlassRect = null;
+      }
+      if (activeMagEl && (!related || !activeMagEl.contains(related))) {
+        activeMagEl.style.transform = `translate3d(0, 0, 0)`;
+        activeMagEl = null;
+        activeMagRect = null;
+      }
     };
     document.addEventListener('mouseover', onOver, { passive: true });
     document.addEventListener('mouseout', onOut, { passive: true });
+
+    // Magnetic & Glass hover (delegated)
+    const onMouseMoveDelegate = (e: MouseEvent) => {
+      // Liquid Glass Pointer Tracking
+      if (activeGlassEl && activeGlassRect) {
+        const x = e.clientX - activeGlassRect.left;
+        const y = e.clientY - activeGlassRect.top;
+        activeGlassEl.style.setProperty('--pointer-x', String(x));
+        activeGlassEl.style.setProperty('--pointer-y', String(y));
+      }
+
+      // Magnetic Physics
+      if (activeMagEl && activeMagRect) {
+        const x = e.clientX - activeMagRect.left - activeMagRect.width / 2;
+        const y = e.clientY - activeMagRect.top - activeMagRect.height / 2;
+        activeMagEl.style.transform = `translate3d(${x * 0.3}px, ${y * 0.3}px, 0)`;
+      }
+    };
+    
+    document.addEventListener('mousemove', onMouseMoveDelegate, { passive: true });
 
     this.cursorHoverCleanup = () => {
       document.removeEventListener('mouseover', onOver);
       document.removeEventListener('mouseout', onOut);
     };
-  }
-  private cursorHoverCleanup: (() => void) | null = null;
-
-  // ── Scroll storytelling — single IntersectionObserver, not a scroll listener ─
-  private storytellingObserver: IntersectionObserver | null = null;
-  private setupScrollStorytelling(): void {
-    // Skip on small screens: scene opacity is handled by the hero-scene component's own
-    // visibility observer; no extra observers needed.
-    if (window.innerWidth < 768) return;
-
-    const getOpacity = (id: string): number => {
-      const entry = AppComponent.SECTION_OPACITY.find((s) => s.id === id);
-      return entry ? entry.opacity : 1;
+    this.magneticCleanup = () => {
+      document.removeEventListener('mousemove', onMouseMoveDelegate);
     };
-
-    // Per-section IntersectionObserver: when a section becomes visible, fade the
-    // 3D scene to the mapped opacity. No getBoundingClientRect, no scroll listener.
-    const sectionIds = AppComponent.SECTION_OPACITY.map((s) => s.id);
-    const sectionEls: HTMLElement[] = [];
-    for (const id of sectionIds) {
-      const el = document.getElementById(id);
-      if (el) sectionEls.push(el);
-    }
-    if (sectionEls.length === 0) return;
-
-    let currentOpacity: number | null = null;
-    const applyOpacity = (opacity: number) => {
-      if (currentOpacity === opacity) return;
-      currentOpacity = opacity;
-      const scene = document.querySelector<HTMLElement>('app-hero-scene canvas');
-      if (scene) scene.style.opacity = String(opacity);
-    };
-
-    // Build per-section observers. Each one tracks when its section enters the
-    // middle 30% of the viewport and sets the scene opacity.
-    for (let i = 0; i < sectionEls.length; i++) {
-      const el = sectionEls[i];
-      const opacity = getOpacity(el.id);
-      const obs = new IntersectionObserver(
-        (entries) => {
-          for (const entry of entries) {
-            if (entry.isIntersecting) applyOpacity(opacity);
-          }
-        },
-        { threshold: 0, rootMargin: '-30% 0px -55% 0px' }
-      );
-      obs.observe(el);
-    }
   }
+  private cursorHoverCleanup_field: (() => void) | null = null; // Replaced by cursorHoverCleanup above
 
   ngOnDestroy(): void {
     this.revealObserver?.disconnect();
@@ -231,6 +242,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
     if (this.cursorEnabled) {
       if (this.cursorRafId !== null) cancelAnimationFrame(this.cursorRafId);
       this.cursorHoverCleanup?.();
+      this.magneticCleanup?.();
     }
   }
 }
